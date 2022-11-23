@@ -12,7 +12,7 @@ const manageData = (state = initialState, action) => {
       return {
         ...state,
         connected: true,
-        walletAddress: action.payload.walletAddress
+        walletAddress: action.payload
       };
     default:
       return state;
