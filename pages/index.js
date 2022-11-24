@@ -1,13 +1,13 @@
 import React from "react";
 import Layout from "../components/Layout";
 
-const EtherealOwlIndex = (props) => {
+const EtherealOwlIndex = () => {
 
   // const hootBalance = useSelector((state) => state.manageData.hootBalance);
 
   return (
     <Layout>
-      Welcome to Ethereal Owl {address}
+      Welcome to Ethereal Owl
     </Layout>
   )
 }

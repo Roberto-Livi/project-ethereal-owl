@@ -1,8 +1,19 @@
 import React from "react";
-import { Menu } from "semantic-ui-react";
+import { Menu, Button } from "semantic-ui-react";
 import { Link } from "../routes";
 
 const Header = () => {
+
+  const onClickConnect = async () => {
+    try {
+      // Will open the MetaMask UI
+      // You should disable this button while the request is pending!
+      await ethereum.request({ method: "eth_requestAccounts" });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <Menu style={{ marginTop: "10px" }}>
       <Link route="/">
@@ -16,6 +27,9 @@ const Header = () => {
         <Link route="/">
           <a className="item">+</a>
         </Link>
+        <Menu.Item>
+          <Button color="violet" onClick={onClickConnect}>Connect Wallet</Button>
+        </Menu.Item>
       </Menu.Menu>
     </Menu>
   );
