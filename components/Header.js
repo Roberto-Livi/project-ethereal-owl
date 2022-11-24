@@ -10,7 +10,7 @@ const Header = () => {
       </Link>
 
       <Menu.Menu position="right">
-        <Link route="/">
+        <Link route="/projects">
           <a className="item">Projects</a>
         </Link>
         <Link route="/">
