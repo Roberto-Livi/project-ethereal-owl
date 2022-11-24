@@ -27,20 +27,20 @@ const Header = () => {
         <Link route="/projects">
           <a className="item">Projects</a>
         </Link>
-        { walletConnected ?
+        { walletConnected &&
         <Link route="/">
           <a className="item">+</a>
         </Link>
-        :
+        }
         <Menu.Item>
           <Button
             color="violet"
             onClick={onClickConnect}
+            disabled={walletConnected}
           >
-            Connect Wallet
+            {walletConnected ? "Wallet Connected" : "Connect Wallet"}
           </Button>
         </Menu.Item>
-        }
       </Menu.Menu>
     </Menu>
   );
