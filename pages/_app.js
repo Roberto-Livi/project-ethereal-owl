@@ -1,5 +1,5 @@
 import {wrapper, store} from "../store/store";
-import { Provider, useDispatch } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import web3 from "../ethereum/web3";
 import { connectWallet, disconnect } from "../store/actions";
@@ -20,12 +20,11 @@ const MyApp = ({ Component, pageProps }) => {
   useEffect(() => {
     if(window.ethereum) {
       window.ethereum.on('chainChanged', () => {
-        window.location.reload();
+        connect();
       })
       window.ethereum.on('accountsChanged', () => {
-        window.location.reload();
+        connect();
       })
-      connect();
     }
   })
 

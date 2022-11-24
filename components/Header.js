@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Menu, Button } from "semantic-ui-react";
 import { Link } from "../routes";
 
 const Header = () => {
+
+  const walletConnected = useSelector((state) => state.manageData.connected);
 
   const onClickConnect = async () => {
     try {
@@ -24,12 +27,20 @@ const Header = () => {
         <Link route="/projects">
           <a className="item">Projects</a>
         </Link>
+        { walletConnected ?
         <Link route="/">
           <a className="item">+</a>
         </Link>
+        :
         <Menu.Item>
-          <Button color="violet" onClick={onClickConnect}>Connect Wallet</Button>
+          <Button
+            color="violet"
+            onClick={onClickConnect}
+          >
+            Connect Wallet
+          </Button>
         </Menu.Item>
+        }
       </Menu.Menu>
     </Menu>
   );
