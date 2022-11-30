@@ -15,7 +15,7 @@ const deploy = async () => {
 
   const result = await new web3.eth.Contract(compiledHodgeUsers.abi)
     .deploy({ data: compiledHodgeUsers.evm.bytecode.object })
-    .send({ gas: "2400000", from: accounts[0] });
+    .send({ gas: "2000000", from: accounts[0] });
 
   console.log("Contract deployed to", result.options.address);
   provider.engine.stop();
@@ -24,3 +24,6 @@ deploy();
 
 // Attempting to deploy from account 0x713135cb90b7f6dFb68d7fE5243a1E2bF0dDc844
 // Contract deployed to 0x6C979A42FE6FC691f3D4B6Ad10BB12dAafaD084e
+
+// Attempting to deploy from account 0x713135cb90b7f6dFb68d7fE5243a1E2bF0dDc844
+// Contract deployed to 0x62D1DfC54c0c1E1c2bd0cDDCCA35f4d4A8a6086B
