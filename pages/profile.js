@@ -11,8 +11,7 @@ const Profile = () => {
     const accounts = await web3.eth.getAccounts();
     await hodgeUsers.methods.createUser(accounts[0], "Dante Adam", "Digital Artist", "test desc").send({
       from: accounts[0]
-    })
-    // { owlAddress:  "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4", codename: "dexter", profession: "coder", description: "test desc"}
+    });
   }
 
   const onClickHandle2 = async () => {

@@ -29,8 +29,8 @@ const Header = () => {
       </Link>
 
       <Menu.Menu position="right">
-        <Link route={`/users/${address}`}>
-          <a className="item">Profile</a>
+        <Link route={`/profiles`}>
+          <a className="item">Profiles</a>
         </Link>
         <Link route="/projects">
           <a className="item">Projects</a>
