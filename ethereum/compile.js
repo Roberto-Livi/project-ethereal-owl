@@ -5,13 +5,13 @@ const fs = require("fs-extra");
 const buildPath = path.resolve(__dirname, "build");
 fs.removeSync(buildPath);
 
-const hodgePath = path.resolve(__dirname, "contracts", "Hodgeverse.sol");
+const hodgePath = path.resolve(__dirname, "contracts", "Users.sol");
 const source = fs.readFileSync(hodgePath, "utf8");
 
 const input = {
   language: "Solidity",
   sources: {
-    "Hodgeverse.sol": {
+    "Users.sol": {
       content: source,
     },
   },
@@ -25,7 +25,7 @@ const input = {
 };
 
 const output = JSON.parse(solc.compile(JSON.stringify(input))).contracts[
-  "Hodgeverse.sol"
+  "Users.sol"
 ];
 
 fs.ensureDirSync(buildPath);

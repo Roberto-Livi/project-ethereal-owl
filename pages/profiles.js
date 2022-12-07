@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { createElement, useEffect } from "react";
 import Layout from "../components/Layout";
-import { getUsers } from "../helpers/users/users";
+import { getUsers, createUser } from "../helpers/users/users";
 import { Dropdown } from "semantic-ui-react";
 import { professionOptions } from "../helpers/users/professions";
 
@@ -16,7 +16,7 @@ const Profiles = () => {
         selection
         options={professionOptions}
         onSearchChange={(e, d) => console.log(d)}
-        onChange={(e,d) => console.log(d)}
+        onChange={(e, d) => console.log(d)}
       />
     </Layout>
   );

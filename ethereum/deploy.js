@@ -1,6 +1,6 @@
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const Web3 = require("web3");
-const compiledHodgeUsers = require("./build/HodgeUsers.json");
+const compiledUsers = require("./build/Users.json");
 
 const provider = new HDWalletProvider(
   "forum motor hen around skill grab surround damp theory silk found absurd",
@@ -13,8 +13,8 @@ const deploy = async () => {
 
   console.log("Attempting to deploy from account", accounts[0]);
 
-  const result = await new web3.eth.Contract(compiledHodgeUsers.abi)
-    .deploy({ data: compiledHodgeUsers.evm.bytecode.object })
+  const result = await new web3.eth.Contract(compiledUsers.abi)
+    .deploy({ data: compiledUsers.evm.bytecode.object })
     .send({ gas: "2000000", from: accounts[0] });
 
   console.log("Contract deployed to", result.options.address);
@@ -27,3 +27,6 @@ deploy();
 
 // Attempting to deploy from account 0x713135cb90b7f6dFb68d7fE5243a1E2bF0dDc844
 // Contract deployed to 0x62D1DfC54c0c1E1c2bd0cDDCCA35f4d4A8a6086B
+
+// Attempting to deploy from account 0x713135cb90b7f6dFb68d7fE5243a1E2bF0dDc844
+// Contract deployed to 0x736cb4e929D7F5B1B76ee3d671b671582110Df7C

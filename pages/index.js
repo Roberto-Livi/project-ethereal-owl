@@ -7,7 +7,7 @@ const EtherealOwlIndex = () => {
 
   return (
     <Layout>
-      Welcome to Ethereal Owl
+      Welcome to Zoukenverse
     </Layout>
   )
 }
