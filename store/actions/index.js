@@ -1,7 +1,7 @@
 import { CONNECT_WALLET, DISCONNECT } from "./types";
 
-export const connectWallet = (walletAddress) => dispatch => {
-  dispatch({ type: CONNECT_WALLET, payload: walletAddress });
+export const connectWallet = (walletAddress, userInfo = null) => dispatch => {
+  dispatch({ type: CONNECT_WALLET, walletAddress, userInfo });
 }
 
 export const disconnect = () => dispatch => {

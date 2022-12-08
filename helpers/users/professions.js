@@ -1,6 +1,11 @@
+export const Professions = {
+  SE: "se",
+  DA: "da",
+};
+
 export const professionOptions = [
-  { key: "se", value: "se", text: "Software Engineer" },
-  { key: "da", value: "da", text: "Digital Artist" }
+  { key: "se", value: "Software Engineer", text: "Software Engineer" },
+  { key: "da", value: "Digital Artist", text: "Digital Artist" },
 ];
 
 // image: { avatar: true, src: '/images/avatar/small/jenny.jpg' }
