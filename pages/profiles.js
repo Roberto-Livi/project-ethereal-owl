@@ -12,14 +12,12 @@ const Profiles = () => {
   const [cards, setCards] = useState([]);
 
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
-  const userInfo = useSelector((state) => state.manageData.userInfo);
 
   const handleOnChange = async (selection) => {
     const allUsers = await getUsers();
     const items = [];
     allUsers.map((user) => {
       if(user.profession === selection.value) {
-        console.log(user)
         items.push({
             header: user.codename,
             address: user.userAddress,
@@ -37,7 +35,6 @@ const Profiles = () => {
       <div style={{ display: "flex" }}>
         <h2>Profiles</h2>
         <div style={{ marginLeft: "auto" }}>
-          {/* <p>{userInfo.userAddress}</p> */}
           <Link route={`/profiles/${walletAddress}`}>
             <a>
               <Icon name="user circle" size="big" />
@@ -86,12 +83,6 @@ const Profiles = () => {
       </Grid>
     </Layout>
   );
-};
-
-Profiles.getInitialProps = async () => {
-  const users = await getUsers();
-  console.log(users);
-  return { users };
 };
 
 export default Profiles;

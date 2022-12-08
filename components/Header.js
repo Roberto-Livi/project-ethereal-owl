@@ -25,7 +25,7 @@ const Header = () => {
   return (
     <Menu style={{ marginTop: "10px" }}>
       <Link route="/">
-        <a className="item">Ethereal Owl</a>
+        <a className="item">Zoukenverse</a>
       </Link>
 
       <Menu.Menu position="right">

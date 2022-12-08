@@ -6,10 +6,10 @@ export const getAccount = async () => {
   return accounts[0];
 }
 
-export const createUser = async () => {
+export const createUser = async (codename, profession, description) => {
   const accounts = await web3.eth.getAccounts();
   await users.methods
-    .createUser(accounts[0], "Dante Adam", "Digital Artist", "test desc")
+    .createUser(accounts[0], codename, profession, description)
     .send({
       from: accounts[0]
     });
