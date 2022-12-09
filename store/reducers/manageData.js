@@ -1,4 +1,4 @@
-import { CONNECT_WALLET, DISCONNECT } from "../actions/types";
+import { CONNECT_WALLET, DISCONNECT, UPDATE_USER_INFO } from "../actions/types";
 
 const initialState = {
   connected: false,
@@ -13,6 +13,8 @@ const manageData = (state = initialState, action) => {
       return { ...state, connected: true, walletAddress: action.walletAddress, userInfo: action.userInfo };
     case DISCONNECT:
       return initialState;
+    case UPDATE_USER_INFO:
+      return { ...state, userInfo: action.userInfo };
     default:
       return state;
   }

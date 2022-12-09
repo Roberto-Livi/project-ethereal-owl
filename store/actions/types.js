@@ -1,2 +1,3 @@
 export const CONNECT_WALLET = "CONNECT_WALLET";
 export const DISCONNECT = "DISCONNECT";
+export const UPDATE_USER_INFO = "UPDATE_USER_INFO";
