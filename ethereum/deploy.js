@@ -23,13 +23,4 @@ const deploy = async () => {
 deploy();
 
 // Attempting to deploy from account 0x713135cb90b7f6dFb68d7fE5243a1E2bF0dDc844
-// Contract deployed to 0x6C979A42FE6FC691f3D4B6Ad10BB12dAafaD084e
-
-// Attempting to deploy from account 0x713135cb90b7f6dFb68d7fE5243a1E2bF0dDc844
-// Contract deployed to 0x62D1DfC54c0c1E1c2bd0cDDCCA35f4d4A8a6086B
-
-// Attempting to deploy from account 0x713135cb90b7f6dFb68d7fE5243a1E2bF0dDc844
-// Contract deployed to 0x736cb4e929D7F5B1B76ee3d671b671582110Df7C
-
-// Attempting to deploy from account 0x713135cb90b7f6dFb68d7fE5243a1E2bF0dDc844
-// Contract deployed to 0x815e1f9b03F7B8E464D87400702A7a95De35E5C2
+// Contract deployed to 0x4bD3C0DcffA88717b343C4CCC5E327F3B2e96A02

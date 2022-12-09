@@ -8,6 +8,11 @@ export const disconnect = () => dispatch => {
   dispatch({ type: DISCONNECT });
 }
 
-export const updateUserInfo = (userInfo) => dispatch => {
-  dispatch({ type: UPDATE_USER_INFO, userInfo });
+export const updateUserInfo = (user) => async dispatch => {
+  const userData = await user;
+  dispatch({ type: UPDATE_USER_INFO, userInfo: {
+    codename: userData.codename,
+    profession: userData.profession,
+    description: userData.description
+  } });
 }
