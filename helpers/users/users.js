@@ -12,6 +12,11 @@ export const getUserData = async () => {
   return user;
 }
 
+export const getOtherUser = async (address) => {
+  const user = account.length && (await users.methods.users(address).call());
+  return user;
+};
+
 export const createUser = async (userInfo) => {
   const accounts = await web3.eth.getAccounts();
   await users.methods

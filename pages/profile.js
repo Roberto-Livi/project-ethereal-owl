@@ -5,15 +5,19 @@ import ProfileForm from "../components/profile/ProfileForm";
 import ProfileCard from "../components/profile/ProfileCard";
 
 
-const Profile = () => {
+const Profile = (props) => {
 
   const userInfo = useSelector((state) => state.manageData.userInfo);
 
   return (
     <Layout>
-      { userInfo ? <ProfileCard /> : <ProfileForm /> }
+      { userInfo ? <ProfileCard profileCardAddress={props.profileCardAddress} /> : <ProfileForm /> }
     </Layout>
   );
 }
+
+Profile.getInitialProps = (props) => {
+  return { profileCardAddress: props.query.address };
+};
 
 export default Profile;

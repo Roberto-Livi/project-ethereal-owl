@@ -1,4 +1,5 @@
-import { CONNECT_WALLET, DISCONNECT, UPDATE_USER_INFO } from "./types";
+import { CONNECT_WALLET, DISCONNECT, UPDATE_USER_INFO, UPDATE_PROFILE_CARD_ADDRESS } from "./types";
+import users from "../../ethereum/users";
 
 export const connectWallet = (walletAddress, userInfo = null) => dispatch => {
   dispatch({ type: CONNECT_WALLET, walletAddress, userInfo });
@@ -15,4 +16,9 @@ export const updateUserInfo = (user) => async dispatch => {
     profession: userData.profession,
     description: userData.description
   } });
+}
+
+export const updateUserProfileCard = (address) => async dispatch => {
+  const user = await users.methods.users(address).call();
+  dispatch({ type: UPDATE_PROFILE_CARD_ADDRESS, payload: user });
 }

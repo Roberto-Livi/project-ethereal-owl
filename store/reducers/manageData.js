@@ -1,9 +1,15 @@
-import { CONNECT_WALLET, DISCONNECT, UPDATE_USER_INFO } from "../actions/types";
+import {
+  CONNECT_WALLET,
+  DISCONNECT,
+  UPDATE_USER_INFO,
+  UPDATE_PROFILE_CARD_ADDRESS
+} from "../actions/types";
 
 const initialState = {
   connected: false,
   walletAddress: "",
   userInfo: null,
+  userProfileCard: null,
   hootBalance: 100
 };
 
@@ -15,6 +21,8 @@ const manageData = (state = initialState, action) => {
       return initialState;
     case UPDATE_USER_INFO:
       return { ...state, userInfo: action.userInfo };
+    case UPDATE_PROFILE_CARD_ADDRESS:
+      return { ...state, userProfileCard: action.payload };
     default:
       return state;
   }

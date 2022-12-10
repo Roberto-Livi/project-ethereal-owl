@@ -1,10 +1,10 @@
-import React, { useReducer, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import Layout from "../components/Layout";
 import { getUsers } from "../helpers/users/users";
 import { Dropdown, Button, Card, Grid, Icon } from "semantic-ui-react";
 import { professionOptions } from "../helpers/users/professions";
-import { Link} from "../routes";
+import { Link, Router } from "../routes";
 
 
 const Profiles = () => {
@@ -70,7 +70,13 @@ const Profiles = () => {
                       <Button basic color="green">
                         + Recruit
                       </Button>
-                      <Button basic color="blue">
+                      <Button
+                        basic
+                        color="blue"
+                        onClick={() =>
+                          Router.pushRoute(`/profiles/${user.address}`)
+                        }
+                      >
                         Look at Profile
                       </Button>
                     </div>
