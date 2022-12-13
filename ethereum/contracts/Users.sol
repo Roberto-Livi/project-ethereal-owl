@@ -2,44 +2,77 @@
 pragma solidity ^0.8.9;
 
 contract Users {
-  struct User {
+
+    struct User {
       uint id;
       address userAddress;
       string codename;
       string profession;
       string description;
-  }
+      uint[] projectIds;
+    }
 
-  User[] allUsers;
-  mapping(address => User) public users;
-  mapping(address => bool) public isTaken;
-  uint usersCount;
+    struct Project {
+      uint id;
+      string name;
+      string mission;
+      address[] users;
+    }
 
-  function getAllUsers() public view returns (User[] memory) {
-      return allUsers;
-  }
+    User[] public allUsers;
+    Project[] public allProjects;
+    mapping(address => User) public users;
+    mapping(string => uint) public profCount;
+    mapping(address => bool) public walletRegistered;
+    mapping(string => bool) public codenameTaken;
+    mapping(string => bool) public projectNameTaken;
+    uint public usersCount;
+    uint public projectsCount;
 
-  function getUser(address walletAddress) public view returns (User memory) {
-      return users[walletAddress];
-  }
+    function createUser(address userAddress, string memory cname, string memory prof, string memory desc) public payable {
+      require(!walletRegistered[userAddress]);
+      require(!codenameTaken[cname]);
 
-  function createUser(address userAddress, string memory cname, string memory prof, string memory desc) public {
-      require(!isSet(userAddress));
-      User memory user = User({id: usersCount, userAddress: userAddress, codename: cname, profession: prof, description: desc});
+      User storage user = allUsers.push();
+
+      user.id = usersCount;
+      user.userAddress = userAddress;
+      user.codename = cname;
+      user.profession = prof;
+      user.description = desc;
+
       users[userAddress] = user;
-      allUsers.push(user);
-      isTaken[userAddress] = true;
+      walletRegistered[userAddress] = true;
+      profCount[prof] += 1;
       usersCount++;
-  }
+    }
 
-  function modifyUser(uint userId, address userAddress, string memory cname, string memory prof, string memory desc) public {
-      require(!isSet(userAddress));
-      User memory modifiedUser = User({id: userId, userAddress: userAddress, codename: cname, profession: prof, description: desc});
-      users[userAddress] = modifiedUser;
-      allUsers[userId] = modifiedUser;
-  }
+    function modifyUser(string memory cname, string memory prof, string memory desc) public payable {
+      require(walletRegistered[msg.sender]);
+      require(!codenameTaken[cname]);
+      User storage u = users[msg.sender];
 
-  function isSet(address walletAddress) public view returns(bool) {
-      return (isTaken[walletAddress]);
-  }
+      u.codename = cname;
+      u.profession = prof;
+      u.description = desc;
+
+      allUsers[u.id] = u;
+    }
+
+    function createProject(string memory projectName, string memory projectMission) public payable {
+      require(!projectNameTaken[projectName]);
+      Project storage project = allProjects.push();
+
+      project.id = projectsCount;
+      project.name = projectName;
+      project.mission = projectMission;
+      project.users = [msg.sender];
+
+      projectNameTaken[projectName] = true;
+      users[msg.sender].projectIds.push(projectsCount);
+      allUsers[users[msg.sender].id].projectIds.push(projectsCount);
+
+      projectsCount++;
+    }
+
 }

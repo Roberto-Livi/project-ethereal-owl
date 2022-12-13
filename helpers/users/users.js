@@ -1,5 +1,6 @@
 import users from "../../ethereum/users";
 import web3 from "../../ethereum/web3";
+import { getUniqueUser } from "./helpers";
 
 export const getAccount = async () => {
   const accounts = await web3.eth.getAccounts();
@@ -12,10 +13,15 @@ export const getUserData = async () => {
   return user;
 }
 
-export const getOtherUser = async (address) => {
-  const user = account.length && (await users.methods.users(address).call());
+export const getUserFromAllUsers = async (index) => {
+  const user = await users.methods.allUsers(index).call();
   return user;
-};
+}
+
+// export const getOtherUser = async (address) => {
+//   const user = account.length && (await users.methods.users(address).call());
+//   return user;
+// };
 
 export const createUser = async (userInfo) => {
   const accounts = await web3.eth.getAccounts();
@@ -26,7 +32,25 @@ export const createUser = async (userInfo) => {
     });
 }
 
-export const getUsers = async () => {
-  const allUsers = await users.methods.getAllUsers().call();
-  return allUsers;
+export const getUsers = async (profession) => {
+  const usersCount = await users.methods.usersCount().call();
+  const maxResultsCount = 5;
+  let userCollection = [];
+  let userIds = [];
+
+  const profNumberCount = await users.methods.profCount(profession).call();
+
+  let resultsReqCount;
+
+  if(profNumberCount){
+    resultsReqCount = profNumberCount <= maxResultsCount ? profNumberCount : maxResultsCount;
+  } else {
+    resultsReqCount = 0;
+  }
+
+  for (let i = 0; i < resultsReqCount; i++) {
+    await getUniqueUser(userCollection, userIds, usersCount, profession);
+  }
+
+  return userCollection;
 }

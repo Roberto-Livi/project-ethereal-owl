@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUserProfileCard } from "../../store/actions";
+import { Dimmer, Loader } from "semantic-ui-react";
 
 
 const ProfileCard = ({profileCardAddress}) => {
@@ -17,6 +18,9 @@ const ProfileCard = ({profileCardAddress}) => {
   return (
     <div>
       <h1>Profile Card</h1>
+      <Dimmer active={!userProfile}>
+        <Loader>Loading Profile</Loader>
+      </Dimmer>
       { userProfile &&
       <ul>
         <li>{userProfile.codename}</li>

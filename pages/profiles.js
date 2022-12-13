@@ -14,7 +14,7 @@ const Profiles = () => {
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
 
   const handleOnChange = async (selection) => {
-    const allUsers = await getUsers();
+    const allUsers = await getUsers(selection.value);
     const items = [];
     allUsers.map((user) => {
       if(user.profession === selection.value) {
