@@ -2,7 +2,8 @@ import {
   CONNECT_WALLET,
   DISCONNECT,
   UPDATE_USER_INFO,
-  UPDATE_PROFILE_CARD_ADDRESS
+  UPDATE_PROFILE_CARD_ADDRESS,
+  UPDATE_PROFILE_SEARCH
 } from "../actions/types";
 
 const initialState = {
@@ -10,7 +11,11 @@ const initialState = {
   walletAddress: "",
   userInfo: null,
   userProfileCard: null,
-  hootBalance: 100
+  hootBalance: 100,
+  profileSearch: {
+    results: [],
+    resultsPresent: false
+  }
 };
 
 const manageData = (state = initialState, action) => {
@@ -23,6 +28,8 @@ const manageData = (state = initialState, action) => {
       return { ...state, userInfo: action.userInfo };
     case UPDATE_PROFILE_CARD_ADDRESS:
       return { ...state, userProfileCard: action.payload };
+    case UPDATE_PROFILE_SEARCH:
+      return { ...state, profileSearch: action.payload };
     default:
       return state;
   }

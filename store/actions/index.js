@@ -1,4 +1,10 @@
-import { CONNECT_WALLET, DISCONNECT, UPDATE_USER_INFO, UPDATE_PROFILE_CARD_ADDRESS } from "./types";
+import {
+  CONNECT_WALLET,
+  DISCONNECT,
+  UPDATE_USER_INFO,
+  UPDATE_PROFILE_CARD_ADDRESS,
+  UPDATE_PROFILE_SEARCH
+} from "./types";
 import users from "../../ethereum/users";
 
 export const connectWallet = (walletAddress, userInfo = null) => dispatch => {
@@ -21,4 +27,9 @@ export const updateUserInfo = (user) => async dispatch => {
 export const updateUserProfileCard = (address) => async dispatch => {
   const user = await users.methods.users(address).call();
   dispatch({ type: UPDATE_PROFILE_CARD_ADDRESS, payload: user });
+}
+
+export const updateProfileSearch = (results) => dispatch => {
+  const searchResults = { results, resultsPresent: !!results.length}
+  dispatch({ type: UPDATE_PROFILE_SEARCH, payload: searchResults });
 }

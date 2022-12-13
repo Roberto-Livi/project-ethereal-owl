@@ -54,3 +54,16 @@ export const getUsers = async (profession) => {
 
   return userCollection;
 }
+
+export const getFiveUsers = async () => {
+  const usersCount = await users.methods.usersCount().call();
+  const maxResultsCount = 5;
+  let userCollection = [];
+  let userIds = [];
+
+  for (let i = 0; i < maxResultsCount; i++) {
+    await getUniqueUser(userCollection, userIds, usersCount);
+  }
+
+  return userCollection;
+}
