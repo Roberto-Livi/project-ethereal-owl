@@ -4,7 +4,7 @@ const compiledUsers = require("./build/Users.json");
 
 const provider = new HDWalletProvider(
   "forum motor hen around skill grab surround damp theory silk found absurd",
-  "https://goerli.infura.io/v3/eb61db6460c142f099f2af67e35fee09"
+  "https://rpc-mumbai.maticvigil.com/v1/8939996484b586d1abb6e52a4bf40ade5e71faa3"
 );
 const web3 = new Web3(provider);
 
@@ -27,3 +27,6 @@ deploy();
 
 // Attempting to deploy from account 0x713135cb90b7f6dFb68d7fE5243a1E2bF0dDc844
 // Contract deployed to 0x224E564DDDBC09F9B10D321a638555BfE7e5DEfC
+
+// Attempting to deploy from account 0x713135cb90b7f6dFb68d7fE5243a1E2bF0dDc844
+// Contract deployed to 0xE486De1Ef8d9A56bcb80976a53213a24197FFB8B

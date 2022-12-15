@@ -9,7 +9,7 @@ if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
 } else {
   // We are on the server *OR* the user is not running metamask
   const provider = new Web3.providers.HttpProvider(
-    "https://goerli.infura.io/v3/eb61db6460c142f099f2af67e35fee09"
+    "https://rpc-mumbai.maticvigil.com/v1/8939996484b586d1abb6e52a4bf40ade5e71faa3"
   );
   web3 = new Web3(provider);
 }

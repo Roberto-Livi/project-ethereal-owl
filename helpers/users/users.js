@@ -61,7 +61,16 @@ export const getFiveUsers = async () => {
   let userCollection = [];
   let userIds = [];
 
-  for (let i = 0; i < maxResultsCount; i++) {
+  let resultsReqCount;
+
+  if (usersCount) {
+    resultsReqCount =
+      usersCount <= maxResultsCount ? usersCount : maxResultsCount;
+  } else {
+    resultsReqCount = 0;
+  }
+
+  for (let i = 0; i < resultsReqCount; i++) {
     await getUniqueUser(userCollection, userIds, usersCount);
   }
 
