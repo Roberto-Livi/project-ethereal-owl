@@ -4,24 +4,23 @@ pragma solidity ^0.8.9;
 contract Users {
 
     struct User {
-      uint id;
-      address userAddress;
-      string codename;
-      string profession;
-      string description;
-      uint[] projectIds;
+        uint id;
+        address userAddress;
+        string codename;
+        string profession;
+        string description;
     }
 
     struct Project {
-      uint id;
-      string name;
-      string mission;
-      address[] users;
+        uint id;
+        string name;
+        string mission;
     }
 
     User[] public allUsers;
     Project[] public allProjects;
     mapping(address => User) public users;
+    mapping(address => Project[]) public usersProjects;
     mapping(string => uint) public profCount;
     mapping(address => bool) public walletRegistered;
     mapping(string => bool) public codenameTaken;
@@ -43,8 +42,9 @@ contract Users {
 
       users[userAddress] = user;
       walletRegistered[userAddress] = true;
+      codenameTaken[cname] = true;
       profCount[prof] += 1;
-      usersCount++;
+      usersCount += 1;
     }
 
     function modifyUser(string memory cname, string memory prof, string memory desc) public payable {
@@ -60,19 +60,21 @@ contract Users {
     }
 
     function createProject(string memory projectName, string memory projectMission) public payable {
-      require(!projectNameTaken[projectName]);
-      Project storage project = allProjects.push();
+        require(!projectNameTaken[projectName]);
+        Project storage project = allProjects.push();
 
-      project.id = projectsCount;
-      project.name = projectName;
-      project.mission = projectMission;
-      project.users = [msg.sender];
+        project.id = projectsCount;
+        project.name = projectName;
+        project.mission = projectMission;
 
-      projectNameTaken[projectName] = true;
-      users[msg.sender].projectIds.push(projectsCount);
-      allUsers[users[msg.sender].id].projectIds.push(projectsCount);
+        projectNameTaken[projectName] = true;
 
-      projectsCount++;
+        usersProjects[msg.sender].push(project);
+        projectsCount++;
+    }
+
+    function getProjectsFromUser() public view returns (Project[] memory) {
+      return usersProjects[msg.sender];
     }
 
 }

@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import Layout from "../components/Layout";
-import { Grid, Icon, Message } from "semantic-ui-react";
-import { Link } from "../routes";
-import LoadingOverlay from "../components/LoadingOverlay";
+import Layout from "../components/utilities/Layout";
+import { Grid, Message } from "semantic-ui-react";
+import LoadingOverlay from "../components/utilities/LoadingOverlay";
 import ProfileCardGroup from "../components/profiles/ProfileCardGroup";
 import ProfessionDropdown from "../components/profiles/ProfessionDropdown";
 import ProfilesHeader from "../components/profiles/ProfilesHeader";
