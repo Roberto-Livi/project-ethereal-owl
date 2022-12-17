@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Card, Button } from "semantic-ui-react";
+import { Card, Button, Message, Image } from "semantic-ui-react";
 import {Router} from "../../routes";
-import { Message } from "semantic-ui-react";
+
 
 const ProfileCardGroup = () => {
 
@@ -17,6 +17,11 @@ const ProfileCardGroup = () => {
         <Card.Group key={index}>
           <Card fluid>
             <Card.Content>
+              <Image
+                floated="right"
+                size="tiny"
+                src={"/images/default-user-pic-1.jpg"}
+              />
               <Card.Header>{user.header}</Card.Header>
               <Card.Meta>{user.address}</Card.Meta>
               <Card.Meta>{user.meta}</Card.Meta>
