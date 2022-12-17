@@ -21,6 +21,7 @@ contract Users {
     Project[] public allProjects;
     mapping(address => User) public users;
     mapping(address => Project[]) public usersProjects;
+    mapping(string => User) public getUserByCodename;
     mapping(string => uint) public profCount;
     mapping(address => bool) public walletRegistered;
     mapping(string => bool) public codenameTaken;
@@ -41,6 +42,7 @@ contract Users {
       user.description = desc;
 
       users[userAddress] = user;
+      getUserByCodename[cname] = user;
       walletRegistered[userAddress] = true;
       codenameTaken[cname] = true;
       profCount[prof] += 1;

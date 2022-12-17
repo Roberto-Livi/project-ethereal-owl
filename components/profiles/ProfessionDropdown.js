@@ -25,9 +25,6 @@ const ProfessionDropdown = () => {
    });
 
    dispatch(updateProfileSearch(items));
-
-   // setNoResults(!!items.length);
-   // setCards(items);
  };
 
 
@@ -40,7 +37,7 @@ const ProfessionDropdown = () => {
      options={professionOptions}
      width={20}
      onChange={(e, selected) => handleOnChange(selected)}
-     style={{ marginBottom: "30px" }}
+     style={{ marginBottom: "20px" }}
    />
  );
 

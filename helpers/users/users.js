@@ -76,3 +76,8 @@ export const getFiveUsers = async () => {
 
   return userCollection;
 }
+
+export const getUserByCodename = async(codename) => {
+  const user = await users.methods.getUserByCodename(codename).call();
+  return user;
+}

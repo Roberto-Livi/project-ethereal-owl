@@ -4,30 +4,22 @@ import Layout from "../components/utilities/Layout";
 import { Grid, Message } from "semantic-ui-react";
 import LoadingOverlay from "../components/utilities/LoadingOverlay";
 import ProfileCardGroup from "../components/profiles/ProfileCardGroup";
-import ProfessionDropdown from "../components/profiles/ProfessionDropdown";
-import ProfilesHeader from "../components/profiles/ProfilesHeader";
+import PageHeader from "../components/utilities/PageHeader";
+import InputOption from "../components/profiles/InputOption";
 
 
 const Profiles = () => {
 
-  const resultsPresent = useSelector((state) => state.manageData.profileSearch.resultsPresent);
+  const walletAddress = useSelector((state) => state.manageData.walletAddress);
 
   return (
     <Layout>
-      <ProfilesHeader />
-      <ProfessionDropdown />
+      <PageHeader icon="user circle" route={`/profiles/${walletAddress}`} />
+      <InputOption />
       <LoadingOverlay active={false}>
         <Grid>
           <Grid.Row>
             <Grid.Column width={10}>
-              <Message
-                style={{ width: "45vw" }}
-                negative
-                size="tiny"
-                hidden={resultsPresent}
-              >
-                <Message.Header>No Results Found</Message.Header>
-              </Message>
               <ProfileCardGroup />
             </Grid.Column>
             {/* <Grid.Column>

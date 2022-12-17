@@ -1,32 +1,15 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import { Card, Button } from "semantic-ui-react";
 import {Router} from "../../routes";
-import { getFiveUsers } from "../../helpers/users/users";
-import { updateProfileSearch } from "../../store/actions";
+import { Message } from "semantic-ui-react";
 
 const ProfileCardGroup = () => {
 
-  const dispatch = useDispatch();
-
   const cards = useSelector((state) => state.manageData.profileSearch.results);
-
-  const getStartingData = async () => {
-    const users = await getFiveUsers();
-    const userCollection = users.map((user) => {
-       return {
-         header: user.codename,
-         address: user.userAddress,
-         meta: user.profession,
-         description: user.description,
-       };
-     })
-    dispatch(updateProfileSearch(userCollection));
-  };
-
-  useEffect(() => {
-    getStartingData();
-  }, []);
+  const resultsPresent = useSelector(
+    (state) => state.manageData.profileSearch.resultsPresent
+  );
 
   return (
     <>
@@ -56,6 +39,14 @@ const ProfileCardGroup = () => {
           </Card>
         </Card.Group>
       ))}
+      <Message
+        style={{ width: "45vw" }}
+        negative
+        size="tiny"
+        hidden={resultsPresent}
+      >
+        <Message.Header>No Results Found</Message.Header>
+      </Message>
     </>
   );
 }

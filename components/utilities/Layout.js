@@ -1,12 +1,12 @@
 import React from "react";
 import { Container } from "semantic-ui-react";
-import Header from "./Header";
+import NavHeader from "./NavHeader";
 import "semantic-ui-css/semantic.min.css";
 
 const Layout = (props) => {
   return (
     <Container>
-      <Header />
+      <NavHeader />
       {props.children}
     </Container>
   );

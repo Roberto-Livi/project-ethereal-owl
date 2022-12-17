@@ -1,4 +1,4 @@
-import { getUserFromAllUsers } from "./users";
+import { getUserFromAllUsers, getFiveUsers } from "./users";
 
 export const getUniqueUser = async(userCollection, userIds, usersCount, profession = null) => {
   let randomNum = Math.floor(Math.random() * usersCount);
