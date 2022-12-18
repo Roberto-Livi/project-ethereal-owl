@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Card, Button, Message, Image } from "semantic-ui-react";
 import {Router} from "../../routes";
+import { getRandomNum } from "../../helpers/users/helpers";
 
 
 const ProfileCardGroup = () => {
@@ -10,6 +11,7 @@ const ProfileCardGroup = () => {
   const resultsPresent = useSelector(
     (state) => state.manageData.profileSearch.resultsPresent
   );
+  const userInfo = useSelector((state) => state.manageData.userInfo);
 
   return (
     <>
@@ -20,7 +22,7 @@ const ProfileCardGroup = () => {
               <Image
                 floated="right"
                 size="tiny"
-                src={"/images/default-user-pic-1.jpg"}
+                src={`/images/default-user-pic-${getRandomNum(2)}.jpg`}
               />
               <Card.Header>{user.header}</Card.Header>
               <Card.Meta>{user.address}</Card.Meta>

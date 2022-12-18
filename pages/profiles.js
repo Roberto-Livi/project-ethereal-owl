@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import Layout from "../components/utilities/Layout";
-import { Grid, Message } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 import LoadingOverlay from "../components/utilities/LoadingOverlay";
 import ProfileCardGroup from "../components/profiles/ProfileCardGroup";
 import PageHeader from "../components/utilities/PageHeader";
@@ -18,13 +18,33 @@ const Profiles = () => {
       <InputOption />
       <LoadingOverlay active={false}>
         <Grid>
+          <Grid.Column
+            style={{
+              textAlign: "center",
+              backgroundColor: "#9370db",
+            }}
+            width={10}
+          >
+            <h1>Search Results</h1>
+          </Grid.Column>
+          <Grid.Column
+            style={{
+              textAlign: "center",
+              backgroundColor: "blueviolet",
+            }}
+            width={6}
+          >
+            <h1>Featured</h1>
+          </Grid.Column>
+        </Grid>
+        <Grid columns={2} style={{ backgroundColor: "#e6e6fa" }}>
           <Grid.Row>
             <Grid.Column width={10}>
               <ProfileCardGroup />
             </Grid.Column>
-            {/* <Grid.Column>
-              Advertised User Profiles
-            </Grid.Column> */}
+            <Grid.Column width={6}>
+              <ProfileCardGroup />
+            </Grid.Column>
           </Grid.Row>
         </Grid>
       </LoadingOverlay>

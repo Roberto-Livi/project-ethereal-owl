@@ -12,3 +12,8 @@ export const getUniqueUser = async(userCollection, userIds, usersCount, professi
   userCollection.push(user);
   userIds.push(user.id);
 };
+
+export const getRandomNum = (max) => {
+  const num = Math.floor(Math.random() * max);
+  return num;
+}
