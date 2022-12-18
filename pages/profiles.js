@@ -11,6 +11,12 @@ import InputOption from "../components/profiles/InputOption";
 const Profiles = () => {
 
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
+  const searchResults = useSelector(
+    (state) => state.manageData.profileSearch.results
+  );
+  const resultsPresent = useSelector(
+    (state) => state.manageData.profileSearch.resultsPresent
+  );
 
   return (
     <Layout>
@@ -37,13 +43,13 @@ const Profiles = () => {
             <h1>Featured</h1>
           </Grid.Column>
         </Grid>
-        <Grid columns={2} style={{ backgroundColor: "#e6e6fa" }}>
+        <Grid style={{ backgroundColor: "#e6e6fa" }}>
           <Grid.Row>
             <Grid.Column width={10}>
-              <ProfileCardGroup />
+              <ProfileCardGroup cardData={searchResults} showMesage={resultsPresent} />
             </Grid.Column>
             <Grid.Column width={6}>
-              <ProfileCardGroup />
+              <ProfileCardGroup cardData={[]} />
             </Grid.Column>
           </Grid.Row>
         </Grid>

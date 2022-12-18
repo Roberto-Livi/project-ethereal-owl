@@ -3,7 +3,7 @@ import Users from "./build/Users.json";
 
 const users = new web3.eth.Contract(
   Users.abi,
-  "0x1cC49D8AF1322725682aD6d5e5A07AdD5fa7a2e8"
+  "0xc03a46Fa9Aa61efc5C68FA59baBc6eB1Bc3005c0"
 );
 
 export default users;

@@ -37,7 +37,7 @@ const ProfileForm = () => {
         <Form loading={loading} size="large" onSubmit={onSubmit}>
           <Segment stacked>
             <Form.Input fluid placeholder="Code Name" />
-            <Form.Select onChange={(e) => setProfession(e.target.innerText)} fluid options={professionOptions} placeholder="Profession" />
+            <Form.Select onChange={(e, obj) => setProfession(obj.value)} fluid options={professionOptions} placeholder="Profession" />
             <Form.Input fluid placeholder="Description" />
             <Button color="blue" fluid size="large">
               Submit

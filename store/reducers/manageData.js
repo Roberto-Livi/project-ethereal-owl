@@ -15,7 +15,8 @@ const initialState = {
   profileSearch: {
     results: [],
     resultsPresent: false
-  }
+  },
+  featuredProfiles: []
 };
 
 const manageData = (state = initialState, action) => {

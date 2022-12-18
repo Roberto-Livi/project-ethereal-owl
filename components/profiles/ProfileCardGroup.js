@@ -5,27 +5,23 @@ import {Router} from "../../routes";
 import { getRandomNum } from "../../helpers/users/helpers";
 
 
-const ProfileCardGroup = () => {
+const ProfileCardGroup = ({ cardData, showMessage }) => {
 
-  const cards = useSelector((state) => state.manageData.profileSearch.results);
-  const resultsPresent = useSelector(
-    (state) => state.manageData.profileSearch.resultsPresent
-  );
   const userInfo = useSelector((state) => state.manageData.userInfo);
 
   return (
     <>
-      {cards.map((user, index) => (
+      {cardData.map((user, index) => (
         <Card.Group key={index}>
-          <Card fluid>
+          <Card fluid centered style={{ height: "270px" }}>
             <Card.Content>
               <Image
                 floated="right"
-                size="tiny"
+                size="small"
                 src={`/images/default-user-pic-${getRandomNum(2)}.jpg`}
               />
-              <Card.Header>{user.header}</Card.Header>
-              <Card.Meta>{user.address}</Card.Meta>
+              <h1>{user.header}</h1>
+              {/* <Card.Meta>{user.address}</Card.Meta> */}
               <Card.Meta>{user.meta}</Card.Meta>
               <Card.Description>{user.description}</Card.Description>
             </Card.Content>
@@ -47,10 +43,10 @@ const ProfileCardGroup = () => {
         </Card.Group>
       ))}
       <Message
-        style={{ width: "45vw" }}
+        fluid
         negative
         size="tiny"
-        hidden={resultsPresent}
+        hidden={showMessage}
       >
         <Message.Header>No Results Found</Message.Header>
       </Message>
