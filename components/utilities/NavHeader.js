@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Menu, Button } from "semantic-ui-react";
 import { Link } from "../../routes";
+import { ROUTES } from "./constants";
 
-const Header = () => {
+const NavHeader = () => {
 
   const [connecting, setConnecting] = useState(false);
 
   const address = useSelector((state) => state.manageData.walletAddress);
+  const admin = useSelector((state) => state.manageData.admin);
   const walletConnected = useSelector((state) => state.manageData.connected);
 
   const onClickConnect = async () => {
@@ -27,16 +29,21 @@ const Header = () => {
       <Link route="/">
         <a className="item">Zoukenverse</a>
       </Link>
+      { admin &&
+        <Link route={ROUTES.ADMIN}>
+          <a className="item">Admin</a>
+        </Link>
+      }
 
       <Menu.Menu position="right">
-        <Link route={`/profiles`}>
+        <Link route={ROUTES.PROFILES}>
           <a className="item">Profiles</a>
         </Link>
-        <Link route="/projects">
+        <Link route={ROUTES.PROJECTS}>
           <a className="item">Projects</a>
         </Link>
         {walletConnected && (
-          <Link route="/">
+          <Link route={ROUTES.PROJECTS}>
             <a className="item">+</a>
           </Link>
         )}
@@ -55,4 +62,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default NavHeader;

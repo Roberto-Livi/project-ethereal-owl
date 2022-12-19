@@ -3,10 +3,12 @@ import {
   DISCONNECT,
   UPDATE_USER_INFO,
   UPDATE_PROFILE_CARD_ADDRESS,
-  UPDATE_PROFILE_SEARCH
+  UPDATE_PROFILE_SEARCH,
+  GET_ADMIN_ROLE
 } from "../actions/types";
 
 const initialState = {
+  admin: false,
   connected: false,
   walletAddress: "",
   userInfo: null,
@@ -15,8 +17,7 @@ const initialState = {
   profileSearch: {
     results: [],
     resultsPresent: false
-  },
-  featuredProfiles: []
+  }
 };
 
 const manageData = (state = initialState, action) => {
@@ -25,6 +26,8 @@ const manageData = (state = initialState, action) => {
       return { ...state, connected: true, walletAddress: action.walletAddress, userInfo: action.userInfo };
     case DISCONNECT:
       return initialState;
+    case GET_ADMIN_ROLE:
+      return { ...state, admin: true };
     case UPDATE_USER_INFO:
       return { ...state, userInfo: action.userInfo };
     case UPDATE_PROFILE_CARD_ADDRESS:

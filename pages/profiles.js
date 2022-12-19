@@ -46,10 +46,10 @@ const Profiles = () => {
         <Grid style={{ backgroundColor: "#e6e6fa" }}>
           <Grid.Row>
             <Grid.Column width={10}>
-              <ProfileCardGroup cardData={searchResults} showMesage={resultsPresent} />
+              <ProfileCardGroup cardData={searchResults} showMessage={resultsPresent} />
             </Grid.Column>
             <Grid.Column width={6}>
-              <ProfileCardGroup cardData={[]} />
+              <ProfileCardGroup cardData={[]} showMessage={true} />
             </Grid.Column>
           </Grid.Row>
         </Grid>

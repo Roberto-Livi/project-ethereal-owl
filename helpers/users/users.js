@@ -1,6 +1,7 @@
 import users from "../../ethereum/users";
 import web3 from "../../ethereum/web3";
 import { getUniqueUser } from "./helpers";
+import _ from "lodash";
 
 export const getAccount = async () => {
   const accounts = await web3.eth.getAccounts();
@@ -80,4 +81,9 @@ export const getFiveUsers = async () => {
 export const getUserByCodename = async(codename) => {
   const user = await users.methods.getUserByCodename(codename).call();
   return user;
+}
+
+export const isAdmin = async(userAddress) => {
+  const admin = await users.methods.manager().call();
+  return _.isEqual(admin, userAddress);
 }

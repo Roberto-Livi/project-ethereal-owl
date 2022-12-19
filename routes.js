@@ -5,6 +5,7 @@ routes
   .add("/profiles", "/profiles")
   .add("/profiles/:address", "/profile")
   .add("/projects/:id", "/project")
+  .add("/admin", "/admin")
   // .add("/campaigns/:address", "/campaigns/show")
   // .add("/campaigns/:address/requests", "campaigns/requests/index")
   // .add("/campaigns/:address/requests/new", "/campaigns/requests/new");

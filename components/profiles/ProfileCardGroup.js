@@ -42,8 +42,9 @@ const ProfileCardGroup = ({ cardData, showMessage }) => {
           </Card>
         </Card.Group>
       ))}
+      {}
       <Message
-        fluid
+        fluid="true"
         negative
         size="tiny"
         hidden={showMessage}
