@@ -4,6 +4,7 @@ import { Router } from "../routes";
 import { isAdmin } from "../helpers/users/users";
 import { useSelector } from "react-redux";
 import { ROUTES } from "../components/utilities/constants";
+import AdminManager from "../components/manager/AdminManager";
 
 
 const Admin = () => {
@@ -24,7 +25,7 @@ const Admin = () => {
     verifyAdminAccess();
   }, []);
 
-  return <div>{adminAccess && <Layout>ADMIN</Layout>}</div>;
+  return <div>{adminAccess && <Layout><AdminManager /></Layout>}</div>;
 }
 
 export default Admin;

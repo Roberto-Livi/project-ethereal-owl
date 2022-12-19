@@ -87,3 +87,21 @@ export const isAdmin = async(userAddress) => {
   const admin = await users.methods.manager().call();
   return _.isEqual(admin, userAddress);
 }
+
+export const submitFeaturedUsers = async(userAddressCollection) => {
+  const accounts = await web3.eth.getAccounts();
+  await users.methods.modifyFeaturedProfiles(userAddressCollection).send({
+    from: accounts[0],
+  });
+}
+
+export const getFeaturedUsers = async() => {
+  let featuredCollection = [];
+
+  for(let i = 0; i < 5; i++){
+    let userData = await users.methods.featuredProfiles(i).call();
+    featuredCollection.push(userData);
+  }
+
+  return featuredCollection;
+}

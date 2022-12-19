@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Layout from "../components/utilities/Layout";
 import { Grid } from "semantic-ui-react";
@@ -6,9 +6,12 @@ import LoadingOverlay from "../components/utilities/LoadingOverlay";
 import ProfileCardGroup from "../components/profiles/ProfileCardGroup";
 import PageHeader from "../components/utilities/PageHeader";
 import InputOption from "../components/profiles/InputOption";
+import { getFeaturedUsers } from "../helpers/users/users";
 
 
 const Profiles = () => {
+
+  const [featuredUsers, setFeaturedUsers] = useState([]);
 
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
   const searchResults = useSelector(
@@ -17,6 +20,19 @@ const Profiles = () => {
   const resultsPresent = useSelector(
     (state) => state.manageData.profileSearch.resultsPresent
   );
+
+  const loadFeaturedProfiles = async() => {
+    const users = await getFeaturedUsers();
+    const userCollection = [];
+    console.log(users)
+    // TODO: loop through users to push correct values that the card needs
+
+    setFeaturedUsers(users);
+  }
+
+  useEffect(() => {
+    loadFeaturedProfiles();
+  }, []);
 
   return (
     <Layout>
@@ -49,7 +65,7 @@ const Profiles = () => {
               <ProfileCardGroup cardData={searchResults} showMessage={resultsPresent} />
             </Grid.Column>
             <Grid.Column width={6}>
-              <ProfileCardGroup cardData={[]} showMessage={true} />
+              <ProfileCardGroup cardData={featuredUsers} showMessage={!featuredUsers.length} />
             </Grid.Column>
           </Grid.Row>
         </Grid>
