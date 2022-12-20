@@ -1,15 +1,17 @@
 import {wrapper, store} from "../store/store";
-import { Provider, useDispatch } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import web3 from "../ethereum/web3";
 import { connectWallet, disconnect, getAdminRole } from "../store/actions";
 import users from "../ethereum/users";
 import { isAdmin } from "../helpers/users/users";
+import _ from "lodash";
 
 
 const MyApp = ({ Component, pageProps }) => {
 
   const dispatch = useDispatch();
+  const walletAddress = useSelector((state) => state.manageData.walletAddress);
 
   const connect = async () => {
     const account = await web3.eth.getAccounts();
@@ -30,6 +32,15 @@ const MyApp = ({ Component, pageProps }) => {
     }
   }
 
+  const isUserConnected = async() => {
+    if(_.isEmpty(walletAddress)) {
+      const account = await web3.eth.getAccounts();
+      if (account[0]) {
+        connect();
+      }
+    }
+  }
+
   useEffect(() => {
     if(window.ethereum) {
       window.ethereum.on('chainChanged', () => {
@@ -39,7 +50,11 @@ const MyApp = ({ Component, pageProps }) => {
         connect();
       })
     }
-  })
+  }, []);
+
+  useEffect(() => {
+    isUserConnected();
+  }, []);
 
   return (
     <>
