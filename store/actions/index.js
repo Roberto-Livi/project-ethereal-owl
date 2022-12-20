@@ -4,15 +4,13 @@ import {
   UPDATE_USER_INFO,
   UPDATE_PROFILE_CARD_ADDRESS,
   UPDATE_PROFILE_SEARCH,
-  GET_ADMIN_ROLE
+  GET_ADMIN_ROLE,
+  UPDATE_PROFILE_SEARCH_REQUEST
 } from "./types";
 import users from "../../ethereum/users";
-import { isAdmin } from "../../helpers/users/users";
+
 
 export const connectWallet = (walletAddress, userInfo = null) => dispatch => {
-  // if(isAdmin(walletAddress)) {
-  //   dispatch({ type: GET_ADMIN_ROLE });
-  // }
   dispatch({ type: CONNECT_WALLET, walletAddress, userInfo });
 }
 
@@ -34,8 +32,12 @@ export const updateUserProfileCard = (address) => async dispatch => {
   dispatch({ type: UPDATE_PROFILE_CARD_ADDRESS, payload: user });
 }
 
+export const updateProfileSearchRequest = () => dispatch => {
+  dispatch({ type: UPDATE_PROFILE_SEARCH_REQUEST });
+}
+
 export const updateProfileSearch = (results) => dispatch => {
-  const searchResults = { results, resultsPresent: !!results.length}
+  const searchResults = { results, loading: false}
   dispatch({ type: UPDATE_PROFILE_SEARCH, payload: searchResults });
 }
 

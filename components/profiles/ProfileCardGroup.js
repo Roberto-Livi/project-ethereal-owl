@@ -1,13 +1,10 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { Card, Button, Message, Image } from "semantic-ui-react";
 import {Router} from "../../routes";
 import { getRandomNum } from "../../helpers/users/helpers";
 
 
-const ProfileCardGroup = ({ cardData, showMessage }) => {
-
-  const userInfo = useSelector((state) => state.manageData.userInfo);
+const ProfileCardGroup = ({ cardData, resultsLoading }) => {
 
   return (
     <>
@@ -47,7 +44,7 @@ const ProfileCardGroup = ({ cardData, showMessage }) => {
         fluid="true"
         negative
         size="tiny"
-        hidden={showMessage}
+        hidden={cardData.length || resultsLoading}
       >
         <Message.Header>No Results Found</Message.Header>
       </Message>

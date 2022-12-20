@@ -4,7 +4,8 @@ import {
   UPDATE_USER_INFO,
   UPDATE_PROFILE_CARD_ADDRESS,
   UPDATE_PROFILE_SEARCH,
-  GET_ADMIN_ROLE
+  GET_ADMIN_ROLE,
+  UPDATE_PROFILE_SEARCH_REQUEST
 } from "../actions/types";
 
 const initialState = {
@@ -16,7 +17,7 @@ const initialState = {
   hootBalance: 100,
   profileSearch: {
     results: [],
-    resultsPresent: false
+    loading: false
   }
 };
 
@@ -32,6 +33,8 @@ const manageData = (state = initialState, action) => {
       return { ...state, userInfo: action.userInfo };
     case UPDATE_PROFILE_CARD_ADDRESS:
       return { ...state, userProfileCard: action.payload };
+    case UPDATE_PROFILE_SEARCH_REQUEST:
+      return { ...state, profileSearch: {results: [], loading: true}};
     case UPDATE_PROFILE_SEARCH:
       return { ...state, profileSearch: action.payload };
     default:

@@ -4,7 +4,7 @@ import ProfessionDropdown from "./ProfessionDropdown";
 import CodenameSearch from "./CodenameSearch";
 import _ from "lodash";
 import { useDispatch } from "react-redux";
-import { updateProfileSearch } from "../../store/actions";
+import { updateProfileSearch, updateProfileSearchRequest } from "../../store/actions";
 import { getFiveUsers } from "../../helpers/users/users";
 
 const OPTS = {
@@ -19,6 +19,7 @@ const InputOption = () => {
   const [chosenOption, setChosenOption] = useState(OPTS.PROF);
 
   const getStartingData = async () => {
+    dispatch(updateProfileSearchRequest());
     const users = await getFiveUsers();
     const userCollection = users.map((user) => {
       return {

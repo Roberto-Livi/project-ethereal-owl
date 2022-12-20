@@ -17,8 +17,8 @@ const Profiles = () => {
   const searchResults = useSelector(
     (state) => state.manageData.profileSearch.results
   );
-  const resultsPresent = useSelector(
-    (state) => state.manageData.profileSearch.resultsPresent
+  const resultsLoading = useSelector(
+    (state) => state.manageData.profileSearch.loading
   );
 
   const loadFeaturedProfiles = async() => {
@@ -31,6 +31,7 @@ const Profiles = () => {
         description: user.description
       })
     }
+
     setFeaturedUsers(userCollection);
   }
 
@@ -42,7 +43,7 @@ const Profiles = () => {
     <Layout>
       <PageHeader icon="user circle" route={`/profiles/${walletAddress}`} />
       <InputOption />
-      <LoadingOverlay active={false}>
+      <LoadingOverlay active={resultsLoading}>
         <Grid>
           <Grid.Column
             style={{
@@ -66,10 +67,10 @@ const Profiles = () => {
         <Grid style={{ backgroundColor: "#e6e6fa" }}>
           <Grid.Row>
             <Grid.Column width={10}>
-              <ProfileCardGroup cardData={searchResults} showMessage={resultsPresent} />
+              <ProfileCardGroup cardData={searchResults} resultsLoading={resultsLoading} />
             </Grid.Column>
             <Grid.Column width={6}>
-              <ProfileCardGroup cardData={featuredUsers} showMessage={featuredUsers.length} />
+              <ProfileCardGroup cardData={featuredUsers} />
             </Grid.Column>
           </Grid.Row>
         </Grid>

@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Dropdown } from 'semantic-ui-react';
 import { professionOptions } from '../../helpers/users/professions';
-import { updateProfileSearch } from '../../store/actions';
+import { updateProfileSearch, updateProfileSearchRequest } from '../../store/actions';
 import { getUsers } from '../../helpers/users/users';
 
 
@@ -11,20 +11,21 @@ const ProfessionDropdown = () => {
  const dispatch = useDispatch();
 
  const handleOnChange = async (selection) => {
-   const allUsers = await getUsers(selection.value);
-   const items = [];
-   allUsers.map((user) => {
-     if (user.profession === selection.value) {
-       items.push({
-         header: user.codename,
-         address: user.userAddress,
-         meta: user.profession,
-         description: user.description,
-       });
-     }
-   });
+    dispatch(updateProfileSearchRequest());
+    const allUsers = await getUsers(selection.value);
+    const items = [];
+    allUsers.map((user) => {
+      if (user.profession === selection.value) {
+        items.push({
+          header: user.codename,
+          address: user.userAddress,
+          meta: user.profession,
+          description: user.description,
+        });
+      }
+    });
 
-   dispatch(updateProfileSearch(items));
+    dispatch(updateProfileSearch(items));
  };
 
 
