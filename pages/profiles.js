@@ -24,10 +24,14 @@ const Profiles = () => {
   const loadFeaturedProfiles = async() => {
     const users = await getFeaturedUsers();
     const userCollection = [];
-    console.log(users)
-    // TODO: loop through users to push correct values that the card needs
-
-    setFeaturedUsers(users);
+    for(let user of users){
+      userCollection.push({
+        header: user.codename,
+        meta: user.profession,
+        description: user.description
+      })
+    }
+    setFeaturedUsers(userCollection);
   }
 
   useEffect(() => {
@@ -65,7 +69,7 @@ const Profiles = () => {
               <ProfileCardGroup cardData={searchResults} showMessage={resultsPresent} />
             </Grid.Column>
             <Grid.Column width={6}>
-              <ProfileCardGroup cardData={featuredUsers} showMessage={!featuredUsers.length} />
+              <ProfileCardGroup cardData={featuredUsers} showMessage={featuredUsers.length} />
             </Grid.Column>
           </Grid.Row>
         </Grid>
