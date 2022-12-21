@@ -26,6 +26,7 @@ const Profiles = () => {
     const userCollection = [];
     for(let user of users){
       userCollection.push({
+        address: user.userAddress,
         header: user.codename,
         meta: user.profession,
         description: user.description
@@ -41,7 +42,7 @@ const Profiles = () => {
 
   return (
     <Layout>
-      <PageHeader icon="user circle" route={`/profiles/${walletAddress}`} />
+      <PageHeader title={"Profiles"} icon="user circle" route={`/profiles/${walletAddress}`} />
       <InputOption />
       <LoadingOverlay active={resultsLoading}>
         <Grid>

@@ -11,6 +11,7 @@ import _ from "lodash";
 const MyApp = ({ Component, pageProps }) => {
 
   const dispatch = useDispatch();
+
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
 
   const connect = async () => {
@@ -35,7 +36,7 @@ const MyApp = ({ Component, pageProps }) => {
   const isUserConnected = async() => {
     if(_.isEmpty(walletAddress)) {
       const account = await web3.eth.getAccounts();
-      if (account[0]) {
+      if(account[0] ){
         connect();
       }
     }

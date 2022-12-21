@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Button, Form, FormField, Grid, Header, Segment } from "semantic-ui-react";
+import { useDispatch } from "react-redux";
+import { Button, Form, Grid, Header, Segment } from "semantic-ui-react";
 import { createUser, getUserData } from "../../helpers/users/users";
-import { Router } from "../../routes";
 import { updateUserInfo } from "../../store/actions";
 import { professionOptions } from "../../helpers/users/professions";
 
@@ -12,8 +11,6 @@ const ProfileForm = () => {
 
   const [loading, setLoading] = useState(false);
   const [profession, setProfession] = useState("");
-
-  const walletAddress = useSelector((state) => state.manageData.walletAddress);
 
   const onSubmit = async (event) => {
     event.preventDefault();

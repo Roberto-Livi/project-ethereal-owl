@@ -105,3 +105,12 @@ export const getFeaturedUsers = async() => {
 
   return featuredCollection;
 }
+
+export const createProject = async(projectName, projectMission) => {
+  const accounts = await web3.eth.getAccounts();
+  await users.methods
+    .createProject(projectName, projectMission)
+    .send({
+      from: accounts[0]
+    });
+}

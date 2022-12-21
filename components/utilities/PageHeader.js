@@ -4,11 +4,11 @@ import { Icon } from "semantic-ui-react";
 import { Link } from "../../routes";
 
 
-const PageHeader = ({ route, icon}) => {
+const PageHeader = ({ title, route, icon}) => {
 
   return (
     <div style={{ display: "flex" }}>
-      <h2>Profiles</h2>
+      <h2>{title}</h2>
       <div style={{ marginLeft: "auto" }}>
         <Link route={route}>
           <a>

@@ -1,11 +1,12 @@
 const routes = require("next-routes")();
 
 routes
-  .add("/projects", "/projects")
+  .add("/admin", "/admin")
+  .add("/projects", "/projects/index")
   .add("/profiles", "/profiles")
   .add("/profiles/:address", "/profile")
-  .add("/projects/:id", "/project")
-  .add("/admin", "/admin")
+  .add("/projects/create-project", "/projects/create-project")
+  .add("/projects/:id", "/project");
   // .add("/campaigns/:address", "/campaigns/show")
   // .add("/campaigns/:address/requests", "campaigns/requests/index")
   // .add("/campaigns/:address/requests/new", "/campaigns/requests/new");
