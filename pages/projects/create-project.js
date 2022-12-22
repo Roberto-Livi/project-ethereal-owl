@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Layout from "../../components/utilities/Layout";
 import { Button, Form, Grid, Header, Segment, Container, Message } from "semantic-ui-react";
 import { createProject } from "../../helpers/users/users";
+import { Router } from "../../routes";
 
 
 const CreateProject = () => {
@@ -20,6 +21,7 @@ const CreateProject = () => {
 
     await createProject(event.target[0].value, event.target[1].value)
       .then(() => setLoading(false))
+      .then(() => Router.pushRoute("/projects/users-projects"));
   };
 
   return (

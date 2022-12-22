@@ -15,8 +15,6 @@ const Projects = () => {
       {/* TODO: route should lead to manager page for all users projects */}
       <ProjectsHeader
         title={"Projects"}
-        icon="suitcase"
-        route={`/profiles/${walletAddress}`}
       />
       <ProjectSearch />
       {/* <ProfilesHeader /> */}

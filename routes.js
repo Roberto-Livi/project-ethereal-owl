@@ -4,6 +4,7 @@ routes
   .add("/admin", "/admin")
   .add("/projects", "/projects/index")
   .add("/profiles", "/profiles")
+  .add("/projects/users-projects", "/projects/users-projects")
   .add("/profiles/:address", "/profile")
   .add("/projects/create-project", "/projects/create-project")
   .add("/projects/:id", "/project");

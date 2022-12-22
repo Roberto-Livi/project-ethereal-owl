@@ -19,11 +19,6 @@ export const getUserFromAllUsers = async (index) => {
   return user;
 }
 
-// export const getOtherUser = async (address) => {
-//   const user = account.length && (await users.methods.users(address).call());
-//   return user;
-// };
-
 export const createUser = async (userInfo) => {
   const accounts = await web3.eth.getAccounts();
   await users.methods
@@ -113,4 +108,10 @@ export const createProject = async(projectName, projectMission) => {
     .send({
       from: accounts[0]
     });
+}
+
+export const getUsersProjects = async() => {
+  const projects = await users.methods.getProjectsFromUser().call();
+  console.log(projects)
+  // return projects;
 }
