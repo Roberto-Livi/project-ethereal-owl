@@ -12,7 +12,7 @@ const PageHeader = ({ title, route, icon}) => {
       <div style={{ marginLeft: "auto" }}>
         <Link route={route}>
           <a>
-            <Icon name={icon} size="big" />
+            <Icon name={icon} size="big" color="violet" />
           </a>
         </Link>
       </div>

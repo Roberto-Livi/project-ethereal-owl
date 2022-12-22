@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Layout from "../../components/utilities/Layout";
-import { Button, Form, Grid, Header, Segment, Container } from "semantic-ui-react";
+import { Button, Form, Grid, Header, Segment, Container, Message } from "semantic-ui-react";
 import { createProject } from "../../helpers/users/users";
 
 
@@ -11,6 +11,7 @@ const CreateProject = () => {
 
   const [loading, setLoading] = useState(false);
 
+  const userInfo = useSelector((state) => state.manageData.userInfo);
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
 
   const onSubmit = async (event) => {
@@ -26,8 +27,8 @@ const CreateProject = () => {
       <Container
         style={{
           width: "650px",
-          backgroundColor: "#87CEEB",
-          marginTop: "60px"
+          backgroundColor: "#e6e6fa",
+          marginTop: "60px",
         }}
       >
         <Grid
@@ -36,18 +37,22 @@ const CreateProject = () => {
           verticalAlign="middle"
         >
           <Grid.Column style={{ maxWidth: 450 }}>
-            <Header as="h1" color="blue" textAlign="center">
+            <Header as="h1" textAlign="center">
               Create a Project
             </Header>
-            <Form loading={loading} size="large" onSubmit={onSubmit}>
-              <Segment stacked>
-                <Form.Input fluid placeholder="Name" />
-                <Form.Input fluid placeholder="Mission" />
-                <Button color="blue" fluid size="large">
-                  Submit
-                </Button>
-              </Segment>
-            </Form>
+            {!!userInfo ? (
+              <Form loading={loading} size="large" onSubmit={onSubmit}>
+                <Segment stacked>
+                  <Form.Input fluid placeholder="Name" />
+                  <Form.Input fluid placeholder="Mission" />
+                  <Button color="violet" fluid size="large">
+                    Submit
+                  </Button>
+                </Segment>
+              </Form>
+            ) : (
+              <Message color="red" visible>You must create a user profile before creating a project</Message>
+            )}
           </Grid.Column>
         </Grid>
       </Container>

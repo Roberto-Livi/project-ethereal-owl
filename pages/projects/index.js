@@ -22,7 +22,7 @@ const Projects = () => {
       {/* <ProfilesHeader /> */}
       {/* <ProfessionDropdown /> */}
       <LoadingOverlay active={false}>
-        <Grid style={{ backgroundColor: "#B0C4DE" }}>
+        <Grid style={{ backgroundColor: "#e6e6fa" }}>
           <Grid.Row>
             <Grid.Column width={10}>
 
