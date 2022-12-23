@@ -1,12 +1,17 @@
 import React from "react";
+import Layout from "../components/utilities/Layout";
 
 
-const Project = () => {
+const Project = ({ projectId }) => {
   return (
-    <div>
-      Project
-    </div>
+    <Layout>
+      Project {projectId}
+    </Layout>
   )
 }
+
+Project.getInitialProps = (props) => {
+  return { projectId: props.query.id };
+};
 
 export default Project;

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Card, Button, Image } from "semantic-ui-react";
 import { getRandomNum } from "../../helpers/users/helpers";
+import { Router } from "../../routes";
 
 
 const UsersProjectsGroup = () => {
@@ -36,7 +37,7 @@ const UsersProjectsGroup = () => {
                 <Button
                   basic
                   color="blue"
-                  onClick={() => Router.pushRoute(`/projects`)}
+                  onClick={() => Router.pushRoute(`/projects/${project.id}`)}
                 >
                   Look at Profile
                 </Button>
