@@ -24,16 +24,19 @@ const Profiles = () => {
   const loadFeaturedProfiles = async() => {
     const users = await getFeaturedUsers();
     const userCollection = [];
-    for(let user of users){
-      userCollection.push({
-        address: user.userAddress,
-        header: user.codename,
-        meta: user.profession,
-        description: user.description
-      })
-    }
 
-    setFeaturedUsers(userCollection);
+    if(users.length) {
+      for (let user of users) {
+        userCollection.push({
+          address: user.userAddress,
+          header: user.codename,
+          meta: user.profession,
+          description: user.description,
+        });
+      }
+
+      setFeaturedUsers(userCollection);
+    }
   }
 
   useEffect(() => {
@@ -68,10 +71,10 @@ const Profiles = () => {
         <Grid style={{ backgroundColor: "#e6e6fa" }}>
           <Grid.Row>
             <Grid.Column width={10}>
-              <ProfileCardGroup cardData={searchResults} resultsLoading={resultsLoading} />
+              <ProfileCardGroup errorMessage={"No Results Found"} cardData={searchResults} resultsLoading={resultsLoading} />
             </Grid.Column>
             <Grid.Column width={6}>
-              <ProfileCardGroup cardData={featuredUsers} />
+              <ProfileCardGroup errorMessage={"Featured Projects Coming Soon"} cardData={featuredUsers} />
             </Grid.Column>
           </Grid.Row>
         </Grid>

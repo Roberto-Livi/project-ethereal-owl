@@ -93,25 +93,41 @@ export const submitFeaturedUsers = async(userAddressCollection) => {
 export const getFeaturedUsers = async() => {
   let featuredCollection = [];
 
-  for(let i = 0; i < 5; i++){
-    let userData = await users.methods.featuredProfiles(i).call();
-    featuredCollection.push(userData);
+  try {
+    for (let i = 0; i < 5; i++) {
+      let userData = await users.methods.featuredProfiles(i).call();
+      featuredCollection.push(userData);
+    }
+  } catch(err){
+    featuredCollection = [];
   }
 
   return featuredCollection;
 }
 
-export const createProject = async(projectName, projectMission) => {
+export const createProject = async(address, projectName, projectMission) => {
   const accounts = await web3.eth.getAccounts();
   await users.methods
-    .createProject(projectName, projectMission)
+    .createProject(address, projectName, projectMission)
     .send({
       from: accounts[0]
     });
 }
 
-export const getUsersProjects = async() => {
-  const projects = await users.methods.getProjectsFromUser().call();
-  console.log(projects)
-  // return projects;
+export const getUsersProjects = async(address) => {
+  const usersProjects = [];
+
+  try {
+    const user = await users.methods.users(address).call();
+    const projectsInvolved = user.projectsInvolved;
+
+    for (let i = 0; i < projectsInvolved; i++) {
+      let project = await users.methods.usersProjects(address, i).call();
+      usersProjects.push(project);
+    }
+  } catch(err) {
+    usersProjects = [];
+  }
+
+  return usersProjects;
 }

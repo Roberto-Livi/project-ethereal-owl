@@ -1,34 +1,41 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Layout from "../../components/utilities/Layout";
 import { Grid, Message } from "semantic-ui-react";
 import { getUsersProjects } from "../../helpers/users/users";
-import UsersProjectsGroup from "../../components/projects/UsersProjectsGroup";
+import ProjectsDashboard from "../../components/projects/ProjectsDashboard";
+import { retrieveProjects } from "../../store/actions";
 
 const UsersProjects = () => {
 
-  const [usersProjects, setUsersProjects] = useState([]);
+  const dispatch = useDispatch();
+
+  const [retrievedProjects, setRetrievedProjects] = useState(false);
 
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
 
   const getProjects = async() => {
-    const projects = await getUsersProjects();
+    const projects = await getUsersProjects(walletAddress);
     if(!!projects) {
-      setUsersProjects(projects);
+      setRetrievedProjects(true);
+      dispatch(retrieveProjects(projects));
+    } else {
+      setRetrievedProjects(false);
     }
   }
 
   useEffect(() => {
-    getProjects()
-  }, []);
+    getProjects();
+  }, [walletAddress]);
 
   return (
     <Layout>
+      <h1 style={{ textAlign: "center" }}>Projects Dashboard</h1>
       <Grid style={{ backgroundColor: "#e6e6fa", marginTop: "50px" }}>
         <Grid.Row>
           <Grid.Column>
-            {usersProjects.length ? (
-              <UsersProjectsGroup usersProjects={usersProjects} />
+            { retrievedProjects ? (
+              <ProjectsDashboard />
             ) : (
               <div style={{ textAlign: "center" }}><Message size="massive" compact>
                 You are not involved in any projects. Create or join one!

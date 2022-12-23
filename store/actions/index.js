@@ -5,7 +5,8 @@ import {
   UPDATE_PROFILE_CARD_ADDRESS,
   UPDATE_PROFILE_SEARCH,
   GET_ADMIN_ROLE,
-  UPDATE_PROFILE_SEARCH_REQUEST
+  UPDATE_PROFILE_SEARCH_REQUEST,
+  GET_PROJECTS
 } from "./types";
 import users from "../../ethereum/users";
 
@@ -43,4 +44,8 @@ export const updateProfileSearch = (results) => dispatch => {
 
 export const getAdminRole = () => dispatch => {
   dispatch({ type: GET_ADMIN_ROLE });
+}
+
+export const retrieveProjects = (projects) => dispatch => {
+  dispatch({ type: GET_PROJECTS, payload: projects });
 }

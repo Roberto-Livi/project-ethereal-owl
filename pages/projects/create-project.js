@@ -19,7 +19,7 @@ const CreateProject = () => {
     event.preventDefault();
     setLoading(true);
 
-    await createProject(event.target[0].value, event.target[1].value)
+    await createProject(walletAddress, event.target[0].value, event.target[1].value)
       .then(() => setLoading(false))
       .then(() => Router.pushRoute("/projects/users-projects"));
   };

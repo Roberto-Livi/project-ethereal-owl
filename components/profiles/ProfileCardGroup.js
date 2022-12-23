@@ -4,7 +4,7 @@ import {Router} from "../../routes";
 import { getRandomNum } from "../../helpers/users/helpers";
 
 
-const ProfileCardGroup = ({ cardData, resultsLoading }) => {
+const ProfileCardGroup = ({ cardData, resultsLoading, errorMessage }) => {
 
   return (
     <>
@@ -46,7 +46,7 @@ const ProfileCardGroup = ({ cardData, resultsLoading }) => {
         size="tiny"
         hidden={cardData.length || resultsLoading}
       >
-        <Message.Header>No Results Found</Message.Header>
+        <Message.Header>{errorMessage}</Message.Header>
       </Message>
     </>
   );

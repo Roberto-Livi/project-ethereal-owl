@@ -9,20 +9,24 @@ contract Users {
         string codename;
         string profession;
         string description;
+        uint projectsInvolved;
     }
 
     struct Project {
         uint id;
         string name;
         string mission;
+        uint membersCount;
     }
 
     address public manager;
     User[] public allUsers;
     Project[] public allProjects;
     User[] public featuredProfiles;
+    Project[] public featuredProjects;
     mapping(address => User) public users;
     mapping(address => Project[]) public usersProjects;
+    mapping(uint => User[]) public projectMembers;
     mapping(string => User) public getUserByCodename;
     mapping(string => uint) public profCount;
     mapping(address => bool) public walletRegistered;
@@ -72,22 +76,23 @@ contract Users {
       allUsers[u.id] = u;
     }
 
-    function createProject(string memory projectName, string memory projectMission) public payable {
+    function createProject(address userAddress, string memory projectName, string memory projectMission) public payable {
         require(!projectNameTaken[projectName]);
+        User storage user = users[userAddress];
+        user.projectsInvolved++;
+
         Project storage project = allProjects.push();
 
         project.id = projectsCount;
         project.name = projectName;
         project.mission = projectMission;
+        project.membersCount++;
 
         projectNameTaken[projectName] = true;
 
-        usersProjects[msg.sender].push(project);
+        usersProjects[userAddress].push(project);
+        projectMembers[projectsCount].push(user);
         projectsCount++;
-    }
-
-    function getProjectsFromUser() public view returns (Project[] memory) {
-      return usersProjects[msg.sender];
     }
 
     function modifyFeaturedProfiles(address[] memory userFeaturedAddress) public payable restricted {
@@ -95,6 +100,14 @@ contract Users {
 
       for (uint i = 0; i < 5; i++) {
         featuredProfiles.push(users[userFeaturedAddress[i]]);
+      }
+    }
+
+    function modifyFeaturedProjects(uint[] memory projectIds) public payable restricted {
+      delete featuredProjects;
+
+      for (uint i = 0; i < 5; i++) {
+        featuredProjects.push(allProjects[projectIds[i]]);
       }
     }
 
