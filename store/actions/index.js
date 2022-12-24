@@ -6,7 +6,8 @@ import {
   UPDATE_PROFILE_SEARCH,
   GET_ADMIN_ROLE,
   UPDATE_PROFILE_SEARCH_REQUEST,
-  GET_PROJECTS
+  GET_PROJECTS,
+  APP_LOADED
 } from "./types";
 import users from "../../ethereum/users";
 
@@ -48,4 +49,8 @@ export const getAdminRole = () => dispatch => {
 
 export const retrieveProjects = (projects) => dispatch => {
   dispatch({ type: GET_PROJECTS, payload: projects });
+}
+
+export const appLoadedAction = () => dispatch => {
+  dispatch({ type: APP_LOADED });
 }

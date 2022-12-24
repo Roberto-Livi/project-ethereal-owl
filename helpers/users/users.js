@@ -131,3 +131,17 @@ export const getUsersProjects = async(address) => {
 
   return usersProjects;
 }
+
+export const getUserProject = async(walletAddress, id) => {
+  const project = await users.methods.allProjects(id).call();
+  const members = [];
+  const addresses = [];
+  for(let i = 0; i < project.membersCount; i++) {
+    let member = await users.methods.projectMembers(id, i).call();
+    members.push(member);
+    addresses.push(member.userAddress);
+  }
+
+  const projectData = { project, members, isMember: addresses.includes(walletAddress) };
+  return projectData;
+}

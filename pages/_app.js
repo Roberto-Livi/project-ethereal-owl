@@ -2,7 +2,7 @@ import {wrapper, store} from "../store/store";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import web3 from "../ethereum/web3";
-import { connectWallet, disconnect, getAdminRole } from "../store/actions";
+import { connectWallet, disconnect, getAdminRole, appLoadedAction } from "../store/actions";
 import users from "../ethereum/users";
 import { isAdmin } from "../helpers/users/users";
 import _ from "lodash";
@@ -36,10 +36,15 @@ const MyApp = ({ Component, pageProps }) => {
   const isUserConnected = async() => {
     if(_.isEmpty(walletAddress)) {
       const account = await web3.eth.getAccounts();
-      if(account[0] ){
+      if(account[0]){
         connect();
       }
     }
+    appLoaded();
+  }
+
+  const appLoaded = () => {
+    dispatch(appLoadedAction());
   }
 
   useEffect(() => {

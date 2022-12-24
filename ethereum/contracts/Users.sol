@@ -17,6 +17,7 @@ contract Users {
         string name;
         string mission;
         uint membersCount;
+        uint pendingRequests;
     }
 
     address public manager;
@@ -27,6 +28,7 @@ contract Users {
     mapping(address => User) public users;
     mapping(address => Project[]) public usersProjects;
     mapping(uint => User[]) public projectMembers;
+    mapping(uint => User[]) public projectPendingRequests;
     mapping(string => User) public getUserByCodename;
     mapping(string => uint) public profCount;
     mapping(address => bool) public walletRegistered;
@@ -93,6 +95,27 @@ contract Users {
         usersProjects[userAddress].push(project);
         projectMembers[projectsCount].push(user);
         projectsCount++;
+    }
+
+    function projectJoinRequest(address userAddress, uint projectId) public payable {
+      require(walletRegistered[userAddress]);
+      User storage user = users[userAddress];
+      Project storage project = allProjects[projectId];
+      project.pendingRequests++;
+      projectPendingRequests[projectId].push(user);
+    }
+
+    function answerJoinRequest(address userAddress, uint projectId, uint requestId, bool approved) public payable {
+      require(walletRegistered[userAddress]);
+      Project storage project = allProjects[projectId];
+      if(approved) {
+        User storage user = users[userAddress];
+        user.projectsInvolved++;
+        project.membersCount++;
+        projectMembers[projectId].push(user);
+      }
+      project.pendingRequests--;
+      delete projectPendingRequests[projectId][requestId];
     }
 
     function modifyFeaturedProfiles(address[] memory userFeaturedAddress) public payable restricted {

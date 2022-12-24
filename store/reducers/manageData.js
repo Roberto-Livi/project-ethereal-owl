@@ -6,11 +6,13 @@ import {
   UPDATE_PROFILE_SEARCH,
   GET_ADMIN_ROLE,
   UPDATE_PROFILE_SEARCH_REQUEST,
-  GET_PROJECTS
+  GET_PROJECTS,
+  APP_LOADED
 } from "../actions/types";
 
 const initialState = {
   admin: false,
+  appLoaded: false,
   connected: false,
   walletAddress: "",
   userInfo: null,
@@ -25,6 +27,8 @@ const initialState = {
 
 const manageData = (state = initialState, action) => {
   switch (action.type) {
+    case APP_LOADED:
+      return { ...state, appLoaded: true };
     case CONNECT_WALLET:
       return { ...state, connected: true, walletAddress: action.walletAddress, userInfo: action.userInfo };
     case DISCONNECT:

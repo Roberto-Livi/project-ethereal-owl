@@ -24,22 +24,22 @@ const UsersProjectsGroup = () => {
                 size="small"
                 src={`/images/default-user-pic-${getRandomNum(2)}.jpg`}
               />
-              <h1 style={{ textAlign: "center" }}>{project.name}</h1>
+              <h1>{project.name}</h1>
               <Card.Meta>Project Id: {project.id}</Card.Meta>
               <Card.Meta>Members: {project.membersCount}</Card.Meta>
               <Card.Description>{project.mission}</Card.Description>
             </Card.Content>
             <Card.Content extra>
               <div className="ui two buttons">
-                <Button basic color="green">
+                {/* <Button basic color="green">
                   + Recruit
-                </Button>
+                </Button> */}
                 <Button
                   basic
-                  color="blue"
+                  color="green"
                   onClick={() => Router.pushRoute(`/projects/${project.id}`)}
                 >
-                  Look at Profile
+                  Look at Project
                 </Button>
               </div>
             </Card.Content>

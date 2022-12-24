@@ -17,7 +17,7 @@ const UsersProjects = () => {
 
   const getProjects = async() => {
     const projects = await getUsersProjects(walletAddress);
-    if(!!projects) {
+    if(projects.length) {
       setRetrievedProjects(true);
       dispatch(retrieveProjects(projects));
     } else {
