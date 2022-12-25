@@ -1,23 +1,20 @@
 import React, { useState, useEffect} from "react";
 import { useSelector } from "react-redux";
 import Layout from "../components/utilities/Layout";
-import { getUserProject } from "../helpers/users/users";
-import { Button, Dimmer, Loader } from "semantic-ui-react";
+import { getProject } from "../helpers/users/users";
+import JoinRequest from "../components/projects/JoinRequest";
+import PendingRequests from "../components/projects/PendingRequests";
 
 
 const Project = ({ projectId }) => {
 
-  const [projectData, setProjectData] = useState({ projects: [], members: [], isMember: false});
+  const [projectData, setProjectData] = useState({ project: [], members: [], isMember: false, requests: [] });
 
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
 
   const getProjectData = async() => {
-    const data = await getUserProject(walletAddress, projectId);
+    const data = await getProject(walletAddress, projectId);
     setProjectData(data);
-  }
-
-  const joinRequest = () => {
-    // Make Request to join group
   }
 
   useEffect(() => {
@@ -28,15 +25,11 @@ const Project = ({ projectId }) => {
     <Layout>
       <h1>Project ID: {projectId}</h1>
       <ol>
-        {projectData.members.map((member) => (
-          <li>{member.codename}</li>
+        {projectData.members.map((member, index) => (
+          <li key={index}>{member.codename}</li>
         ))}
       </ol>
-      {!projectData.isMember && (
-        <Button color="violet" onClick={joinRequest}>
-          Request to Join
-        </Button>
-      )}
+      { projectData.isMember ? <PendingRequests projectId={projectId} requests={projectData.requests} /> : <JoinRequest projectId={projectId} /> }
     </Layout>
   );
 }

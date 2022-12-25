@@ -132,16 +132,75 @@ export const getUsersProjects = async(address) => {
   return usersProjects;
 }
 
-export const getUserProject = async(walletAddress, id) => {
+export const getProject = async(walletAddress, id) => {
   const project = await users.methods.allProjects(id).call();
   const members = [];
   const addresses = [];
+
   for(let i = 0; i < project.membersCount; i++) {
     let member = await users.methods.projectMembers(id, i).call();
     members.push(member);
     addresses.push(member.userAddress);
   }
 
-  const projectData = { project, members, isMember: addresses.includes(walletAddress) };
+  const pendingRequests = await getProjectPendingRequests(project);
+
+  const projectData = {
+    project,
+    members,
+    isMember: addresses.includes(walletAddress),
+    requests: pendingRequests
+  };
+
   return projectData;
+}
+
+const getProjectPendingRequests = async(project) => {
+  const pendingRequestsCount = project.pendingRequests;
+  const results = [];
+  let counter = 0;
+
+  while(results.length < pendingRequestsCount) {
+    let user = await users.methods.projectPendingRequests(project.id, counter).call();
+    if(!_.isEqual(user.codename, "")){
+      results.push({ user, requestId: counter });
+    }
+    counter++;
+  }
+
+  return results;
+}
+
+export const makeJoinRequest = async(walletAddress, projectId) => {
+  let successfulRequest = false;
+
+  try {
+    const accounts = await web3.eth.getAccounts();
+    await users.methods
+      .projectJoinRequest(walletAddress, projectId)
+      .send({
+        from: accounts[0],
+      });
+      successfulRequest = true;
+  } catch(err) {
+    console.log("Error: ", err.message);
+  }
+
+  return successfulRequest;
+}
+
+export const answerJoinRequest = async(userAddress, projectId, requestId, approved) => {
+  let successfulRequest = false;
+
+  try {
+    const accounts = await web3.eth.getAccounts();
+    await users.methods.answerJoinRequest(userAddress, projectId, requestId, approved).send({
+      from: accounts[0],
+    });
+    successfulRequest = true;
+  } catch(err) {
+    console.log("Error: ", err.message);
+  }
+
+  return successfulRequest;
 }
