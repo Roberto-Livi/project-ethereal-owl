@@ -6,6 +6,7 @@ import { connectWallet, disconnect, getAdminRole, appLoadedAction } from "../sto
 import users from "../ethereum/users";
 import { isAdmin } from "../helpers/users/users";
 import _ from "lodash";
+import axios from "axios";
 
 
 const MyApp = ({ Component, pageProps }) => {
