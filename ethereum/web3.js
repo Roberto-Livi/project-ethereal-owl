@@ -8,9 +8,7 @@ if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
   web3 = new Web3(window.ethereum);
 } else {
   // We are on the server *OR* the user is not running metamask
-  const provider = new Web3.providers.HttpProvider(
-    "https://rpc-mumbai.maticvigil.com/v1/8939996484b586d1abb6e52a4bf40ade5e71faa3"
-  );
+  const provider = new Web3.providers.HttpProvider(process.env.polygonMumbai);
   web3 = new Web3(provider);
 }
 

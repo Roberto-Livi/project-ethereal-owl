@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.17;
 
 contract Users {
 
@@ -111,6 +111,7 @@ contract Users {
       if(approved) {
         User storage user = users[userAddress];
         user.projectsInvolved++;
+        usersProjects[userAddress].push(project);
         project.membersCount++;
         projectMembers[projectId].push(user);
       }

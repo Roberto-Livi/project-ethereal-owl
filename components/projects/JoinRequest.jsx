@@ -7,22 +7,25 @@ import { makeJoinRequest } from "../../helpers/users/users";
 const JoinRequest = ({ projectId }) => {
 
   const [hideError, setHideError] = useState(true);
+  const [transactionPending, setTransactionPending] = useState(false);
 
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
   const userInfo = useSelector((state) => state.manageData.userInfo);
 
   const joinRequest = async() => {
+    setTransactionPending(true);
     if(userInfo) {
       await makeJoinRequest(walletAddress, projectId)
       setHideError(true);
     } else {
       setHideError(false);
     }
+    setTransactionPending(false);
   };
 
   return (
     <div>
-      <Button color="violet" onClick={joinRequest}>
+      <Button loading={transactionPending} color="violet" onClick={joinRequest}>
         Request to Join
       </Button>
       <Message hidden={hideError} negative>
