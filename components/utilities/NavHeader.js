@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Menu, Button } from "semantic-ui-react";
+import { Menu, Button, Label } from "semantic-ui-react";
 import { Link } from "../../routes";
 import { ROUTES } from "./constants";
 
@@ -29,11 +29,11 @@ const NavHeader = () => {
       <Link route="/">
         <a className="item">Zoukenverse</a>
       </Link>
-      { admin &&
+      {admin && (
         <Link route={ROUTES.ADMIN}>
           <a className="item">Admin</a>
         </Link>
-      }
+      )}
 
       <Menu.Menu position="right">
         <Link route={ROUTES.PROFILES}>
@@ -45,6 +45,13 @@ const NavHeader = () => {
         {walletConnected && (
           <Link route={ROUTES.PROJECTS}>
             <a className="item">+</a>
+          </Link>
+        )}
+        {walletConnected && (
+          <Link route={ROUTES.NOTIFICATIONS}>
+            <Menu.Item key="messages">
+              Messages<Label>15</Label>
+            </Menu.Item>
           </Link>
         )}
         <Menu.Item>

@@ -11,13 +11,17 @@ const Profile = (props) => {
 
   return (
     <Layout>
-      { userInfo ? <ProfileCard profileCardAddress={props.profileCardAddress} /> : <ProfileForm /> }
+      {userInfo ? (
+        <ProfileCard profileCardAddress={props.profileAddress} />
+      ) : (
+        <ProfileForm profileAddress={props.profileAddress} />
+      )}
     </Layout>
   );
 }
 
 Profile.getInitialProps = (props) => {
-  return { profileCardAddress: props.query.address };
+  return { profileAddress: props.query.address };
 };
 
 export default Profile;

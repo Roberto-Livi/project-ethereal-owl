@@ -195,6 +195,22 @@ export const answerJoinRequest = async(userAddress, projectId, requestId, approv
   try {
     const accounts = await web3.eth.getAccounts();
     await users.methods.answerJoinRequest(userAddress, projectId, requestId, approved).send({
+      from: accounts[0]
+    });
+    successfulRequest = true;
+  } catch(err) {
+    console.log("Error: ", err.message);
+  }
+
+  return successfulRequest;
+}
+
+export const updateUserWithMongoNotificationId = async(mongoId) => {
+  let successfulRequest = false;
+
+  try {
+    const accounts = await web3.eth.getAccounts();
+    await users.methods.subscribeToNotifications(mongoId).send({
       from: accounts[0],
     });
     successfulRequest = true;

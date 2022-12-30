@@ -21,12 +21,7 @@ export const disconnect = () => dispatch => {
 }
 
 export const updateUserInfo = (user) => async dispatch => {
-  const userData = await user;
-  dispatch({ type: UPDATE_USER_INFO, userInfo: {
-    codename: userData.codename,
-    profession: userData.profession,
-    description: userData.description
-  } });
+  dispatch({ type: UPDATE_USER_INFO, userInfo: user });
 }
 
 export const updateUserProfileCard = (address) => async dispatch => {
@@ -53,4 +48,8 @@ export const retrieveProjects = (projects) => dispatch => {
 
 export const appLoadedAction = () => dispatch => {
   dispatch({ type: APP_LOADED });
+}
+
+export const getMongoNotifications = () => dispatch => {
+  // dispatch({})
 }

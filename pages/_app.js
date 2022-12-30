@@ -6,7 +6,7 @@ import { connectWallet, disconnect, getAdminRole, appLoadedAction } from "../sto
 import users from "../ethereum/users";
 import { isAdmin } from "../helpers/users/users";
 import _ from "lodash";
-import axios from "axios";
+import { getUsersNotifications } from "../helpers/mongodb/NotificationCallCenter";
 
 
 const MyApp = ({ Component, pageProps }) => {
@@ -42,6 +42,10 @@ const MyApp = ({ Component, pageProps }) => {
       }
     }
     appLoaded();
+    // if(walletAddress) {
+    //   await getUsersNotifications(walletAddress);
+    // }
+    // await getUsersNotifications(walletAddress);
   }
 
   const appLoaded = () => {

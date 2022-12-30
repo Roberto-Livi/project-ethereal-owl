@@ -10,6 +10,7 @@ contract Users {
         string profession;
         string description;
         uint projectsInvolved;
+        string mongoNotificationsId;
     }
 
     struct Project {
@@ -57,6 +58,7 @@ contract Users {
       user.codename = cname;
       user.profession = prof;
       user.description = desc;
+      user.mongoNotificationsId = "0";
 
       users[userAddress] = user;
       getUserByCodename[cname] = user;
@@ -75,6 +77,13 @@ contract Users {
       u.profession = prof;
       u.description = desc;
 
+      allUsers[u.id] = u;
+    }
+
+    function subscribeToNotifications(string memory mongoId) public payable {
+      require(walletRegistered[msg.sender]);
+      User storage u = users[msg.sender];
+      u.mongoNotificationsId = mongoId;
       allUsers[u.id] = u;
     }
 

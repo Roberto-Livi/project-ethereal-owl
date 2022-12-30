@@ -22,7 +22,8 @@ const initialState = {
   profileSearch: {
     results: [],
     loading: false
-  }
+  },
+  mongoNotifications: null
 };
 
 const manageData = (state = initialState, action) => {
