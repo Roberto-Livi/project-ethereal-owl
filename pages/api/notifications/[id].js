@@ -12,11 +12,18 @@ export const getNotification = async(id) => {
 
 export default async(req, res) => {
   const { id } = req.query;
+  if (req.method === "PUT") {
+    const mongoClient = await clientPromise;
 
-  const data = await getNotification(new ObjectId(id));
+    const data = await mongoClient.db("MetaLiberation").collection("notifications").replaceOne({_id: new ObjectId(id)}, req.body);
 
-  if(!data) {
-    res.status(404).json("Notification not found");
+    return res.status(200).json(data);
+  } else {
+    const data = await getNotification(new ObjectId(id));
+
+    if (!data) {
+      res.status(404).json("Notification not found");
+    }
+    res.status(200).json({ notification: data });
   }
-  res.status(200).json({ notification: data });
 }
