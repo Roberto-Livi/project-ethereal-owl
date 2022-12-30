@@ -2,10 +2,26 @@ import clientPromise from "../../../lib/mongodb";
 
 export default async (req, res) => {
   try {
-    const mongoClient = await clientPromise;
+    if(req.method === "PUT") {
+      const { id } = req.query;
+      const mongoClient = await clientPromise;
 
-    const data = await mongoClient.db("MetaLiberation").collection("notifications").find().toArray();
-    res.status(200).json({ notifications: JSON.parse(JSON.stringify(data)) });
+      const data = await mongoClient
+        .db("MetaLiberation")
+        .collection("notifications")
+        .replaceOne({ _id: id }, req.body);
+
+      return res.status(200).json(data);
+    } else {
+      const mongoClient = await clientPromise;
+
+      const data = await mongoClient
+        .db("MetaLiberation")
+        .collection("notifications")
+        .find()
+        .toArray();
+      res.status(200).json({ notifications: JSON.parse(JSON.stringify(data)) });
+    }
   } catch(err) {
     console.log(err.message);
   }
