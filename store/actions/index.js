@@ -7,7 +7,7 @@ import {
   GET_ADMIN_ROLE,
   UPDATE_PROFILE_SEARCH_REQUEST,
   GET_PROJECTS,
-  APP_LOADED
+  UPLOAD_MONGO_NOTIFICATIONS
 } from "./types";
 import users from "../../ethereum/users";
 
@@ -46,10 +46,6 @@ export const retrieveProjects = (projects) => dispatch => {
   dispatch({ type: GET_PROJECTS, payload: projects });
 }
 
-export const appLoadedAction = () => dispatch => {
-  dispatch({ type: APP_LOADED });
-}
-
-export const getMongoNotifications = () => dispatch => {
-  // dispatch({})
+export const uploadMongoNotifications = (data) => dispatch => {
+  dispatch({ type: UPLOAD_MONGO_NOTIFICATIONS, payload: data });
 }

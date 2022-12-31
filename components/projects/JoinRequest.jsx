@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Button, Message } from "semantic-ui-react";
+import { addNotification } from "../../helpers/mongodb/NotificationCallCenter";
 import { makeJoinRequest } from "../../helpers/users/users";
 
 
@@ -15,8 +16,11 @@ const JoinRequest = ({ projectId }) => {
   const joinRequest = async() => {
     setTransactionPending(true);
     if(userInfo) {
-      await makeJoinRequest(walletAddress, projectId)
+      const resp = await makeJoinRequest(walletAddress, projectId)
       setHideError(true);
+      // if(resp) {
+      //   addNotification();
+      // }
     } else {
       setHideError(false);
     }

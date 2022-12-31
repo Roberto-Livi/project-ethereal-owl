@@ -2,7 +2,7 @@ import {wrapper, store} from "../store/store";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import web3 from "../ethereum/web3";
-import { connectWallet, disconnect, getAdminRole, appLoadedAction } from "../store/actions";
+import { connectWallet, disconnect, getAdminRole, uploadMongoNotifications } from "../store/actions";
 import users from "../ethereum/users";
 import { isAdmin } from "../helpers/users/users";
 import _ from "lodash";
@@ -14,6 +14,7 @@ const MyApp = ({ Component, pageProps }) => {
   const dispatch = useDispatch();
 
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
+  const userInfo = useSelector((state) => state.manageData.userInfo);
 
   const connect = async () => {
     const account = await web3.eth.getAccounts();
@@ -24,6 +25,7 @@ const MyApp = ({ Component, pageProps }) => {
         dispatch(getAdminRole());
       }
       dispatch(connectWallet(account[0], user));
+      uploadMongoNotifs(user);
     } else if(account.length) {
       if (adminAccess) {
         dispatch(getAdminRole());
@@ -34,6 +36,15 @@ const MyApp = ({ Component, pageProps }) => {
     }
   }
 
+  const uploadMongoNotifs = async(user) => {
+    if(user.userAddress && user.mongoNotificationsId !== "0") {
+      const resp = await getUsersNotifications(user.mongoNotificationsId);
+      if (resp.successfulResponse) {
+        dispatch(uploadMongoNotifications(resp.data));
+      }
+    }
+  }
+
   const isUserConnected = async() => {
     if(_.isEmpty(walletAddress)) {
       const account = await web3.eth.getAccounts();
@@ -41,15 +52,6 @@ const MyApp = ({ Component, pageProps }) => {
         connect();
       }
     }
-    appLoaded();
-    // if(walletAddress) {
-    //   await getUsersNotifications(walletAddress);
-    // }
-    // await getUsersNotifications(walletAddress);
-  }
-
-  const appLoaded = () => {
-    dispatch(appLoadedAction());
   }
 
   useEffect(() => {

@@ -7,12 +7,11 @@ import {
   GET_ADMIN_ROLE,
   UPDATE_PROFILE_SEARCH_REQUEST,
   GET_PROJECTS,
-  APP_LOADED
+  UPLOAD_MONGO_NOTIFICATIONS
 } from "../actions/types";
 
 const initialState = {
   admin: false,
-  appLoaded: false,
   connected: false,
   walletAddress: "",
   userInfo: null,
@@ -28,8 +27,6 @@ const initialState = {
 
 const manageData = (state = initialState, action) => {
   switch (action.type) {
-    case APP_LOADED:
-      return { ...state, appLoaded: true };
     case CONNECT_WALLET:
       return { ...state, connected: true, walletAddress: action.walletAddress, userInfo: action.userInfo };
     case DISCONNECT:
@@ -46,6 +43,8 @@ const manageData = (state = initialState, action) => {
       return { ...state, profileSearch: action.payload };
     case GET_PROJECTS:
       return { ...state, projects: action.payload };
+    case UPLOAD_MONGO_NOTIFICATIONS:
+      return { ...state, mongoNotifications: action.payload };
     default:
       return state;
   }
