@@ -12,14 +12,19 @@ const JoinRequest = ({ projectId }) => {
 
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
   const userInfo = useSelector((state) => state.manageData.userInfo);
+  const mongoNotifications = useSelector((state) => state.manageData.mongoNotifications);
 
   const joinRequest = async() => {
     setTransactionPending(true);
     if(userInfo) {
-      const resp = await makeJoinRequest(walletAddress, projectId)
+      const resp = await makeJoinRequest(walletAddress, projectId);
       setHideError(true);
-      // if(resp) {
-      //   addNotification();
+      // if(resp && userInfo.mongoNotificationsId !== "0") {
+      //   const notification = {
+      //     message: "first notification testing"
+      //   }
+      //   const updated = [...mongoNotifications, notification];
+      //   addNotification(userInfo.mongoNotificationsId, updated);
       // }
     } else {
       setHideError(false);

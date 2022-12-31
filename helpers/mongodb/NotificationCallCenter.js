@@ -23,7 +23,7 @@ export const addNotification = async(mongoId, notifications) => {
   let successfulResponse = false;
 
   try {
-    await axios.put(`${localUrl}/api/notifications/${mongoId}`, notifications);
+    await axios.put(`${localUrl}/api/notifications/${mongoId}`, { notifications });
     successfulResponse = true;
   } catch(err) {
     console.log("Error: ", err.message);
