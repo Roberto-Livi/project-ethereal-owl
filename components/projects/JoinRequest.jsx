@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Button, Message } from "semantic-ui-react";
 import { addNotification } from "../../helpers/mongodb/NotificationCallCenter";
-import { makeJoinRequest } from "../../helpers/users/users";
+import { makeJoinRequest, getPendingRequestsAfterJoinRequest } from "../../helpers/users/users";
 import _ from "lodash";
 import { getUsersNotifications } from "../../helpers/mongodb/NotificationCallCenter";
 import ModalMessage from "../utilities/ModalMessage";
@@ -49,16 +49,21 @@ const JoinRequest = ({ projectData, projectId }) => {
     })
   }
 
-  const isRequestPending = () => {
-    const pending = projectData.requests.some((request) => _.isEqual(request.user.userAddress, userInfo.userAddress))
-    if(pending){
-      setRequestButton({ label: "Request Pending", disabled: true });
+  const isRequestPending = async() => {
+    if(userInfo) {
+      const resp = await getPendingRequestsAfterJoinRequest(projectData.project.id);
+      const pending = await resp.some((request) =>
+        _.isEqual(request.user.userAddress, userInfo.userAddress)
+      );
+      if (pending) {
+        setRequestButton({ label: "Request Pending", disabled: true });
+      }
     }
   }
 
   useEffect(() => {
     isRequestPending();
-  }, []);
+  }, [userInfo, projectData.project, projectData.isMember]);
 
   return (
     <div>
@@ -73,7 +78,7 @@ const JoinRequest = ({ projectData, projectId }) => {
       />
       <Message hidden={hideError} negative>
         <Message.Header>Unable to send request</Message.Header>
-        <p>Please connect your wallet</p>
+        <p>Please connect your wallet or create a user profile</p>
       </Message>
     </div>
   );

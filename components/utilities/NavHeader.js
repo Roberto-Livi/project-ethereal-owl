@@ -11,6 +11,7 @@ const NavHeader = () => {
   const address = useSelector((state) => state.manageData.walletAddress);
   const admin = useSelector((state) => state.manageData.admin);
   const walletConnected = useSelector((state) => state.manageData.connected);
+  const userInfo = useSelector((state) => state.manageData.userInfo);
 
   const onClickConnect = async () => {
     try {
@@ -42,12 +43,12 @@ const NavHeader = () => {
         <Link route={ROUTES.PROJECTS}>
           <a className="item">Projects</a>
         </Link>
-        {walletConnected && (
+        {/* {walletConnected && (
           <Link route={ROUTES.PROJECTS}>
             <a className="item">+</a>
           </Link>
-        )}
-        {walletConnected && (
+        )} */}
+        {userInfo && (
           <Link route={ROUTES.NOTIFICATIONS}>
             <Menu.Item key="messages">
               Messages<Label>15</Label>

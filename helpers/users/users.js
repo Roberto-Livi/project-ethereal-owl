@@ -149,7 +149,8 @@ export const getProject = async(walletAddress, id) => {
     project,
     members,
     isMember: addresses.includes(walletAddress),
-    requests: pendingRequests
+    requests: pendingRequests,
+    loaded: true
   };
 
   return projectData;
@@ -169,6 +170,21 @@ const getProjectPendingRequests = async(project) => {
   }
 
   return results;
+}
+
+export const getPendingRequestsAfterJoinRequest = async(projectId) => {
+  let successfulResponse = false;
+  let updatedRequests;
+
+  try {
+    const project = await users.methods.allProjects(projectId).call();
+    updatedRequests = await getProjectPendingRequests(project);
+    successfulResponse = true;
+  } catch(err) {
+    console.log("Error: ", err.message);
+  }
+
+  return successfulResponse ? updatedRequests : successfulResponse;
 }
 
 export const makeJoinRequest = async(walletAddress, projectId) => {

@@ -8,7 +8,7 @@ import PendingRequests from "../components/projects/PendingRequests";
 
 const Project = ({ projectId }) => {
 
-  const [projectData, setProjectData] = useState({ project: [], members: [], isMember: false, requests: [] });
+  const [projectData, setProjectData] = useState({ project: [], members: [], isMember: false, requests: [], loaded: false });
 
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
 
@@ -24,13 +24,13 @@ const Project = ({ projectId }) => {
   return (
     <Layout>
       <h1>Project ID: {projectId}</h1>
-      {console.log(projectData)}
       <ol>
         {projectData.members.map((member, index) => (
           <li key={index}>{member.codename}</li>
         ))}
       </ol>
-      {projectData.isMember ? (
+      { projectData.loaded && (
+        projectData.isMember ? (
         <PendingRequests
           projectId={projectId}
           requests={projectData.requests}
@@ -40,7 +40,8 @@ const Project = ({ projectId }) => {
           projectId={projectId}
           projectData={projectData}
         />
-      )}
+      ))
+      }
     </Layout>
   );
 }
