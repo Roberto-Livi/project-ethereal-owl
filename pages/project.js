@@ -24,12 +24,23 @@ const Project = ({ projectId }) => {
   return (
     <Layout>
       <h1>Project ID: {projectId}</h1>
+      {console.log(projectData)}
       <ol>
         {projectData.members.map((member, index) => (
           <li key={index}>{member.codename}</li>
         ))}
       </ol>
-      { projectData.isMember ? <PendingRequests projectId={projectId} requests={projectData.requests} /> : <JoinRequest projectId={projectId} /> }
+      {projectData.isMember ? (
+        <PendingRequests
+          projectId={projectId}
+          requests={projectData.requests}
+        />
+      ) : (
+        <JoinRequest
+          projectId={projectId}
+          projectData={projectData}
+        />
+      )}
     </Layout>
   );
 }
