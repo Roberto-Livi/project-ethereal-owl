@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "semantic-ui-react";
 import { createMongoDataObj } from "../../helpers/mongodb/NotificationCallCenter";
-import { getUserData } from "../../helpers/users/users";
-import { updateUserInfo } from "../../store/actions";
+import { getUserData, getUsersNotifications } from "../../helpers/users/users";
+import { updateUserInfo, uploadMongoNotifications } from "../../store/actions";
 
 
 const Subscribe = () => {
@@ -20,8 +20,18 @@ const Subscribe = () => {
     if(response) {
       const user = await getUserData();
       dispatch(updateUserInfo(user));
+      updateMongoNotifs(user);
     }
     setTransactionPending(false);
+  }
+
+  const updateMongoNotifs = async (user) => {
+    if (user.userAddress && user.mongoNotificationsId !== "0") {
+      const resp = await getUsersNotifications(user.mongoNotificationsId);
+      if (resp.successfulResponse) {
+        dispatch(uploadMongoNotifications(resp.data));
+      }
+    }
   }
 
   return (

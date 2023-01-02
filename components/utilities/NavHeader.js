@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import _ from "lodash";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Menu, Button, Label } from "semantic-ui-react";
 import { Link } from "../../routes";
@@ -7,6 +8,7 @@ import { ROUTES } from "./constants";
 const NavHeader = () => {
 
   const [connecting, setConnecting] = useState(false);
+  const [notificationsCount, setNotificationsCount] = useState("0");
 
   const address = useSelector((state) => state.manageData.walletAddress);
   const admin = useSelector((state) => state.manageData.admin);
@@ -28,6 +30,16 @@ const NavHeader = () => {
     }
     setConnecting(false);
   };
+
+  // const setMessageCount = async() => {
+  //   await setNotificationsCount(mongoClient.notifications.length);
+  // }
+
+  // useEffect(() => {
+  //   if(mongoClient) {
+  //     setMessageCount();
+  //   }
+  // }, [mongoClient]);
 
   return (
     <Menu style={{ marginTop: "10px" }}>
@@ -52,10 +64,10 @@ const NavHeader = () => {
             <a className="item">+</a>
           </Link>
         )} */}
-        {(userInfo && mongoClient) && (
+        {userInfo && (
           <Link route={ROUTES.NOTIFICATIONS}>
             <Menu.Item key="messages">
-              Messages<Label>{mongoClient.notifications.length}</Label>
+              Messages<Label>{_.isNull(mongoClient) ? "0" : mongoClient.notifications.length}</Label>
             </Menu.Item>
           </Link>
         )}

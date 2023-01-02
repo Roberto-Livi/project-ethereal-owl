@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Table, Menu, Label, Icon } from "semantic-ui-react";
+import _ from "lodash";
 
 
 const Notifications = () => {
 
+  const [notifications, setNotifications] = useState([]);
+
   const mongoClient = useSelector((state) => state.manageData.mongoNotifications);
+
+  useEffect(() => {
+    if(!_.isNull(mongoClient)) {
+      setNotifications(mongoClient.notifications);
+    }
+  }, [mongoClient]);
 
   return (
     <div>
@@ -17,8 +26,8 @@ const Notifications = () => {
         </Table.Header>
 
         <Table.Body>
-          {mongoClient.notifications.map((notification) => (
-            <Table.Row>
+          {notifications.map((notification, idx) => (
+            <Table.Row key={idx}>
               <Table.Cell>
                 <Label ribbon>{notification.message}</Label>
               </Table.Cell>

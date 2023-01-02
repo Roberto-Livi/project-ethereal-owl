@@ -13,7 +13,7 @@ const NotificationCenter = () => {
   const userInfo = useSelector((state) => state.manageData.userInfo);
 
   const verifyAccess = () => {
-    if (!walletAddress) {
+    if (!walletAddress || !userInfo) {
       Router.pushRoute(ROUTES.ENTRY);
     } else {
       setAccess(true);
@@ -26,7 +26,7 @@ const NotificationCenter = () => {
 
   return (
     <div>
-      {access && (
+      {(access && userInfo) && (
         <Layout>
           <h1>Notification Center</h1>
           <NotificationManager />
