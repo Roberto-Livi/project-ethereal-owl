@@ -32,8 +32,25 @@ export const addNotification = async(mongoId, notifications) => {
   return successfulResponse;
 }
 
-export const createMongoDataObj = async() => {
-  const response = await axios.post(`${localUrl}/api/notifications/new`, { notifications: [] });
-  const transaction = await updateUserWithMongoNotificationId(response.data);
+export const createMongoDataObj = async(user) => {
+  let transaction;
+
+  try {
+    const response = await axios.post(`${localUrl}/api/notifications/new`, {
+      walletAddress: user.userAddress,
+      codename: user.codename,
+      notifications: [
+        {
+          message:
+            "You have successfully subscribed to receiving notifications",
+        },
+      ],
+    });
+    transaction = await updateUserWithMongoNotificationId(response.data);
+  } catch(err) {
+    console.log("Error: ", err.message);
+    transaction = false;
+  }
+
   return transaction;
 }

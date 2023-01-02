@@ -50,7 +50,7 @@ const JoinRequest = ({ projectData, projectId }) => {
   }
 
   const isRequestPending = async() => {
-    if(userInfo) {
+    if(userInfo && !projectData.isMember) {
       const resp = await getPendingRequestsAfterJoinRequest(projectData.project.id);
       const pending = await resp.some((request) =>
         _.isEqual(request.user.userAddress, userInfo.userAddress)

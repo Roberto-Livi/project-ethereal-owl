@@ -1,5 +1,5 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "semantic-ui-react";
 import { createMongoDataObj } from "../../helpers/mongodb/NotificationCallCenter";
 import { getUserData } from "../../helpers/users/users";
@@ -10,17 +10,23 @@ const Subscribe = () => {
 
   const dispatch = useDispatch();
 
+  const [transactionPending, setTransactionPending] = useState(false);
+
+  const userInfo = useSelector((state) => state.manageData.userInfo);
+
   const onClickHandle = async() => {
-    const response = await createMongoDataObj();
+    setTransactionPending(true);
+    const response = await createMongoDataObj(userInfo);
     if(response) {
       const user = await getUserData();
       dispatch(updateUserInfo(user));
     }
+    setTransactionPending(false);
   }
 
   return (
     <div>
-      <Button onClick={onClickHandle}>
+      <Button loading={transactionPending} onClick={onClickHandle}>
         Subscribe to Notifications
       </Button>
     </div>

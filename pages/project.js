@@ -33,7 +33,7 @@ const Project = ({ projectId }) => {
         projectData.isMember ? (
         <PendingRequests
           projectId={projectId}
-          requests={projectData.requests}
+          projectData={projectData}
         />
       ) : (
         <JoinRequest
