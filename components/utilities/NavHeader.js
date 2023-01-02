@@ -13,6 +13,10 @@ const NavHeader = () => {
   const walletConnected = useSelector((state) => state.manageData.connected);
   const userInfo = useSelector((state) => state.manageData.userInfo);
 
+  const mongoClient = useSelector(
+    (state) => state.manageData.mongoNotifications
+  );
+
   const onClickConnect = async () => {
     try {
       setConnecting(true);
@@ -48,10 +52,10 @@ const NavHeader = () => {
             <a className="item">+</a>
           </Link>
         )} */}
-        {userInfo && (
+        {(userInfo && mongoClient) && (
           <Link route={ROUTES.NOTIFICATIONS}>
             <Menu.Item key="messages">
-              Messages<Label>15</Label>
+              Messages<Label>{mongoClient.notifications.length}</Label>
             </Menu.Item>
           </Link>
         )}
