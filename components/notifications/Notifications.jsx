@@ -5,7 +5,7 @@ import { Table, Menu, Label, Icon } from "semantic-ui-react";
 
 const Notifications = () => {
 
-  const notifications = useSelector((state) => state.manageData.mongoNotifications);
+  const mongoClient = useSelector((state) => state.manageData.mongoNotifications);
 
   return (
     <div>
@@ -17,11 +17,13 @@ const Notifications = () => {
         </Table.Header>
 
         <Table.Body>
-          <Table.Row>
-            <Table.Cell>
-              <Label ribbon>First Notification testing testing</Label>
-            </Table.Cell>
-          </Table.Row>
+          {mongoClient.notifications.map((notification) => (
+            <Table.Row>
+              <Table.Cell>
+                <Label ribbon>{notification.message}</Label>
+              </Table.Cell>
+            </Table.Row>
+          ))}
         </Table.Body>
 
         <Table.Footer>

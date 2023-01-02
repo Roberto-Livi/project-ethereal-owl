@@ -4,7 +4,7 @@ import { answerJoinRequest, getPendingRequestsAfterJoinRequest } from "../../hel
 import { Button } from "semantic-ui-react";
 import { addNotification, getUsersNotifications } from "../../helpers/mongodb/NotificationCallCenter";
 import ModalMessage from "../utilities/ModalMessage";
-import _, { update } from "lodash";
+import _ from "lodash";
 
 
 const PendingRequests = ({ projectData, projectId }) => {
