@@ -10,7 +10,7 @@ export const getUsersNotifications = async(mongoId) => {
 
   try {
     const resp = await axios.get(`${localUrl}/api/notifications/${mongoId}`);
-    data = resp.data.notification.notifications;
+    data = resp.data.notification;
     successfulResponse = true;
   } catch(err) {
     console.log("Error: ", err.message);
@@ -19,11 +19,11 @@ export const getUsersNotifications = async(mongoId) => {
   return { data, successfulResponse};
 }
 
-export const addNotification = async(mongoId, notifications) => {
+export const addNotification = async(mongoId, updatedUser) => {
   let successfulResponse = false;
 
   try {
-    await axios.put(`${localUrl}/api/notifications/${mongoId}`, { notifications });
+    await axios.put(`${localUrl}/api/notifications/${mongoId}`, updatedUser);
     successfulResponse = true;
   } catch(err) {
     console.log("Error: ", err.message);

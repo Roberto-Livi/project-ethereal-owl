@@ -4,7 +4,7 @@ import { answerJoinRequest, getPendingRequestsAfterJoinRequest } from "../../hel
 import { Button } from "semantic-ui-react";
 import { addNotification, getUsersNotifications } from "../../helpers/mongodb/NotificationCallCenter";
 import ModalMessage from "../utilities/ModalMessage";
-import _ from "lodash";
+import _, { update } from "lodash";
 
 
 const PendingRequests = ({ projectData, projectId }) => {
@@ -36,8 +36,12 @@ const PendingRequests = ({ projectData, projectId }) => {
       const notification = {
         message: `${userInfo.codename} has ${approvedMessage} your request to join ${projectData.project.name}`
       };
-      const updatedNotifications = [notification, ...mongoUser.data];
-      addNotification(mongoId, updatedNotifications);
+      const updatedUser = {
+        userAddress: mongoUser.data.userAddress,
+        codename: mongoUser.data.codename,
+        notifications: [notification, ...mongoUser.data.notifications],
+      };
+      addNotification(mongoId, updatedUser);
     }
   }
 

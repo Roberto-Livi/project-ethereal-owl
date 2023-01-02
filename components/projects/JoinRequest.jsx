@@ -42,8 +42,11 @@ const JoinRequest = ({ projectData, projectId }) => {
           const notification = {
             message: `${userInfo.codename} has requested to join ${projectData.project.name}`,
           };
-          const updatedNotifications = [notification, ...mongoUser.data];
-          addNotification(member.mongoNotificationsId, updatedNotifications);
+          const updatedUser = {
+            userAddress: mongoUser.data.userAddress,
+            codename: mongoUser.data.codename,
+            notifications: [notification, ...mongoUser.data.notifications]};
+          addNotification(member.mongoNotificationsId, updatedUser);
         }
       }
     })

@@ -9,8 +9,16 @@ export const getAccount = async () => {
 }
 
 export const getUserData = async () => {
-  const account = await web3.eth.getAccounts();
-  const user = account.length && (await users.methods.users(account[0]).call());
+  let user;
+
+  try {
+    const account = await web3.eth.getAccounts();
+    user = account.length && (await users.methods.users(account[0]).call());
+  } catch(err) {
+    console.log("Error: ", err.message);
+    user = false;
+  }
+
   return user;
 }
 
