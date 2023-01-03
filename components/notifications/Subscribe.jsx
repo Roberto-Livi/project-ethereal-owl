@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "semantic-ui-react";
-import { createMongoDataObj } from "../../helpers/mongodb/NotificationCallCenter";
-import { getUserData, getUsersNotifications } from "../../helpers/users/users";
+import { createMongoDataObj, getUsersNotifications } from "../../helpers/mongodb/NotificationCallCenter";
+import { getUserData } from "../../helpers/users/users";
 import { updateUserInfo, uploadMongoNotifications } from "../../store/actions";
 
 

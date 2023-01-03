@@ -3,8 +3,6 @@ import { useSelector } from "react-redux";
 import _ from "lodash";
 import Subscribe from "./Subscribe";
 import Notifications from "./Notifications";
-import {Router} from "../../routes";
-import { ROUTES } from "../utilities/constants";
 
 
 const NotificationManager = () => {
