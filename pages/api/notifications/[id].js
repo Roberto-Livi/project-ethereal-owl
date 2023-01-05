@@ -15,7 +15,10 @@ export default async(req, res) => {
   if (req.method === "PUT") {
     const mongoClient = await clientPromise;
 
-    const data = await mongoClient.db("MetaLiberation").collection("notifications").replaceOne({_id: new ObjectId(id)}, req.body);
+    const data = await mongoClient
+      .db("MetaLiberation")
+      .collection("notifications")
+      .updateOne({ _id: new ObjectId(id) }, { $set: { notifications: req.body.notifications } });
 
     return res.status(200).json(data);
   } else {

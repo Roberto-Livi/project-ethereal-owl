@@ -38,7 +38,7 @@ const Notifications = () => {
         <Table.Footer>
           <Table.Row>
             <Table.HeaderCell colSpan="3">
-              <Menu floated="right" pagination>
+              {/* <Menu floated="right" pagination>
                 <Menu.Item as="a" icon>
                   <Icon name="chevron left" />
                 </Menu.Item>
@@ -49,7 +49,7 @@ const Notifications = () => {
                 <Menu.Item as="a" icon>
                   <Icon name="chevron right" />
                 </Menu.Item>
-              </Menu>
+              </Menu> */}
             </Table.HeaderCell>
           </Table.Row>
         </Table.Footer>

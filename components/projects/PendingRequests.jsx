@@ -37,8 +37,6 @@ const PendingRequests = ({ projectData, projectId }) => {
         message: `${userInfo.codename} has ${approvedMessage} your request to join ${projectData.project.name}`
       };
       const updatedUser = {
-        walletAddress: mongoUser.data.walletAddress,
-        codename: mongoUser.data.codename,
         notifications: [notification, ...mongoUser.data.notifications],
       };
       addNotification(mongoId, updatedUser);
