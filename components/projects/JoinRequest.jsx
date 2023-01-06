@@ -41,6 +41,7 @@ const JoinRequest = ({ projectData, projectId }) => {
         if(mongoUser.successfulResponse) {
           const notification = {
             message: `${userInfo.codename} has requested to join ${projectData.project.name}`,
+            seen: false
           };
           const updatedUser = {
             notifications: [notification, ...mongoUser.data.notifications]

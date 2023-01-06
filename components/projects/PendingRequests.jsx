@@ -34,7 +34,8 @@ const PendingRequests = ({ projectData, projectId }) => {
     const mongoUser = await getUsersNotifications(mongoId);
     if(mongoUser.successfulResponse) {
       const notification = {
-        message: `${userInfo.codename} has ${approvedMessage} your request to join ${projectData.project.name}`
+        message: `${userInfo.codename} has ${approvedMessage} your request to join ${projectData.project.name}`,
+        seen: false
       };
       const updatedUser = {
         notifications: [notification, ...mongoUser.data.notifications],

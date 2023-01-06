@@ -67,7 +67,7 @@ const NavHeader = () => {
         {userInfo && (
           <Link route={ROUTES.NOTIFICATIONS}>
             <Menu.Item key="messages">
-              Messages<Label>{_.isNull(mongoClient) ? "0" : mongoClient.notifications.length}</Label>
+              Messages<Label color={"violet"}>{_.isNull(mongoClient) ? "0" : mongoClient.notifications.length}</Label>
             </Menu.Item>
           </Link>
         )}
