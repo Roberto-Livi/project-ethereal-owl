@@ -114,12 +114,21 @@ export const getFeaturedUsers = async() => {
 }
 
 export const createProject = async(address, projectName, projectMission) => {
-  const accounts = await web3.eth.getAccounts();
-  await users.methods
-    .createProject(address, projectName, projectMission)
-    .send({
-      from: accounts[0]
-    });
+  let successfulResponse = false;
+
+  try {
+    const accounts = await web3.eth.getAccounts();
+    await users.methods
+      .createProject(address, projectName, projectMission)
+      .send({
+        from: accounts[0],
+      });
+    successfulResponse = true;
+  } catch(err) {
+    console.log("Error: ", err.message);
+  }
+
+  return successfulResponse;
 }
 
 export const getUsersProjects = async(address) => {

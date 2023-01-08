@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { Table, Menu, Label, Icon } from "semantic-ui-react";
+import { useSelector, useDispatch } from "react-redux";
+import { Table, Menu, Label } from "semantic-ui-react";
 import _ from "lodash";
+import { updateNotification } from "../../helpers/mongodb/NotificationCallCenter";
 
 
 const Notifications = () => {
@@ -16,6 +17,8 @@ const Notifications = () => {
     const start = startingNumber * 10;
     const end = start + 10;
     setDisplayed(mongoClient.notifications.slice(start, end));
+    mongoClient.notifications.slice(start, end).forEach((n) => (n.seen = true));
+    updateNotification(mongoClient._id, { notifications: mongoClient.notifications });
   }
 
   const displayPagination = () => {

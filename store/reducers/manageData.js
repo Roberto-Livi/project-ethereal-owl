@@ -7,7 +7,8 @@ import {
   GET_ADMIN_ROLE,
   UPDATE_PROFILE_SEARCH_REQUEST,
   GET_PROJECTS,
-  UPLOAD_MONGO_NOTIFICATIONS
+  UPLOAD_MONGO_NOTIFICATIONS,
+  UPDATE_UNREAD_NOTIFICATIONS_COUNT
 } from "../actions/types";
 
 const initialState = {
@@ -22,7 +23,8 @@ const initialState = {
     results: [],
     loading: false
   },
-  mongoNotifications: null
+  mongoNotifications: null,
+  notificationsUnread: 0
 };
 
 const manageData = (state = initialState, action) => {
@@ -45,6 +47,8 @@ const manageData = (state = initialState, action) => {
       return { ...state, projects: action.payload };
     case UPLOAD_MONGO_NOTIFICATIONS:
       return { ...state, mongoNotifications: action.payload };
+    case UPDATE_UNREAD_NOTIFICATIONS_COUNT:
+      return { ...state, notificationsUnread: action.payload };
     default:
       return state;
   }

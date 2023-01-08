@@ -1,19 +1,22 @@
-import _ from "lodash";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Menu, Button, Label } from "semantic-ui-react";
 import { Link } from "../../routes";
 import { ROUTES } from "./constants";
+import _ from "lodash";
+import { updateUnreadNotifications } from "../../store/actions";
 
 const NavHeader = () => {
 
+  const dispatch = useDispatch();
+
   const [connecting, setConnecting] = useState(false);
-  const [notificationsCount, setNotificationsCount] = useState("0");
 
   const address = useSelector((state) => state.manageData.walletAddress);
   const admin = useSelector((state) => state.manageData.admin);
   const walletConnected = useSelector((state) => state.manageData.connected);
   const userInfo = useSelector((state) => state.manageData.userInfo);
+  const notificationsUnread = useSelector((state) => state.manageData.notificationsUnread);
 
   const mongoClient = useSelector(
     (state) => state.manageData.mongoNotifications
@@ -31,15 +34,25 @@ const NavHeader = () => {
     setConnecting(false);
   };
 
+  const notificationsUnreadCount = () => {
+    let count = 0;
+
+    if(mongoClient) {
+      const unreadFiltered = mongoClient.notifications.filter((n) => _.isEqual(n.seen, false));
+      count = unreadFiltered.length;
+    }
+
+    dispatch(updateUnreadNotifications(count));
+  }
   // const setMessageCount = async() => {
   //   await setNotificationsCount(mongoClient.notifications.length);
   // }
 
-  // useEffect(() => {
-  //   if(mongoClient) {
-  //     setMessageCount();
-  //   }
-  // }, [mongoClient]);
+  useEffect(() => {
+    if(mongoClient) {
+      notificationsUnreadCount();
+    }
+  }, [notificationsUnread]);
 
   return (
     <Menu style={{ marginTop: "10px" }}>
@@ -67,7 +80,7 @@ const NavHeader = () => {
         {userInfo && (
           <Link route={ROUTES.NOTIFICATIONS}>
             <Menu.Item key="messages">
-              Messages<Label color={"violet"}>{_.isNull(mongoClient) ? "0" : mongoClient.notifications.length}</Label>
+              Messages<Label color={"violet"}>{_.isNull(mongoClient) ? "0" : notificationsUnread}</Label>
             </Menu.Item>
           </Link>
         )}

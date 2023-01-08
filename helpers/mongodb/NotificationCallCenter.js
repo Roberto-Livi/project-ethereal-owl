@@ -19,7 +19,7 @@ export const getUsersNotifications = async(mongoId) => {
   return { data, successfulResponse};
 }
 
-export const addNotification = async(mongoId, updatedUser) => {
+export const updateNotification = async(mongoId, updatedUser) => {
   let successfulResponse = false;
 
   try {
@@ -31,6 +31,8 @@ export const addNotification = async(mongoId, updatedUser) => {
 
   return successfulResponse;
 }
+
+
 
 export const createMongoDataObj = async(user) => {
   let transaction;

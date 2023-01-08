@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Button, Message } from "semantic-ui-react";
-import { addNotification } from "../../helpers/mongodb/NotificationCallCenter";
+import { updateNotification } from "../../helpers/mongodb/NotificationCallCenter";
 import { makeJoinRequest, getPendingRequestsAfterJoinRequest } from "../../helpers/users/users";
 import _ from "lodash";
 import { getUsersNotifications } from "../../helpers/mongodb/NotificationCallCenter";
@@ -46,7 +46,7 @@ const JoinRequest = ({ projectData, projectId }) => {
           const updatedUser = {
             notifications: [notification, ...mongoUser.data.notifications]
           };
-          addNotification(member.mongoNotificationsId, updatedUser);
+          updateNotification(member.mongoNotificationsId, updatedUser);
         }
       }
     })
