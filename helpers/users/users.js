@@ -174,7 +174,7 @@ export const getProject = async(walletAddress, id) => {
   return projectData;
 }
 
-const getProjectPendingRequests = async(project) => {
+export const getProjectPendingRequests = async(project) => {
   const pendingRequestsCount = project.pendingRequests;
   const results = [];
   let counter = 0;
