@@ -2,9 +2,9 @@ import {wrapper, store} from "../store/store";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import web3 from "../ethereum/web3";
-import { connectWallet, disconnect, getAdminRole, uploadMongoNotifications } from "../store/actions";
+import { connectWallet, disconnect, getAdminRole, uploadMongoNotifications, retrieveProjects } from "../store/actions";
 import users from "../ethereum/users";
-import { isAdmin } from "../helpers/users/users";
+import { isAdmin, getUsersProjects } from "../helpers/users/users";
 import _ from "lodash";
 import { getUsersNotifications } from "../helpers/mongodb/NotificationCallCenter";
 
@@ -23,6 +23,10 @@ const MyApp = ({ Component, pageProps }) => {
     if(account.length && user["codename"] !== "") {
       if(adminAccess){
         dispatch(getAdminRole());
+      }
+      const projects = await getUsersProjects(account[0]);
+      if (projects.length) {
+        dispatch(retrieveProjects(projects));
       }
       dispatch(connectWallet(account[0], user));
       uploadMongoNotifs(user);

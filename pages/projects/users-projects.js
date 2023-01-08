@@ -1,33 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import Layout from "../../components/utilities/Layout";
 import { Grid, Message } from "semantic-ui-react";
-import { getUsersProjects } from "../../helpers/users/users";
 import ProjectsDashboard from "../../components/projects/ProjectsDashboard";
-import { retrieveProjects } from "../../store/actions";
 
 
 const UsersProjects = () => {
 
-  const dispatch = useDispatch();
-
-  const [retrievedProjects, setRetrievedProjects] = useState(false);
-
-  const walletAddress = useSelector((state) => state.manageData.walletAddress);
-
-  const getProjects = async() => {
-    const projects = await getUsersProjects(walletAddress);
-    if(projects.length) {
-      setRetrievedProjects(true);
-      dispatch(retrieveProjects(projects));
-    } else {
-      setRetrievedProjects(false);
-    }
-  }
-
-  useEffect(() => {
-    getProjects();
-  }, [walletAddress]);
+  const projects = useSelector((state) => state.manageData.projects);
 
   return (
     <Layout>
@@ -35,7 +15,7 @@ const UsersProjects = () => {
       <Grid style={{ backgroundColor: "#e6e6fa", marginTop: "50px" }}>
         <Grid.Row>
           <Grid.Column>
-            { retrievedProjects ? (
+            { projects.length ? (
               <ProjectsDashboard />
             ) : (
               <div style={{ textAlign: "center" }}><Message size="massive" compact>

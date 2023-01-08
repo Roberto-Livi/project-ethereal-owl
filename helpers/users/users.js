@@ -143,6 +143,7 @@ export const getUsersProjects = async(address) => {
       usersProjects.push(project);
     }
   } catch(err) {
+    console.log("Error: ", err.message);
     usersProjects = [];
   }
 

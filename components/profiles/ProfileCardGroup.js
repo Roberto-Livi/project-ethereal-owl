@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, Button, Message, Image } from "semantic-ui-react";
 import {Router} from "../../routes";
 import { getRandomNum } from "../../helpers/users/helpers";
+import RecruitUserModal from "./RecruitUserModal";
 
 
 const ProfileCardGroup = ({ cardData, resultsLoading, errorMessage }) => {
+
+  const [openRecruitModal, setOpenRecruitModal] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  const setRecruitInfo = (user) => {
+    setOpenRecruitModal(true);
+    setCurrentUser(user);
+  }
 
   return (
     <>
@@ -24,7 +33,11 @@ const ProfileCardGroup = ({ cardData, resultsLoading, errorMessage }) => {
             </Card.Content>
             <Card.Content extra>
               <div className="ui two buttons">
-                <Button basic color="green">
+                <Button
+                  onClick={() => setRecruitInfo(user)}
+                  basic
+                  color="green"
+                >
                   + Recruit
                 </Button>
                 <Button
@@ -39,7 +52,13 @@ const ProfileCardGroup = ({ cardData, resultsLoading, errorMessage }) => {
           </Card>
         </Card.Group>
       ))}
-      {}
+      {openRecruitModal && (
+        <RecruitUserModal
+          user={currentUser}
+          open={openRecruitModal}
+          closeModal={() => setOpenRecruitModal(false)}
+        />
+      )}
       <Message
         fluid="true"
         negative
