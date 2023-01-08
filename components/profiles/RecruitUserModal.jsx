@@ -8,11 +8,13 @@ import _ from "lodash";
 const RecruitUserModal = ({ user, open, closeModal }) => {
 
   const [submitMessage, setSubmitMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
   const projects = useSelector((state) => state.manageData.projects);
 
   const recruitUser = async() => {
+    setLoading(true);
     const data = await getProject(walletAddress, projects[0].id);
     if(hasAlreadyRequested(data.requests)) {
       setSubmitMessage(`${user.header} has already requested to join ${data.project.name}`);
@@ -22,7 +24,9 @@ const RecruitUserModal = ({ user, open, closeModal }) => {
       );
     } else {
       // Send Notification to user; Send Request; Set Success Message
+      console.log("Elegible to Recruit");
     }
+    setLoading(false);
   }
 
   const isMember = (users) => {
@@ -46,8 +50,12 @@ const RecruitUserModal = ({ user, open, closeModal }) => {
         <h1>Form</h1>
       </Modal.Content>
       <Modal.Actions>
-        <Button onClick={closeModal}>Close</Button>
-        <Button positive onClick={recruitUser}>Recruit User</Button>
+        <Button loading={loading} onClick={closeModal}>
+          Close
+        </Button>
+        <Button loading={loading} positive onClick={recruitUser}>
+          Recruit User
+        </Button>
       </Modal.Actions>
     </Modal>
   );
