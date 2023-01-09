@@ -4,6 +4,7 @@ import { Button } from "semantic-ui-react";
 import { createMongoDataObj, getUsersNotifications } from "../../helpers/mongodb/NotificationCallCenter";
 import { getUserData } from "../../helpers/users/users";
 import { updateUserInfo, uploadMongoNotifications } from "../../store/actions";
+import { Router } from "../../routes";
 
 
 const Subscribe = () => {
@@ -21,6 +22,7 @@ const Subscribe = () => {
       const user = await getUserData();
       dispatch(updateUserInfo(user));
       updateMongoNotifs(user);
+      Router.pushRoute("/");
     }
     setTransactionPending(false);
   }

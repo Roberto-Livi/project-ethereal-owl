@@ -24,7 +24,6 @@ const Profiles = () => {
   const loadFeaturedProfiles = async() => {
     const users = await getFeaturedUsers();
     const userCollection = [];
-
     if(users.length) {
       for (let user of users) {
         userCollection.push({
@@ -32,9 +31,9 @@ const Profiles = () => {
           header: user.codename,
           meta: user.profession,
           description: user.description,
+          mongoNotificationsId: user.mongoNotificationsId
         });
       }
-
       setFeaturedUsers(userCollection);
     }
   }

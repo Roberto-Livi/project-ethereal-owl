@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Modal, Button } from "semantic-ui-react";
 import { getProject } from "../../helpers/users/users";
 import _ from "lodash";
+import { updateNotification } from "../../helpers/mongodb/NotificationCallCenter";
 
 
 const RecruitUserModal = ({ user, open, closeModal }) => {
@@ -24,6 +25,7 @@ const RecruitUserModal = ({ user, open, closeModal }) => {
       );
     } else {
       // Send Notification to user; Send Request; Set Success Message
+      sendNotificationToUser();
       console.log("Elegible to Recruit");
     }
     setLoading(false);
@@ -41,6 +43,22 @@ const RecruitUserModal = ({ user, open, closeModal }) => {
       _.isEqual(u.user.codename, user.header)
     );
     return requestAlreadyMadeByUser;
+  }
+
+  const sendNotificationToUser = async() => {
+    const mongoUser = await getUsersNotifications(user.mongoNotificationsId);
+    console.log(user)
+    console.log(mongoUser)
+    // if(mongoUser.successfulResponse) {
+    //   const notification = {
+    //     message: `${userInfo.codename} has requested to join ${projectData.project.name}`,
+    //     seen: false
+    //   };
+    //   const updatedUser = {
+    //     notifications: [notification, ...mongoUser.data.notifications]
+    //   };
+    //   updateNotification(member.mongoNotificationsId, updatedUser);
+    // }
   }
 
   return (

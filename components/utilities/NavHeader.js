@@ -44,15 +44,12 @@ const NavHeader = () => {
 
     dispatch(updateUnreadNotifications(count));
   }
-  // const setMessageCount = async() => {
-  //   await setNotificationsCount(mongoClient.notifications.length);
-  // }
 
   useEffect(() => {
     if(mongoClient) {
       notificationsUnreadCount();
     }
-  }, [notificationsUnread]);
+  }, [mongoClient]);
 
   return (
     <Menu style={{ marginTop: "10px" }}>

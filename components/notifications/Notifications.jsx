@@ -3,9 +3,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { Table, Menu, Label } from "semantic-ui-react";
 import _ from "lodash";
 import { updateNotification } from "../../helpers/mongodb/NotificationCallCenter";
+import { updateUnreadNotifications } from "../../store/actions";
 
 
 const Notifications = () => {
+
+  const dispatch = useDispatch();
 
   const [displayed, setDisplayed] = useState([]);
   const [activePage, setActivePage] = useState(1);
@@ -17,15 +20,36 @@ const Notifications = () => {
     const start = startingNumber * 10;
     const end = start + 10;
     setDisplayed(mongoClient.notifications.slice(start, end));
-    mongoClient.notifications.slice(start, end).forEach((n) => (n.seen = true));
-    updateNotification(mongoClient._id, { notifications: mongoClient.notifications });
+    const allRead = mongoClient.notifications.slice(start, end).every((n) => _.isEqual(n.seen, true));
+    if(!allRead) {
+      mongoClient.notifications
+        .slice(start, end)
+        .forEach((n) => (n.seen = true));
+      updateNotification(mongoClient._id, {
+        notifications: mongoClient.notifications,
+      });
+      notificationsUnreadCount();
+    }
   }
+
+  const notificationsUnreadCount = () => {
+    let count = 0;
+
+    if (mongoClient) {
+      const unreadFiltered = mongoClient.notifications.filter((n) =>
+        _.isEqual(n.seen, false)
+      );
+      count = unreadFiltered.length;
+    }
+
+    dispatch(updateUnreadNotifications(count));
+  };
 
   const displayPagination = () => {
     const numberInRow = Math.ceil(mongoClient.notifications.length / 10);
     const pages = [];
     for(let i = 0; i < numberInRow; i++){
-      pages.push(<Menu.Item active={activePage === i+1} onClick={() => showTen(i)} as="a">{i+1}</Menu.Item>);
+      pages.push(<Menu.Item key={i} active={activePage === i+1} onClick={() => showTen(i)} as="a">{i+1}</Menu.Item>);
     }
     return pages;
   }
