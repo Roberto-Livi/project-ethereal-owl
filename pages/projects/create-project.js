@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Layout from "../../components/utilities/Layout";
 import { Button, Form, Grid, Header, Segment, Container, Message } from "semantic-ui-react";
-import { createProject } from "../../helpers/users/users";
+import { createProject, getUsersProjects } from "../../helpers/users/users";
 import { Router } from "../../routes";
+import { retrieveProjects } from "../../store/actions";
 
 
 const CreateProject = () => {
@@ -22,7 +23,9 @@ const CreateProject = () => {
     const response = await createProject(walletAddress, event.target[0].value, event.target[1].value)
 
     if(response) {
-      Router.pushRoute("/projects/users-projects")
+      const projs = await getUsersProjects(walletAddress);
+      dispatch(retrieveProjects(projs));
+      Router.pushRoute("/projects/users-projects");
     }
 
     setLoading(false);

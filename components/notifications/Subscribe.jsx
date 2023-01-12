@@ -14,6 +14,7 @@ const Subscribe = () => {
   const [transactionPending, setTransactionPending] = useState(false);
 
   const userInfo = useSelector((state) => state.manageData.userInfo);
+  const walletAddress = useSelector((state) => state.manageData.walletAddress);
 
   const onClickHandle = async() => {
     setTransactionPending(true);
@@ -22,7 +23,6 @@ const Subscribe = () => {
       const user = await getUserData();
       dispatch(updateUserInfo(user));
       updateMongoNotifs(user);
-      Router.pushRoute("/");
     }
     setTransactionPending(false);
   }

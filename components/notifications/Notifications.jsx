@@ -46,11 +46,15 @@ const Notifications = () => {
   };
 
   const displayPagination = () => {
-    const numberInRow = Math.ceil(mongoClient.notifications.length / 10);
     const pages = [];
-    for(let i = 0; i < numberInRow; i++){
-      pages.push(<Menu.Item key={i} active={activePage === i+1} onClick={() => showTen(i)} as="a">{i+1}</Menu.Item>);
+
+    if(!_.isNull(mongoClient)) {
+      const numberInRow = Math.ceil(mongoClient.notifications.length / 10);
+      for(let i = 0; i < numberInRow; i++){
+        pages.push(<Menu.Item key={i} active={activePage === i+1} onClick={() => showTen(i)} as="a">{i+1}</Menu.Item>);
+      }
     }
+
     return pages;
   }
 
@@ -86,7 +90,7 @@ const Notifications = () => {
                 {/* <Menu.Item as="a" icon>
                   <Icon name="chevron left" />
                 </Menu.Item> */}
-                { mongoClient.notifications.length && displayPagination()}
+                { !_.isNull(mongoClient) && (mongoClient.notifications.length && displayPagination())}
                 {/* <Menu.Item as="a" icon>
                   <Icon name="chevron right" />
                 </Menu.Item> */}

@@ -1,30 +1,35 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { answerJoinRequest, getPendingRequestsAfterJoinRequest } from "../../helpers/users/users";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { answerJoinRequest, getProject } from "../../helpers/users/users";
 import { Button } from "semantic-ui-react";
 import { updateNotification, getUsersNotifications } from "../../helpers/mongodb/NotificationCallCenter";
 import ModalMessage from "../utilities/ModalMessage";
 import _ from "lodash";
+import { updateCurrentProject } from "../../store/actions";
 
 
-const PendingRequests = ({ projectData, projectId }) => {
+const PendingRequests = ({ projectId }) => {
 
-  const [pendingRequests, setPendingRequests] = useState([]);
+  const dispatch = useDispatch();
+
   const [transactionPending, setTransactionPending] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [modal, setModal] = useState({ header: "", message: ""});
 
   const userInfo = useSelector((state) => state.manageData.userInfo);
+  const walletAddress = useSelector((state) => state.manageData.walletAddress);
+  const projectData = useSelector((state) => state.manageData.currentProject);
 
   const answerRequest = async(user, requestId, approved) => {
     setTransactionPending(true);
     const response = await answerJoinRequest(user.userAddress, projectId, requestId, approved);
     if(response) {
       if(!_.isEqual(user.mongoNotificationsId, "0")) {
+        activateModal(user, approved);
         sendNotification(user.mongoNotificationsId, approved);
+        const data = await getProject(walletAddress, projectId);
+        dispatch(updateCurrentProject(data));
       }
-      activateModal(user, approved);
-      await retrievePendingRequests();
     }
     setTransactionPending(false);
   }
@@ -59,23 +64,10 @@ const PendingRequests = ({ projectData, projectId }) => {
     setOpenModal(true);
   }
 
-  const retrievePendingRequests = async() => {
-    const resp = await getPendingRequestsAfterJoinRequest(
-      projectData.project.id
-    );
-    if(resp) {
-      setPendingRequests(resp);
-    }
-  }
-
-  useEffect(() => {
-    retrievePendingRequests();
-  }, []);
-
   return (
     <div>
       <h2>Pending Requests</h2>
-      {pendingRequests.map((request, index) => (
+      {projectData.requests.map((request, index) => (
         <div key={index}>
           <h3>{request.user.codename}</h3>
           <Button

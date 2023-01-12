@@ -1,20 +1,22 @@
-import React, { useState, useEffect} from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect} from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Layout from "../components/utilities/Layout";
 import { getProject } from "../helpers/users/users";
 import JoinRequest from "../components/projects/JoinRequest";
 import PendingRequests from "../components/projects/PendingRequests";
+import { updateCurrentProject } from "../store/actions";
 
 
 const Project = ({ projectId }) => {
 
-  const [projectData, setProjectData] = useState({ project: [], members: [], isMember: false, requests: [], loaded: false });
+  const dispatch = useDispatch();
 
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
+  const projectData = useSelector((state) => state.manageData.currentProject);
 
   const getProjectData = async() => {
     const data = await getProject(walletAddress, projectId);
-    setProjectData(data);
+    dispatch(updateCurrentProject(data));
   }
 
   useEffect(() => {

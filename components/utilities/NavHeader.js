@@ -17,10 +17,7 @@ const NavHeader = () => {
   const walletConnected = useSelector((state) => state.manageData.connected);
   const userInfo = useSelector((state) => state.manageData.userInfo);
   const notificationsUnread = useSelector((state) => state.manageData.notificationsUnread);
-
-  const mongoClient = useSelector(
-    (state) => state.manageData.mongoNotifications
-  );
+  const mongoClient = useSelector((state) => state.manageData.mongoNotifications);
 
   const onClickConnect = async () => {
     try {
@@ -54,7 +51,7 @@ const NavHeader = () => {
   return (
     <Menu style={{ marginTop: "10px" }}>
       <Link route="/">
-        <a className="item">Zoukenverse</a>
+        <a className="item">Chaincracker</a>
       </Link>
       {admin && (
         <Link route={ROUTES.ADMIN}>

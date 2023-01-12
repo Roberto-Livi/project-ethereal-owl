@@ -8,7 +8,8 @@ import {
   UPDATE_PROFILE_SEARCH_REQUEST,
   GET_PROJECTS,
   UPLOAD_MONGO_NOTIFICATIONS,
-  UPDATE_UNREAD_NOTIFICATIONS_COUNT
+  UPDATE_UNREAD_NOTIFICATIONS_COUNT,
+  UPDATE_CURRENT_PROJECT
 } from "../actions/types";
 
 const initialState = {
@@ -19,6 +20,13 @@ const initialState = {
   userProfileCard: null,
   hootBalance: 100,
   projects: [],
+  currentProject: {
+    project: [],
+    members: [],
+    isMember: false,
+    requests: [],
+    loaded: false
+  },
   profileSearch: {
     results: [],
     loading: false
@@ -49,6 +57,8 @@ const manageData = (state = initialState, action) => {
       return { ...state, mongoNotifications: action.payload };
     case UPDATE_UNREAD_NOTIFICATIONS_COUNT:
       return { ...state, notificationsUnread: action.payload };
+    case UPDATE_CURRENT_PROJECT:
+      return { ...state, currentProject: action.payload };
     default:
       return state;
   }

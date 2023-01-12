@@ -8,7 +8,8 @@ import {
   UPDATE_PROFILE_SEARCH_REQUEST,
   GET_PROJECTS,
   UPLOAD_MONGO_NOTIFICATIONS,
-  UPDATE_UNREAD_NOTIFICATIONS_COUNT
+  UPDATE_UNREAD_NOTIFICATIONS_COUNT,
+  UPDATE_CURRENT_PROJECT
 } from "./types";
 import users from "../../ethereum/users";
 
@@ -53,4 +54,8 @@ export const uploadMongoNotifications = (data) => dispatch => {
 
 export const updateUnreadNotifications = (amountUnread) => dispatch => {
   dispatch({ type: UPDATE_UNREAD_NOTIFICATIONS_COUNT, payload: amountUnread });
+}
+
+export const updateCurrentProject = (project) => dispatch => {
+  dispatch({ type: UPDATE_CURRENT_PROJECT, payload: project });
 }

@@ -16,7 +16,7 @@ const ModalMessage = ({ header, message, open, closeModal }) => {
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
-        <Button onClick={closeModal}>Close</Button>
+        <Button onClick={() => closeModal()}>Close</Button>
       </Modal.Actions>
     </Modal>
   );
