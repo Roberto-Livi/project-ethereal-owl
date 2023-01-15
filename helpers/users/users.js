@@ -60,22 +60,27 @@ export const getUsers = async (profession) => {
 }
 
 export const getFiveUsers = async () => {
-  const usersCount = await users.methods.usersCount().call();
-  const maxResultsCount = 5;
   let userCollection = [];
-  let userIds = [];
 
-  let resultsReqCount;
+  try {
+    const usersCount = await users.methods.usersCount().call();
+    const maxResultsCount = 5;
+    let userIds = [];
 
-  if (usersCount) {
-    resultsReqCount =
-      usersCount <= maxResultsCount ? usersCount : maxResultsCount;
-  } else {
-    resultsReqCount = 0;
-  }
+    let resultsReqCount;
 
-  for (let i = 0; i < resultsReqCount; i++) {
-    await getUniqueUser(userCollection, userIds, usersCount);
+    if (usersCount) {
+      resultsReqCount =
+        usersCount <= maxResultsCount ? usersCount : maxResultsCount;
+    } else {
+      resultsReqCount = 0;
+    }
+
+    for (let i = 0; i < resultsReqCount; i++) {
+      await getUniqueUser(userCollection, userIds, usersCount);
+    }
+  } catch(err) {
+    console.log("Error: ", err.message);
   }
 
   return userCollection;
@@ -107,7 +112,7 @@ export const getFeaturedUsers = async() => {
       featuredCollection.push(userData);
     }
   } catch(err){
-    featuredCollection = [];
+    console.log("Error: ", err.message);
   }
 
   return featuredCollection;

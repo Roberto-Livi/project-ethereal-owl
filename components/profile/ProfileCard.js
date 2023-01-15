@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUserProfileCard } from "../../store/actions";
-import { Dimmer, Loader } from "semantic-ui-react";
+import { Button, Dimmer, Loader } from "semantic-ui-react";
+import { Router } from "../../routes";
 
 
 const ProfileCard = ({profileCardAddress}) => {
@@ -10,6 +11,10 @@ const ProfileCard = ({profileCardAddress}) => {
 
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
   const userProfile = useSelector((state) => state.manageData.userProfileCard);
+
+  const routeToJoinRequests = () => {
+    Router.pushRoute(`profiles/${walletAddress}/recruit-requests`);
+  }
 
   useEffect(() => {
     dispatch(updateUserProfileCard(profileCardAddress || walletAddress));
@@ -29,6 +34,9 @@ const ProfileCard = ({profileCardAddress}) => {
         <li>{userProfile.description}</li>
       </ul>
       }
+      <Button primary onClick={routeToJoinRequests}>
+        Project Join Requests
+      </Button>
     </div>
   );
 }

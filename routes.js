@@ -6,6 +6,7 @@ routes
   .add("/profiles", "/profiles")
   .add("/projects/users-projects", "/projects/users-projects")
   .add("/profiles/:address", "/profile")
+  .add("/profiles/:address/recruit-requests", "/recruit-requests")
   .add("/projects/create-project", "/projects/create-project")
   .add("/projects/:id", "/project")
   .add("/notifications", "/notifications")

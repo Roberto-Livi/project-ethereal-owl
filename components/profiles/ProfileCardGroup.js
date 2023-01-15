@@ -63,7 +63,7 @@ const ProfileCardGroup = ({ cardData, resultsLoading, errorMessage }) => {
         fluid="true"
         negative
         size="tiny"
-        hidden={cardData.length || resultsLoading}
+        hidden={!!cardData.length || resultsLoading}
       >
         <Message.Header>{errorMessage}</Message.Header>
       </Message>
