@@ -2,9 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/api/notifications/[id]": "pages/api/notifications/[id].js",
-  "/profile": "pages/profile.js",
-  "/project": "pages/project.js",
-  "/projects": "pages/projects.js",
-  "/projects/users-projects": "pages/projects/users-projects.js"
+  "/profiles": "pages/profiles.js",
+  "/api/notifications/[id]": "pages/api/notifications/[id].js"
 }

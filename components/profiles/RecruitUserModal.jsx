@@ -1,22 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Modal, Button } from "semantic-ui-react";
+import { Modal, Button, Message, Dropdown } from "semantic-ui-react";
 import { getProject } from "../../helpers/users/users";
 import _ from "lodash";
-import { updateNotification } from "../../helpers/mongodb/NotificationCallCenter";
+import { updateNotification, getUsersNotifications } from "../../helpers/mongodb/NotificationCallCenter";
 
 
 const RecruitUserModal = ({ user, open, closeModal }) => {
 
   const [submitMessage, setSubmitMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [dropdownOptions, setDropdownOptions] = useState([]);
+  const [selectedOption, setSelectedOption] = useState(null);
 
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
   const projects = useSelector((state) => state.manageData.projects);
 
   const recruitUser = async() => {
     setLoading(true);
-    const data = await getProject(walletAddress, projects[0].id);
+    const data = await getProject(walletAddress, selectedOption);
     if(hasAlreadyRequested(data.requests)) {
       setSubmitMessage(`${user.header} has already requested to join ${data.project.name}`);
     } else if(isMember(data.members)) {
@@ -24,6 +26,9 @@ const RecruitUserModal = ({ user, open, closeModal }) => {
         `${user.header} is already a member of ${data.project.name}`
       );
     } else {
+      setSubmitMessage(
+        `Sending request to ${user.header} to join ${data.project.name}`
+      );
       // Send Notification to user; Send Request; Set Success Message
       sendNotificationToUser();
       console.log("Elegible to Recruit");
@@ -61,11 +66,40 @@ const RecruitUserModal = ({ user, open, closeModal }) => {
     // }
   }
 
+  const setDropdown = () => {
+    const ops = [];
+    projects.forEach((proj, idx) => {
+      ops.push({
+        key: idx,
+        text: proj.name,
+        value: proj.id
+      });
+    })
+    setDropdownOptions(ops);
+  }
+
+  useEffect(() => {
+    setDropdown();
+  }, [projects]);
+
   return (
     <Modal centered open={open} size={"small"}>
       <Modal.Header>{submitMessage}</Modal.Header>
       <Modal.Content>
-        <h1>Form</h1>
+        {projects.length ? (
+          <Dropdown
+            placeholder="Select Project"
+            fluid
+            onChange={(e, obj) => setSelectedOption(obj.value)}
+            options={dropdownOptions}
+          />
+        ) : (
+          <Message>
+            <Message.Header>
+              Unable to recruit user since you aren't involved in any projects
+            </Message.Header>
+          </Message>
+        )}
       </Modal.Content>
       <Modal.Actions>
         <Button loading={loading} onClick={closeModal}>

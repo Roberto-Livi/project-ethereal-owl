@@ -5,6 +5,7 @@ import { Button, Form, Grid, Header, Segment, Container, Message } from "semanti
 import { createProject, getUsersProjects } from "../../helpers/users/users";
 import { Router } from "../../routes";
 import { retrieveProjects } from "../../store/actions";
+import _ from "lodash";
 
 
 const CreateProject = () => {
@@ -12,6 +13,7 @@ const CreateProject = () => {
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
+  const [emptyInput, setEmptyInput] = useState(false);
 
   const userInfo = useSelector((state) => state.manageData.userInfo);
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
@@ -57,10 +59,15 @@ const CreateProject = () => {
                   <Button color="violet" fluid size="large">
                     Submit
                   </Button>
+                  {/* <Message color="red" visible={false}>
+                    Input can't be empty
+                  </Message> */}
                 </Segment>
               </Form>
             ) : (
-              <Message color="red" visible>You must create a user profile before creating a project</Message>
+              <Message color="red" visible>
+                You must create a user profile before creating a project
+              </Message>
             )}
           </Grid.Column>
         </Grid>

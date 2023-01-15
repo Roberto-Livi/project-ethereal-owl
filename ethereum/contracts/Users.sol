@@ -10,6 +10,7 @@ contract Users {
         string profession;
         string description;
         uint projectsInvolved;
+        uint pendingRequestsCount;
         string mongoNotificationsId;
     }
 
@@ -30,6 +31,7 @@ contract Users {
     mapping(address => Project[]) public usersProjects;
     mapping(uint => User[]) public projectMembers;
     mapping(uint => User[]) public projectPendingRequests;
+    mapping(address => uint[]) public recruitPendingRequests;
     mapping(string => User) public getUserByCodename;
     mapping(string => uint) public profCount;
     mapping(address => bool) public walletRegistered;
@@ -58,6 +60,7 @@ contract Users {
       user.codename = cname;
       user.profession = prof;
       user.description = desc;
+      user.pendingRequestsCount = 1;
       user.mongoNotificationsId = "0";
 
       users[userAddress] = user;
@@ -114,6 +117,13 @@ contract Users {
       projectPendingRequests[projectId].push(user);
     }
 
+    function recruitJoinRequest(address recruitAddress, uint projectId) public payable {
+      require(walletRegistered[msg.sender]);
+      User storage user = users[recruitAddress];
+      user.pendingRequestsCount++;
+      recruitPendingRequests[recruitAddress].push(projectId);
+    }
+
     function answerJoinRequest(address userAddress, uint projectId, uint requestId, bool approved) public payable {
       require(walletRegistered[userAddress]);
       Project storage project = allProjects[projectId];
@@ -126,6 +136,20 @@ contract Users {
       }
       project.pendingRequests--;
       delete projectPendingRequests[projectId][requestId];
+    }
+
+    function answerRecruitRequest(address recruitAddress, uint projectId, bool approved) public payable {
+      require(walletRegistered[recruitAddress]);
+      User storage user = users[recruitAddress];
+      if(approved){
+        Project storage project = allProjects[projectId];
+        user.projectsInvolved++;
+        usersProjects[recruitAddress].push(project);
+        project.membersCount++;
+        projectMembers[projectId].push(user);
+      }
+      user.pendingRequestsCount--;
+      delete recruitPendingRequests[recruitAddress][projectId];
     }
 
     function modifyFeaturedProfiles(address[] memory userFeaturedAddress) public payable restricted {
