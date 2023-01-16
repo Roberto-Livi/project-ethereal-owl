@@ -122,6 +122,7 @@ contract Users {
       User storage user = users[recruitAddress];
       Project storage project = allProjects[projectId];
       user.pendingRequestsCount++;
+      allUsers[user.id] = user;
       recruitPendingRequests[recruitAddress].push(project);
     }
 
@@ -150,6 +151,7 @@ contract Users {
         projectMembers[projectId].push(user);
       }
       user.pendingRequestsCount--;
+      allUsers[user.id] = user;
       delete recruitPendingRequests[recruitAddress][requestId];
     }
 

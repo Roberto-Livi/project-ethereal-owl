@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Modal, Button, Message, Dropdown } from "semantic-ui-react";
-import { getProject } from "../../helpers/users/users";
+import { getProject, getUsersRecruitRequests, recruitUser } from "../../helpers/users/users";
 import _ from "lodash";
 import { updateNotification, getUsersNotifications } from "../../helpers/mongodb/NotificationCallCenter";
 
@@ -16,23 +16,28 @@ const RecruitUserModal = ({ user, open, closeModal }) => {
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
   const projects = useSelector((state) => state.manageData.projects);
 
-  const recruitUser = async() => {
+  const sendRecruitRequest = async() => {
     setLoading(true);
     const data = await getProject(walletAddress, selectedOption);
-    if(hasAlreadyRequested(data.requests)) {
-      setSubmitMessage(`${user.header} has already requested to join ${data.project.name}`);
-    } else if(isMember(data.members)) {
-      setSubmitMessage(
-        `${user.header} is already a member of ${data.project.name}`
-      );
-    } else {
-      setSubmitMessage(
-        `Sending request to ${user.header} to join ${data.project.name}`
-      );
-      // Send Notification to user; Send Request; Set Success Message
-      sendNotificationToUser();
-      console.log("Elegible to Recruit");
-    }
+    const usersRecruitReqs = await getUsersRecruitRequests(user.address, parseInt(user.requestsCount));
+    console.log(user)
+    console.log(usersRecruitReqs)
+    // if(hasAlreadyRequested(data.requests)) {
+    //   setSubmitMessage(`${user.header} has already requested to join ${data.project.name}`);
+    // } else if(isMember(data.members)) {
+    //   setSubmitMessage(
+    //     `${user.header} is already a member of ${data.project.name}`
+    //   );
+    // } else {
+    //   setSubmitMessage(
+    //     `Sending request to ${user.header} to join ${data.project.name}`
+    //   );
+    //   console.log("sending request")
+    //   // const response = await recruitUser(user.address, data.project.id);
+    //   // if(!_.isEqual(user.mongoNotificationsId, "0") && response) {
+    //   //   sendNotificationToUser(user.address);
+    //   // }
+    // }
     setLoading(false);
   }
 
@@ -50,20 +55,18 @@ const RecruitUserModal = ({ user, open, closeModal }) => {
     return requestAlreadyMadeByUser;
   }
 
-  const sendNotificationToUser = async() => {
+  const sendNotificationToUser = async(user) => {
     const mongoUser = await getUsersNotifications(user.mongoNotificationsId);
-    console.log(user)
-    console.log(mongoUser)
-    // if(mongoUser.successfulResponse) {
-    //   const notification = {
-    //     message: `${userInfo.codename} has requested to join ${projectData.project.name}`,
-    //     seen: false
-    //   };
-    //   const updatedUser = {
-    //     notifications: [notification, ...mongoUser.data.notifications]
-    //   };
-    //   updateNotification(member.mongoNotificationsId, updatedUser);
-    // }
+    if(mongoUser.successfulResponse) {
+      const notification = {
+        message: `${userInfo.codename} has requested you to join ${projectData.project.name}`,
+        seen: false
+      };
+      const updatedUser = {
+        notifications: [notification, ...mongoUser.data.notifications]
+      };
+      updateNotification(user.mongoNotificationsId, updatedUser);
+    }
   }
 
   const setDropdown = () => {
@@ -90,6 +93,7 @@ const RecruitUserModal = ({ user, open, closeModal }) => {
           <Dropdown
             placeholder="Select Project"
             fluid
+            selection
             onChange={(e, obj) => setSelectedOption(obj.value)}
             options={dropdownOptions}
           />
@@ -105,7 +109,7 @@ const RecruitUserModal = ({ user, open, closeModal }) => {
         <Button loading={loading} onClick={closeModal}>
           Close
         </Button>
-        <Button loading={loading} positive onClick={recruitUser}>
+        <Button loading={loading} positive onClick={sendRecruitRequest}>
           Recruit User
         </Button>
       </Modal.Actions>

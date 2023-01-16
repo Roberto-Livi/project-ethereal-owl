@@ -15,7 +15,7 @@ const deploy = async () => {
 
   const result = await new web3.eth.Contract(compiledUsers.abi)
     .deploy({ data: compiledUsers.evm.bytecode.object })
-    .send({ gas: "4000000", from: accounts[0] });
+    .send({ gas: "4100000", from: accounts[0] });
 
   console.log("Contract deployed to", result.options.address);
   provider.engine.stop();
@@ -24,10 +24,4 @@ const deploy = async () => {
 deploy();
 
 // Attempting to deploy from account 0x713135cb90b7f6dFb68d7fE5243a1E2bF0dDc844
-// Contract deployed to 0x7cbb7eD6D4A879B7f5498bcE32754c2d78cf125F
-
-// Attempting to deploy from account 0x713135cb90b7f6dFb68d7fE5243a1E2bF0dDc844
-// Contract deployed to 0x439a3508eA730a220403aA4BBfb9f179a1eFbD6d
-
-// Attempting to deploy from account 0x713135cb90b7f6dFb68d7fE5243a1E2bF0dDc844
-// Contract deployed to 0xaa2135BBa78E64d65d9f55eAE44c12133Bb2A1df
+// Contract deployed to 0x869fe7c3E84B2Bd743f41294EEce61e2D26C0c27

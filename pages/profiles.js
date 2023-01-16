@@ -31,7 +31,8 @@ const Profiles = () => {
           header: user.codename,
           meta: user.profession,
           description: user.description,
-          mongoNotificationsId: user.mongoNotificationsId
+          requestsCount: user.pendingRequestsCount,
+          mongoNotificationsId: user.mongoNotificationsId,
         });
       }
       setFeaturedUsers(userCollection);

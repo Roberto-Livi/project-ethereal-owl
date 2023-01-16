@@ -21,6 +21,8 @@ const ProfessionDropdown = () => {
           address: user.userAddress,
           meta: user.profession,
           description: user.description,
+          requestsCount: user.pendingRequestsCount,
+          mongoNotificationsId: user.mongoNotificationsId,
         });
       }
     });

@@ -21,12 +21,15 @@ const InputOption = () => {
   const getStartingData = async () => {
     dispatch(updateProfileSearchRequest());
     const users = await getFiveUsers();
+    console.log(users)
     const userCollection = users.map((user) => {
       return {
         header: user.codename,
         address: user.userAddress,
         meta: user.profession,
         description: user.description,
+        requestsCount: user.pendingRequestsCount,
+        mongoNotificationsId: user.mongoNotificationsId
       };
     });
     dispatch(updateProfileSearch(userCollection));

@@ -259,3 +259,55 @@ export const updateUserWithMongoNotificationId = async(mongoId) => {
 
   return successfulRequest;
 }
+
+export const getUsersRecruitRequests = async(userAddress, requestsCount) => {
+  let requests = [];
+  let counter = 0;
+
+  try {
+    while(requests.length < requestsCount) {
+      let project = await users.methods
+      .recruitPendingRequests(userAddress, counter).call();
+      if(!_.isEmpty(project.name)) {
+        requests.push({ project, requestId: counter });
+      }
+      counter++;
+    }
+  } catch(err) {
+    console.log("Error: ", err.message);
+  }
+
+  return requests;
+}
+
+export const recruitUser = async(userAddress, projectId) => {
+  let successfulRequest = false;
+
+  try {
+    const accounts = await web3.eth.getAccounts();
+    await users.methods.recruitJoinRequest(userAddress, projectId).send({
+      from: accounts[0]
+    });
+    successfulRequest = true;
+  } catch(err) {
+    console.log("Error: ", err.message);
+  }
+
+  return successfulRequest;
+}
+
+export const recruitUserResponse = async (userAddress, projectId, requestId, approved) => {
+  let successfulRequest = false;
+
+  try {
+    const accounts = await web3.eth.getAccounts();
+    await users.methods.recruitUserResponse(userAddress, projectId, requestId, approved).send({
+      from: accounts[0],
+    });
+    successfulRequest = true;
+  } catch (err) {
+    console.log("Error: ", err.message);
+  }
+
+  return successfulRequest;
+}
