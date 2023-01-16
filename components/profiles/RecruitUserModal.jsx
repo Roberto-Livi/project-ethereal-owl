@@ -15,30 +15,49 @@ const RecruitUserModal = ({ user, open, closeModal }) => {
 
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
   const projects = useSelector((state) => state.manageData.projects);
+  const userInfo = useSelector((state) => state.manageData.userInfo);
 
   const sendRecruitRequest = async() => {
+    let data;
+    let usersRecruitReqs;
     setLoading(true);
-    const data = await getProject(walletAddress, selectedOption);
-    const usersRecruitReqs = await getUsersRecruitRequests(user.address, parseInt(user.requestsCount));
-    console.log(user)
-    console.log(usersRecruitReqs)
-    // if(hasAlreadyRequested(data.requests)) {
-    //   setSubmitMessage(`${user.header} has already requested to join ${data.project.name}`);
-    // } else if(isMember(data.members)) {
-    //   setSubmitMessage(
-    //     `${user.header} is already a member of ${data.project.name}`
-    //   );
-    // } else {
-    //   setSubmitMessage(
-    //     `Sending request to ${user.header} to join ${data.project.name}`
-    //   );
-    //   console.log("sending request")
-    //   // const response = await recruitUser(user.address, data.project.id);
-    //   // if(!_.isEqual(user.mongoNotificationsId, "0") && response) {
-    //   //   sendNotificationToUser(user.address);
-    //   // }
-    // }
+    if (!_.isNull(selectedOption)) {
+      data = await getProject(walletAddress, selectedOption);
+      usersRecruitReqs = await getUsersRecruitRequests(
+        user.address,
+        parseInt(user.requestsCount)
+      );
+    }
+
+    if(_.isNull(selectedOption)) {
+      setSubmitMessage("Must select a project from the dropdown");
+    }
+    else if(alreadyRecruited(data.project, usersRecruitReqs)) {
+      setSubmitMessage(
+        `${user.header} has already been recruited to join ${data.project.name}`
+      );
+    }
+    else if(hasAlreadyRequested(data.requests)) {
+      setSubmitMessage(`${user.header} has already requested to join ${data.project.name}`);
+    } else if(isMember(data.members)) {
+      setSubmitMessage(
+        `${user.header} is already a member of ${data.project.name}`
+      );
+    } else {
+      setSubmitMessage(
+        `Sending request to ${user.header} to join ${data.project.name}`
+      );
+      const response = await recruitUser(user.address, data.project.id);
+      if(!_.isEqual(user.mongoNotificationsId, "0")) {
+        sendNotificationToUser(data.project.name);
+      }
+    }
     setLoading(false);
+  }
+
+  const alreadyRecruited = (data, recruitReqs) => {
+    const requestFound = recruitReqs.some((req) => _.isEqual(req.project.id, data.id));
+    return requestFound;
   }
 
   const isMember = (users) => {
@@ -55,11 +74,11 @@ const RecruitUserModal = ({ user, open, closeModal }) => {
     return requestAlreadyMadeByUser;
   }
 
-  const sendNotificationToUser = async(user) => {
+  const sendNotificationToUser = async(projectName) => {
     const mongoUser = await getUsersNotifications(user.mongoNotificationsId);
     if(mongoUser.successfulResponse) {
       const notification = {
-        message: `${userInfo.codename} has requested you to join ${projectData.project.name}`,
+        message: `${userInfo.codename} has sent you a request to join ${projectName}`,
         seen: false
       };
       const updatedUser = {

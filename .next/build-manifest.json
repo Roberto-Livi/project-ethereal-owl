@@ -30,10 +30,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/profiles": [
+    "/notifications": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/profiles.js"
+      "static/chunks/pages/notifications.js"
     ],
     "/recruit-requests": [
       "static/chunks/webpack.js",

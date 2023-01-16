@@ -21,7 +21,6 @@ const InputOption = () => {
   const getStartingData = async () => {
     dispatch(updateProfileSearchRequest());
     const users = await getFiveUsers();
-    console.log(users)
     const userCollection = users.map((user) => {
       return {
         header: user.codename,
