@@ -30,15 +30,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/notifications": [
+    "/profiles": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/notifications.js"
+      "static/chunks/pages/profiles.js"
     ],
-    "/recruit-requests": [
+    "/project": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/recruit-requests.js"
+      "static/chunks/pages/project.js"
     ]
   },
   "ampFirstPages": []

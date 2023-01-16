@@ -301,7 +301,7 @@ export const recruitUserResponse = async (userAddress, projectId, requestId, app
 
   try {
     const accounts = await web3.eth.getAccounts();
-    await users.methods.recruitUserResponse(userAddress, projectId, requestId, approved).send({
+    await users.methods.answerRecruitRequest(userAddress, projectId, requestId, approved).send({
       from: accounts[0],
     });
     successfulRequest = true;
