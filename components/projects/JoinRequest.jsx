@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Button, Message } from "semantic-ui-react";
 import { updateNotification } from "../../helpers/mongodb/NotificationCallCenter";
-import { makeJoinRequest, getPendingRequestsAfterJoinRequest } from "../../helpers/users/users";
+import { makeJoinRequest, getPendingRequestsAfterJoinRequest, getUsersRecruitRequests } from "../../helpers/users/users";
 import _ from "lodash";
 import { getUsersNotifications } from "../../helpers/mongodb/NotificationCallCenter";
 import ModalMessage from "../utilities/ModalMessage";
 
 
-const JoinRequest = ({ projectData, projectId }) => {
+const JoinRequest = ({ projectData, projectId, alreadyRecruited }) => {
 
   const [hideError, setHideError] = useState(true);
   const [transactionPending, setTransactionPending] = useState(false);
@@ -64,9 +64,13 @@ const JoinRequest = ({ projectData, projectId }) => {
     }
   }
 
+  const alreadyRecruitedSetup = () => {
+    setRequestButton({ label: "Already Recruited", disabled: true });
+  }
+
   useEffect(() => {
-    isRequestPending();
-  }, [userInfo, projectData.project, projectData.isMember]);
+    alreadyRecruited ? alreadyRecruitedSetup() : isRequestPending();
+  }, [userInfo, projectData.project, projectData.isMember, alreadyRecruited]);
 
   return (
     <div>

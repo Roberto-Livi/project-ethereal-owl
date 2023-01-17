@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Modal, Button, Message, Dropdown } from "semantic-ui-react";
-import { getProject, getUsersRecruitRequests, recruitUser } from "../../helpers/users/users";
+import { getProject, getUsersRecruitRequests, recruitUser, fetchUser } from "../../helpers/users/users";
 import _ from "lodash";
 import { updateNotification, getUsersNotifications } from "../../helpers/mongodb/NotificationCallCenter";
 
@@ -23,9 +23,10 @@ const RecruitUserModal = ({ user, open, closeModal }) => {
     setLoading(true);
     if (!_.isNull(selectedOption)) {
       data = await getProject(walletAddress, selectedOption);
+      const recruitedUser = await fetchUser(user.address);
       usersRecruitReqs = await getUsersRecruitRequests(
         user.address,
-        parseInt(user.requestsCount)
+        parseInt(recruitedUser.pendingRequestsCount)
       );
     }
 
@@ -48,7 +49,7 @@ const RecruitUserModal = ({ user, open, closeModal }) => {
         `Sending request to ${user.header} to join ${data.project.name}`
       );
       const response = await recruitUser(user.address, data.project.id);
-      if(!_.isEqual(user.mongoNotificationsId, "0")) {
+      if(response && !_.isEqual(user.mongoNotificationsId, "0")) {
         sendNotificationToUser(data.project.name);
       }
     }
@@ -86,6 +87,9 @@ const RecruitUserModal = ({ user, open, closeModal }) => {
       };
       updateNotification(user.mongoNotificationsId, updatedUser);
     }
+    setSubmitMessage(
+      `Request has been sent to ${user.header}`
+    );
   }
 
   const setDropdown = () => {
@@ -125,10 +129,10 @@ const RecruitUserModal = ({ user, open, closeModal }) => {
         )}
       </Modal.Content>
       <Modal.Actions>
-        <Button loading={loading} onClick={closeModal}>
+        <Button disabled={loading} loading={loading} onClick={closeModal}>
           Close
         </Button>
-        <Button loading={loading} positive onClick={sendRecruitRequest}>
+        <Button disabled={loading} loading={loading} positive onClick={sendRecruitRequest}>
           Recruit User
         </Button>
       </Modal.Actions>

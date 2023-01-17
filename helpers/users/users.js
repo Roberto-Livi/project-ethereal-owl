@@ -27,6 +27,18 @@ export const getUserFromAllUsers = async (index) => {
   return user;
 }
 
+export const fetchUser = async(userAddress) => {
+  let user = "";
+
+  try {
+    user = await users.methods.users(userAddress).call();
+  } catch(err) {
+    console.log("Error: ", err.message);
+  }
+
+  return user;
+}
+
 export const createUser = async (userInfo) => {
   const accounts = await web3.eth.getAccounts();
   await users.methods
