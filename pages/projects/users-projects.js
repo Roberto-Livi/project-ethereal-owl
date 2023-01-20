@@ -1,13 +1,27 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Layout from "../../components/utilities/Layout";
 import { Grid, Message } from "semantic-ui-react";
 import ProjectsDashboard from "../../components/projects/ProjectsDashboard";
+import { retrieveProjects } from "../../store/actions";
+import { getUsersProjects } from "../../helpers/users/users";
 
 
 const UsersProjects = () => {
 
+  const dispatch = useDispatch();
+
   const projects = useSelector((state) => state.manageData.projects);
+  const walletAddress  = useSelector((state) => state.manageData.walletAddress);
+
+  const getProjects = async() => {
+    const projs = await getUsersProjects(walletAddress);
+    dispatch(retrieveProjects(projs));
+  }
+
+  useEffect(() => {
+    getProjects();
+  }, []);
 
   return (
     <Layout>

@@ -9,7 +9,8 @@ import {
   GET_PROJECTS,
   UPLOAD_MONGO_NOTIFICATIONS,
   UPDATE_UNREAD_NOTIFICATIONS_COUNT,
-  UPDATE_CURRENT_PROJECT
+  UPDATE_CURRENT_PROJECT,
+  UPDATE_RECRUIT_REQUESTS
 } from "../actions/types";
 
 const initialState = {
@@ -31,6 +32,7 @@ const initialState = {
     results: [],
     loading: false
   },
+  recruitRequests: [],
   mongoNotifications: null,
   notificationsUnread: 0
 };
@@ -59,6 +61,8 @@ const manageData = (state = initialState, action) => {
       return { ...state, notificationsUnread: action.payload };
     case UPDATE_CURRENT_PROJECT:
       return { ...state, currentProject: action.payload };
+    case UPDATE_RECRUIT_REQUESTS:
+      return { ...state, recruitRequests: action.payload };
     default:
       return state;
   }

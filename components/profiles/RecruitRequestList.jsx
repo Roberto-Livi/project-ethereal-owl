@@ -7,10 +7,10 @@ import {
 } from "../../helpers/mongodb/NotificationCallCenter";
 import ModalMessage from "../utilities/ModalMessage";
 import _ from "lodash";
-import { updateCurrentProject } from "../../store/actions";
-import { recruitUserResponse, getProject } from "../../helpers/users/users";
+import { updateCurrentProject, updateRecruitRequests, updateUserInfo } from "../../store/actions";
+import { recruitUserResponse, getProject, getUserData, getUsersRecruitRequests } from "../../helpers/users/users";
 
-const RecruitRequestList = ({ requests }) => {
+const RecruitRequestList = ({ profileAddress }) => {
   const dispatch = useDispatch();
 
   const [transactionPending, setTransactionPending] = useState(false);
@@ -19,6 +19,7 @@ const RecruitRequestList = ({ requests }) => {
 
   const userInfo = useSelector((state) => state.manageData.userInfo);
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
+  const requests = useSelector((state) => state.manageData.recruitRequests);
 
   const answerRequest = async (projectId, requestId, approved) => {
     setTransactionPending(true);
@@ -30,9 +31,10 @@ const RecruitRequestList = ({ requests }) => {
     );
     if (response) {
       const data = await getProject(walletAddress, projectId);
-      activateModal(data.project.name, approved);
       dispatch(updateCurrentProject(data));
-      sendNotificationsToMembers(data.members, data.project.name, approved);
+      await updateRequestList();
+      await sendNotificationsToMembers(data.members, data.project.name, approved);
+      await activateModal(data.project.name, approved);
     }
     setTransactionPending(false);
   };
@@ -41,20 +43,23 @@ const RecruitRequestList = ({ requests }) => {
     const approvedMessage = approved ? "approved" : "rejected";
     members.forEach(async(member) => {
       const mongoUser = await getUsersNotifications(member.mongoNotificationsId);
-      if (mongoUser.successfulResponse) {
+      if (
+        mongoUser.successfulResponse &&
+        !_.isEqual(member.mongoNotificationsId, userInfo.mongoNotificationsId)
+      ) {
         const notification = {
           message: `${userInfo.codename} has ${approvedMessage} the team's request to join ${projectName}`,
-          seen: false
+          seen: false,
         };
         const updatedUser = {
-          notifications: [notification, ...mongoUser.data.notifications]
+          notifications: [notification, ...mongoUser.data.notifications],
         };
         updateNotification(member.mongoNotificationsId, updatedUser);
       }
     })
   };
 
-  const activateModal = (projectName, approved) => {
+  const activateModal = async (projectName, approved) => {
     if (approved) {
       setModal({
         header: "Approved Request",
@@ -68,6 +73,15 @@ const RecruitRequestList = ({ requests }) => {
     }
     setOpenModal(true);
   };
+
+  const updateRequestList = async() => {
+    console.log(userInfo.pendingRequestsCount);
+    const reqs = await getUsersRecruitRequests(
+      profileAddress,
+      parseInt(userInfo.pendingRequestsCount - 1)
+    );
+    dispatch(updateRecruitRequests(reqs));
+  }
 
   return (
     <div>
