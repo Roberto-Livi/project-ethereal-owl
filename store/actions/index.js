@@ -10,7 +10,8 @@ import {
   UPLOAD_MONGO_NOTIFICATIONS,
   UPDATE_UNREAD_NOTIFICATIONS_COUNT,
   UPDATE_CURRENT_PROJECT,
-  UPDATE_RECRUIT_REQUESTS
+  UPDATE_RECRUIT_REQUESTS,
+  UPDATE_TOKEN_BALANCE
 } from "./types";
 import users from "../../ethereum/users";
 
@@ -63,4 +64,8 @@ export const updateCurrentProject = (project) => dispatch => {
 
 export const updateRecruitRequests = (requests)  => dispatch => {
   dispatch({ type: UPDATE_RECRUIT_REQUESTS, payload: requests });
+}
+
+export const updateTokenBalance = (balance) => dispatch => {
+  dispatch({ type: UPDATE_TOKEN_BALANCE, payload: balance });
 }

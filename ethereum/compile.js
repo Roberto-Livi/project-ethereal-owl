@@ -5,8 +5,8 @@ const fs = require("fs-extra");
 const buildPath = path.resolve(__dirname, "build");
 fs.removeSync(buildPath);
 
-const hodgePath = path.resolve(__dirname, "contracts", "Users.sol");
-const source = fs.readFileSync(hodgePath, "utf8");
+const usersPath = path.resolve(__dirname, "contracts", "Users.sol");
+const source = fs.readFileSync(usersPath, "utf8");
 
 const input = {
   language: "Solidity",

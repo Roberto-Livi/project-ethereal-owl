@@ -10,7 +10,8 @@ import {
   UPLOAD_MONGO_NOTIFICATIONS,
   UPDATE_UNREAD_NOTIFICATIONS_COUNT,
   UPDATE_CURRENT_PROJECT,
-  UPDATE_RECRUIT_REQUESTS
+  UPDATE_RECRUIT_REQUESTS,
+  UPDATE_TOKEN_BALANCE
 } from "../actions/types";
 
 const initialState = {
@@ -19,7 +20,7 @@ const initialState = {
   walletAddress: "",
   userInfo: null,
   userProfileCard: null,
-  hootBalance: 100,
+  tokenBalance: 0,
   projects: [],
   currentProject: {
     project: [],
@@ -47,6 +48,8 @@ const manageData = (state = initialState, action) => {
       return { ...state, admin: true };
     case UPDATE_USER_INFO:
       return { ...state, userInfo: action.userInfo };
+    case UPDATE_TOKEN_BALANCE:
+      return { ...state, tokenBalance: action.payload };
     case UPDATE_PROFILE_CARD_ADDRESS:
       return { ...state, userProfileCard: action.payload };
     case UPDATE_PROFILE_SEARCH_REQUEST:
