@@ -11,7 +11,8 @@ import {
   UPDATE_UNREAD_NOTIFICATIONS_COUNT,
   UPDATE_CURRENT_PROJECT,
   UPDATE_RECRUIT_REQUESTS,
-  UPDATE_TOKEN_BALANCE
+  UPDATE_TOKEN_BALANCE,
+  APPROVE_TOKEN
 } from "./types";
 import users from "../../ethereum/users";
 
@@ -68,4 +69,8 @@ export const updateRecruitRequests = (requests)  => dispatch => {
 
 export const updateTokenBalance = (balance) => dispatch => {
   dispatch({ type: UPDATE_TOKEN_BALANCE, payload: balance });
+}
+
+export const approveToken = () => {
+  dispatch({ type: APPROVE_TOKEN, payload: true });
 }

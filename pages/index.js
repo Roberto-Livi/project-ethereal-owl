@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import Layout from "../components/utilities/Layout";
 import { getTokenBalance } from "../helpers/proj-token/proj-token";
 import { Button } from "semantic-ui-react";
-import { sendTokenToUser, approveTokenContract } from "../helpers/proj-token/proj-token";
+import { approveTokenContract } from "../helpers/proj-token/proj-token";
 import { convertToBigNumber } from "../helpers/proj-token/helpers";
 
 

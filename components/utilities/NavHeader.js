@@ -4,20 +4,23 @@ import { Menu, Button, Label } from "semantic-ui-react";
 import { Link } from "../../routes";
 import { ROUTES } from "./constants";
 import _ from "lodash";
-import { updateUnreadNotifications } from "../../store/actions";
+import { updateUnreadNotifications, approveToken } from "../../store/actions";
+import { approveTokenContract } from "../../helpers/proj-token/proj-token";
 
 const NavHeader = () => {
 
   const dispatch = useDispatch();
 
   const [connecting, setConnecting] = useState(false);
+  const [approvingToken, setApprovingToken] = useState(false);
 
-  const address = useSelector((state) => state.manageData.walletAddress);
+  const walletAddress = useSelector((state) => state.manageData.walletAddress);
   const admin = useSelector((state) => state.manageData.admin);
   const walletConnected = useSelector((state) => state.manageData.connected);
   const userInfo = useSelector((state) => state.manageData.userInfo);
   const notificationsUnread = useSelector((state) => state.manageData.notificationsUnread);
   const mongoClient = useSelector((state) => state.manageData.mongoNotifications);
+  const approvedToken = useSelector((state) => state.manageData.approvedToken);
 
   const onClickConnect = async () => {
     try {
@@ -25,11 +28,26 @@ const NavHeader = () => {
       // Will open the MetaMask UI
       // You should disable this button while the request is pending!
       await ethereum.request({ method: "eth_requestAccounts" });
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
     }
     setConnecting(false);
   };
+
+  const onClickApproveToken = async () => {
+    try {
+      setApprovingToken(true);
+      if (walletAddress) {
+        const resp = await approveTokenContract();
+        if(resp) {
+          dispatch(approveToken());
+        }
+      }
+    } catch(err) {
+      console.log(err)
+    }
+    setApprovingToken(false);
+  }
 
   const notificationsUnreadCount = () => {
     let count = 0;
@@ -74,7 +92,10 @@ const NavHeader = () => {
         {userInfo && (
           <Link route={ROUTES.NOTIFICATIONS}>
             <Menu.Item key="messages">
-              Messages<Label color={"violet"}>{_.isNull(mongoClient) ? "0" : notificationsUnread}</Label>
+              Messages
+              <Label color={"violet"}>
+                {_.isNull(mongoClient) ? "0" : notificationsUnread}
+              </Label>
             </Menu.Item>
           </Link>
         )}
@@ -88,6 +109,17 @@ const NavHeader = () => {
             {walletConnected ? "Wallet Connected" : "Connect Wallet"}
           </Button>
         </Menu.Item>
+        { !approvedToken &&
+          <Menu.Item>
+            <Button
+              color="violet"
+              onClick={onClickApproveToken}
+              loading={approvingToken}
+            >
+              Approve Token
+            </Button>
+          </Menu.Item>
+        }
       </Menu.Menu>
     </Menu>
   );

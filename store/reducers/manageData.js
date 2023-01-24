@@ -11,7 +11,8 @@ import {
   UPDATE_UNREAD_NOTIFICATIONS_COUNT,
   UPDATE_CURRENT_PROJECT,
   UPDATE_RECRUIT_REQUESTS,
-  UPDATE_TOKEN_BALANCE
+  UPDATE_TOKEN_BALANCE,
+  APPROVE_TOKEN
 } from "../actions/types";
 
 const initialState = {
@@ -35,7 +36,8 @@ const initialState = {
   },
   recruitRequests: [],
   mongoNotifications: null,
-  notificationsUnread: 0
+  notificationsUnread: 0,
+  approvedToken: false
 };
 
 const manageData = (state = initialState, action) => {
@@ -66,6 +68,8 @@ const manageData = (state = initialState, action) => {
       return { ...state, currentProject: action.payload };
     case UPDATE_RECRUIT_REQUESTS:
       return { ...state, recruitRequests: action.payload };
+    case APPROVE_TOKEN:
+      return { ...state, approvedToken: action.payload };
     default:
       return state;
   }
