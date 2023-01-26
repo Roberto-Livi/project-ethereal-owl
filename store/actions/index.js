@@ -71,6 +71,6 @@ export const updateTokenBalance = (balance) => dispatch => {
   dispatch({ type: UPDATE_TOKEN_BALANCE, payload: balance });
 }
 
-export const approveToken = () => {
+export const approveToken = () => dispatch => {
   dispatch({ type: APPROVE_TOKEN, payload: true });
 }

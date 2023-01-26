@@ -14,19 +14,19 @@ const ChaincrackerIndex = () => {
   const info = async() => {
     if(walletAddress) {
       const balance = await getTokenBalance(walletAddress);
-      console.log(convertToBigNumber(balance))
+      console.log(await convertToBigNumber(balance))
     }
   }
 
   const sendPon = async()  => {
     if(walletAddress) {
-      // await approveTokenContract();
-      const amount = 99 * (10 ** 18);
-      await sendTokenToUser(
-        "0x34da0BdC60FC88C2D4a114CBa10391f7d667690b",
-        "0x042072566B98039Be7Ab44731592BC7EB966B9d1",
-        amount
-      );
+      await approveTokenContract();
+      // const amount = 99 * (10 ** 18);
+      // await sendTokenToUser(
+      //   "0x34da0BdC60FC88C2D4a114CBa10391f7d667690b",
+      //   "0x042072566B98039Be7Ab44731592BC7EB966B9d1",
+      //   amount
+      // );
     }
   }
 

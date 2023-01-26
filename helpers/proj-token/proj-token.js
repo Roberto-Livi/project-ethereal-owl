@@ -1,15 +1,16 @@
 import web3 from "../../ethereum/web3";
 import ponToken from "../../ethereum/ponToken/ponToken";
 import _ from "lodash";
-import { convertToBigNumber } from "./helpers";
 
 export const approveTokenContract = async() => {
   let successfulResponse = false;
 
   try {
     const account = await web3.eth.getAccounts();
-    const amount = 10000000 * (10 ** 18);
+    // const amount = 10000000 * (10 ** 18);
+    const amount = "10000000000000000000000000";
     const spenderAmount = await web3.utils.toBN(amount);
+    console.log(spenderAmount)
     await ponToken.methods.approveTokenContract(account[0], spenderAmount).send({
       from: account[0]
     });
