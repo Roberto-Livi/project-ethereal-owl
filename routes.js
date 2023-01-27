@@ -10,6 +10,7 @@ routes
   .add("/projects/create-project", "/projects/create-project")
   .add("/projects/:id", "/project")
   .add("/notifications", "/notifications")
+  .add("/lottery", "/lottery")
   // .add("/campaigns/:address", "/campaigns/show")
   // .add("/campaigns/:address/requests", "campaigns/requests/index")
   // .add("/campaigns/:address/requests/new", "/campaigns/requests/new");

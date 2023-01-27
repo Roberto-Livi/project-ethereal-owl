@@ -3,5 +3,6 @@ export const ROUTES = {
   ADMIN: "/admin",
   PROFILES: "/profiles",
   PROJECTS: "/projects",
-  NOTIFICATIONS: "/notifications"
+  NOTIFICATIONS: "/notifications",
+  LOTTERY: "/lottery"
 };

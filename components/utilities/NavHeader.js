@@ -99,6 +99,11 @@ const NavHeader = () => {
             </Menu.Item>
           </Link>
         )}
+        <Link route={ROUTES.LOTTERY}>
+          <Menu.Item key="lottery">
+            Lottery
+          </Menu.Item>
+        </Link>
         <Menu.Item>
           <Button
             color="violet"
@@ -109,7 +114,7 @@ const NavHeader = () => {
             {walletConnected ? "Wallet Connected" : "Connect Wallet"}
           </Button>
         </Menu.Item>
-        { !approvedToken &&
+        {!approvedToken && (
           <Menu.Item>
             <Button
               color="violet"
@@ -119,7 +124,7 @@ const NavHeader = () => {
               Approve Token
             </Button>
           </Menu.Item>
-        }
+        )}
       </Menu.Menu>
     </Menu>
   );
