@@ -111,7 +111,7 @@ export const isAdmin = async(userAddress) => {
 export const submitFeaturedUsers = async(userAddressCollection) => {
   const accounts = await web3.eth.getAccounts();
   await users.methods.modifyFeaturedProfiles(userAddressCollection).send({
-    from: accounts[0],
+    from: accounts[0]
   });
 }
 
