@@ -5,7 +5,8 @@ import { getTokenBalance } from "../helpers/proj-token/proj-token";
 import { Button } from "semantic-ui-react";
 import { approveTokenContract } from "../helpers/proj-token/proj-token";
 import { convertToBigNumber } from "../helpers/proj-token/helpers";
-import { enterLottery } from "../helpers/lottery/lotteryCenter";
+import { enterLottery, getPlayers } from "../helpers/lottery/lotteryCenter";
+import { transferTokens } from "../helpers/proj-token/proj-token";
 
 
 const ChaincrackerIndex = () => {
@@ -21,7 +22,9 @@ const ChaincrackerIndex = () => {
 
   const sendPon = async()  => {
     if(walletAddress) {
-      await enterLottery();
+      await getPlayers();
+      // await enterLottery();
+      // await transferTokens("0xE8473b0E78B41c89484b29c3095d76Ba307e6269", 10000);
       // const amount = 99 * (10 ** 18);
       // await sendTokenToUser(
       //   "0x34da0BdC60FC88C2D4a114CBa10391f7d667690b",

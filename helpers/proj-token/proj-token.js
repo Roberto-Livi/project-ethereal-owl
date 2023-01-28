@@ -44,9 +44,9 @@ export const transferTokens = async(to, amount) => {
   let successfulResponse = false;
 
   try {
-    const amountWithDecimals = amount * (10 ** 18);
+    const bigIntAmount = BigInt(amount * 10 ** 18).toString();
     const account = await web3.eth.getAccounts();
-    const convertedAmount = web3.utils.toBN(amountWithDecimals);
+    const convertedAmount = await web3.utils.toBN(bigIntAmount);
     await ponToken.methods.transfer(to, convertedAmount).send({
       from: account[0]
     });
