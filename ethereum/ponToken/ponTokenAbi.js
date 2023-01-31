@@ -6,6 +6,11 @@ export default [
         name: "initialSupply",
         type: "uint256",
       },
+      {
+        internalType: "address",
+        name: "lotteryManagerAddress",
+        type: "address",
+      },
     ],
     stateMutability: "nonpayable",
     type: "constructor",
@@ -204,6 +209,32 @@ export default [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "enter",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getPlayers",
+    outputs: [
+      {
+        internalType: "address payable[]",
+        name: "",
+        type: "address[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "spender",
         type: "address",
@@ -227,6 +258,19 @@ export default [
   },
   {
     inputs: [],
+    name: "lotteryManager",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "manager",
     outputs: [
       {
@@ -246,6 +290,45 @@ export default [
         internalType: "string",
         name: "",
         type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "pickWinner",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "players",
+    outputs: [
+      {
+        internalType: "address payable",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "playersCount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -328,6 +411,19 @@ export default [
       },
     ],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "winner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
 ];

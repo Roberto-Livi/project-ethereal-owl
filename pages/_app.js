@@ -37,12 +37,6 @@ const MyApp = ({ Component, pageProps }) => {
       if (projects.length) {
         dispatch(retrieveProjects(projects));
       }
-      const tokenBalance = await getTokenBalance();
-      const tokenApproved = await userApprovedTokenContract(account[0]);
-      if(tokenApproved) {
-        dispatch(approveToken());
-      }
-      dispatch(updateTokenBalance(tokenBalance));
       dispatch(connectWallet(account[0], user));
       uploadMongoNotifs(user);
     } else if(account.length) {
@@ -53,6 +47,13 @@ const MyApp = ({ Component, pageProps }) => {
     } else {
       dispatch(disconnect());
     }
+
+    const tokenBalance = await getTokenBalance();
+    const tokenApproved = await userApprovedTokenContract(account[0]);
+    if (tokenApproved) {
+      dispatch(approveToken());
+    }
+    dispatch(updateTokenBalance(tokenBalance));
   }
 
   const uploadMongoNotifs = async(user) => {
