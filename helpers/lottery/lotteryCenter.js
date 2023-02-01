@@ -24,18 +24,17 @@ export const enterLottery = async () => {
 
 export const getPlayers = async () => {
   let successfulResponse = false;
+  let playersCount;
 
   try {
-    const players = await ponToken.methods.getPlayers().call();
-    const playersCount = await ponToken.methods.playersCount().call();
-    console.log(players)
-    console.log(playersCount)
+    // const players = await ponToken.methods.getPlayers().call();
+    playersCount = await ponToken.methods.playersCount().call();
     successfulResponse = true;
   } catch(err) {
     console.log("Error: ", err.message);
   }
 
-  return successfulResponse;
+  return { successfulResponse, playersCount };
 }
 
 export const pickWinner = async () => {
@@ -66,4 +65,17 @@ export const getLotteryWinner = async () => {
   }
 
   return { successfulResponse, winner }
+}
+
+export const getLotteryBalance = async () => {
+  let balance = 0;
+
+  try {
+    balance = await ponToken.methods.lotteryBalance().call();
+    balance = balance.substring(0, balance.length - 18);
+  } catch(err) {
+    console.log("Error: ", err.message);
+  }
+
+  return balance;
 }

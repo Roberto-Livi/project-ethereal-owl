@@ -5,7 +5,7 @@ import { getTokenBalance } from "../helpers/proj-token/proj-token";
 import { Button } from "semantic-ui-react";
 import { approveTokenContract } from "../helpers/proj-token/proj-token";
 import { convertToBigNumber } from "../helpers/proj-token/helpers";
-import { enterLottery, getLotteryWinner, getPlayers, pickWinner } from "../helpers/lottery/lotteryCenter";
+import { enterLottery, getLotteryWinner, getPlayers, pickWinner, getLotteryBalance } from "../helpers/lottery/lotteryCenter";
 import { transferTokens } from "../helpers/proj-token/proj-token";
 
 
@@ -30,12 +30,10 @@ const ChaincrackerIndex = () => {
         // const winner = await getLotteryWinner();
         // console.log(winner)
       // }
-      await getPlayers();
+      // await getPlayers();
+      await getLotteryBalance();
       // await enterLottery();
-      // await transferTokens(
-      //   "0xE8473b0E78B41c89484b29c3095d76Ba307e6269",
-      //   10000
-      // );
+      // await transferTokens("0x042072566B98039Be7Ab44731592BC7EB966B9d1", 10000);
       // const amount = 99 * (10 ** 18);
       // await sendTokenToUser(
       //   "0x34da0BdC60FC88C2D4a114CBa10391f7d667690b",
