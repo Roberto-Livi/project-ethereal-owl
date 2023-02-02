@@ -3,6 +3,9 @@ import { useSelector } from "react-redux";
 import Layout from "../components/utilities/Layout";
 import { Button, Container, Segment, Statistic, Grid, Card, Message, Icon } from "semantic-ui-react";
 import { getLotteryBalance, getPlayers, enterLottery } from "../helpers/lottery/lotteryCenter";
+import PickWinner from "../components/lottery/PickWinner";
+import LotteryWinner from "../components/lottery/LotteryWinner";
+import _ from "lodash";
 
 
 const Lottery = () => {
@@ -16,7 +19,6 @@ const Lottery = () => {
 
   const getTicketToLottery = async () => {
     setLoading(true);
-
     if(walletAddress) {
       const entered = await enterLottery();
       if (entered) {
@@ -66,6 +68,7 @@ const Lottery = () => {
   }
 
   useEffect(() => {
+    console.log(lotteryBalance)
     getData();
   }, []);
 
@@ -96,7 +99,7 @@ const Lottery = () => {
         <Segment compact color="teal" size="big" inverted>
           <h2 style={{ margin: "0px" }}>Prize Amount</h2>
           <Statistic inverted>
-            <Statistic.Value>{lotteryBalance}</Statistic.Value>
+            <Statistic.Value>{_.isEmpty(lotteryBalance) ? "0" : lotteryBalance}</Statistic.Value>
           </Statistic>
         </Segment>
       </Segment>
@@ -109,6 +112,8 @@ const Lottery = () => {
         >
           Enter Lottery
         </Button>
+        <PickWinner />
+        <LotteryWinner />
       </Segment>
     </Layout>
   );

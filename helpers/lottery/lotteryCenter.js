@@ -1,6 +1,5 @@
 import ponToken from "../../ethereum/ponToken/ponToken";
 import web3 from "../../ethereum/web3";
-import { transferTokens } from "../proj-token/proj-token";
 import _ from "lodash";
 
 
@@ -78,4 +77,18 @@ export const getLotteryBalance = async () => {
   }
 
   return balance;
+}
+
+export const getLotteryManagerAddress = async () => {
+  let successfulResponse = false;
+  let address = "x1x1";
+
+  try {
+    address = await ponToken.methods.lotteryManager().call();
+    successfulResponse = true;
+  } catch(err) {
+    console.log("Error: ", err.message);
+  }
+
+  return { successfulResponse, address };
 }
