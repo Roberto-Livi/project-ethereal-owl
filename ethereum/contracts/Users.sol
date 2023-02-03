@@ -37,6 +37,8 @@ contract Users {
     mapping(address => bool) public walletRegistered;
     mapping(string => bool) public codenameTaken;
     mapping(string => bool) public projectNameTaken;
+    mapping(address => uint) public usersProjectsLength;
+    mapping(uint => uint) public projectMembersLength;
     uint public usersCount;
     uint public projectsCount;
 
@@ -104,6 +106,10 @@ contract Users {
 
         projectNameTaken[projectName] = true;
 
+        allUsers[user.id] = user;
+
+        projectMembersLength[projectsCount]++;
+        usersProjectsLength[userAddress]++;
         usersProjects[userAddress].push(project);
         projectMembers[projectsCount].push(user);
         projectsCount++;
@@ -129,12 +135,15 @@ contract Users {
     function answerJoinRequest(address userAddress, uint projectId, uint requestId, bool approved) public payable {
       require(walletRegistered[userAddress]);
       Project storage project = allProjects[projectId];
+      User storage user = users[userAddress];
       if(approved) {
-        User storage user = users[userAddress];
         user.projectsInvolved++;
         usersProjects[userAddress].push(project);
         project.membersCount++;
         projectMembers[projectId].push(user);
+        usersProjectsLength[user.userAddress]++;
+        projectMembersLength[projectId]++;
+        allUsers[user.id] = user;
       }
       project.pendingRequests--;
       delete projectPendingRequests[projectId][requestId];
@@ -143,12 +152,15 @@ contract Users {
     function answerRecruitRequest(address recruitAddress, uint projectId, uint requestId, bool approved) public payable {
       require(walletRegistered[recruitAddress]);
       User storage user = users[recruitAddress];
+      Project storage project = allProjects[projectId];
       if(approved){
-        Project storage project = allProjects[projectId];
         user.projectsInvolved++;
         usersProjects[recruitAddress].push(project);
         project.membersCount++;
         projectMembers[projectId].push(user);
+        usersProjectsLength[user.userAddress]++;
+        projectMembersLength[projectId]++;
+        allUsers[user.id] = user;
       }
       user.pendingRequestsCount--;
       allUsers[user.id] = user;
@@ -169,6 +181,23 @@ contract Users {
       for (uint i = 0; i < 5; i++) {
         featuredProjects.push(allProjects[projectIds[i]]);
       }
+    }
+
+    function removeUserFromProject(uint projectId, address userAddress, uint projectElementId, uint userElementId) public payable {
+      require(walletRegistered[msg.sender]);
+      Project storage project = allProjects[projectId];
+      User storage user = users[userAddress];
+
+      user.projectsInvolved--;
+      usersProjects[userAddress];
+      usersProjectsLength[userAddress]--;
+      allUsers[user.id] = user;
+
+      project.membersCount--;
+      projectMembersLength[projectId]--;
+
+      delete usersProjects[userAddress][projectElementId];
+      delete projectMembers[projectId][userElementId];
     }
 
 }

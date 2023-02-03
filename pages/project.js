@@ -5,6 +5,7 @@ import { getProject, getUsersRecruitRequests } from "../helpers/users/users";
 import JoinRequest from "../components/projects/JoinRequest";
 import PendingRequests from "../components/projects/PendingRequests";
 import { updateCurrentProject } from "../store/actions";
+import MembersList from "../components/projects/MembersList";
 
 
 const Project = ({ projectId }) => {
@@ -19,6 +20,7 @@ const Project = ({ projectId }) => {
 
   const getProjectData = async() => {
     const data = await getProject(walletAddress, projectId);
+    console.log(data)
     dispatch(updateCurrentProject(data));
     if(!_.isNull(userInfo)) {
       const recruitRequests = await getUsersRecruitRequests(
@@ -50,6 +52,7 @@ const Project = ({ projectId }) => {
           <li key={index}>{member.codename}</li>
         ))}
       </ol>
+      <MembersList members={projectData.members} />
       { projectData.loaded && (
         projectData.isMember ? (
         <PendingRequests
