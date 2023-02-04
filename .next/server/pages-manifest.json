@@ -2,5 +2,9 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/project": "pages/project.js"
+  "/project": "pages/project.js",
+  "/": "pages/index.js",
+  "/projects/users-projects": "pages/projects/users-projects.js",
+  "/projects": "pages/projects.js",
+  "/api/notifications/[id]": "pages/api/notifications/[id].js"
 }

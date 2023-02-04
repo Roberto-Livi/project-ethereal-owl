@@ -20,7 +20,6 @@ const Project = ({ projectId }) => {
 
   const getProjectData = async() => {
     const data = await getProject(walletAddress, projectId);
-    console.log(data)
     dispatch(updateCurrentProject(data));
     if(!_.isNull(userInfo)) {
       const recruitRequests = await getUsersRecruitRequests(
@@ -52,7 +51,7 @@ const Project = ({ projectId }) => {
           <li key={index}>{member.codename}</li>
         ))}
       </ol>
-      <MembersList members={projectData.members} />
+      <MembersList />
       { projectData.loaded && (
         projectData.isMember ? (
         <PendingRequests

@@ -150,14 +150,18 @@ export const createProject = async(address, projectName, projectMission) => {
 
 export const getUsersProjects = async(address) => {
   const usersProjects = [];
+  let counter = 0;
 
   try {
     const user = await users.methods.users(address).call();
     const projectsInvolved = user.projectsInvolved;
-
-    for (let i = 0; i < projectsInvolved; i++) {
-      let project = await users.methods.usersProjects(address, i).call();
-      usersProjects.push(project);
+    while (usersProjects.length < projectsInvolved) {
+      let project = await users.methods.usersProjects(address, counter).call();
+      if (!_.isEmpty(project.name)) {
+        project.projectElementId = counter;
+        usersProjects.push(project);
+      }
+      counter++;
     }
   } catch(err) {
     console.log("Error: ", err.message);
@@ -165,6 +169,25 @@ export const getUsersProjects = async(address) => {
   }
 
   return usersProjects;
+}
+
+export const getProjectElementId = async (userAddress, projectName) => {
+  let elementId = null;
+  let counter = 0;
+
+  try {
+    while(_.isNull(elementId)) {
+      let project = await users.methods.usersProjects(userAddress, counter).call();
+      if(_.isEqual(project.name, projectName)) {
+        elementId = counter;
+      }
+      counter++;
+    }
+  } catch(err) {
+    console.log("Error: ", err.message);
+  }
+
+  return elementId;
 }
 
 export const getProject = async(walletAddress, id) => {
@@ -314,7 +337,7 @@ export const recruitUserResponse = async (userAddress, projectId, requestId, app
   try {
     const accounts = await web3.eth.getAccounts();
     await users.methods.answerRecruitRequest(userAddress, projectId, requestId, approved).send({
-      from: accounts[0],
+      from: accounts[0]
     });
     successfulRequest = true;
   } catch (err) {
@@ -322,4 +345,41 @@ export const recruitUserResponse = async (userAddress, projectId, requestId, app
   }
 
   return successfulRequest;
+}
+
+export const removeUserFromProject = async (projectId, userAddress, projectElementId, userElementId) => {
+  let successfulRequest = false;
+
+  try {
+    const accounts = await web3.eth.getAccounts();
+    await users.methods.removeUserFromProject(projectId, userAddress, projectElementId, userElementId).send({
+      from: accounts[0]
+    });
+    successfulRequest = true;
+  } catch(err) {
+    console.log("Error: ", err.message);
+  }
+
+  return successfulRequest;
+}
+
+export const getUserElementIdFromProjMembers = async (codename, projectId) => {
+  let elementId = null;
+  let counter = 0;
+
+  try {
+    while (_.isNull(elementId)) {
+      let user = await users.methods
+        .projectMembers(projectId, counter)
+        .call();
+      if (_.isEqual(user.codename, codename)) {
+        elementId = counter;
+      }
+      counter++;
+    }
+  } catch (err) {
+    console.log("Error: ", err.message);
+  }
+
+  return elementId;
 }

@@ -1,70 +1,100 @@
 import React, { useState } from "react";
-import { Modal } from "semantic-ui-react";
-import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { Modal, Button } from "semantic-ui-react";
+import { getProject, removeUserFromProject, getProjectElementId, getUserElementIdFromProjMembers } from "../../helpers/users/users";
+import { updateCurrentProject } from "../../store/actions";
 
-const MembersListContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
 
-  .member {
-    width: 200px;
-    height: 200px;
-    margin: 10px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px #ccc;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+const MembersList = () => {
 
-    .member-name {
-      font-size: 18px;
-      font-weight: bold;
-    }
-  }
-`;
+  const dispatch = useDispatch();
 
-const MembersList = ({ members }) => {
   const [selectedMember, setSelectedMember] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSelectMember = (member) => {
+  const projectData = useSelector((state) => state.manageData.currentProject);
+  const walletAddress = useSelector((state) => state.manageData.walletAddress);
+
+  const handleSelectMember = async(member) => {
     setSelectedMember(member);
     setModalOpen(true);
   };
 
-  const handleDeleteMember = () => {
+  const handleDeleteMember = async() => {
+    setLoading(true);
+    const projId = await getProjectElementId(selectedMember.userAddress, projectData.project.name);
+    const userElementId = await getUserElementIdFromProjMembers(
+      selectedMember.codename,
+      projectData.project.id
+    );
     // Perform delete operation on selected member here.
+    const resp = await removeUserFromProject(
+      projectData.project.id,
+      selectedMember.userAddress,
+      projId,
+      userElementId
+    );
+    if(resp) {
+      updateProjMembers();
+    }
     setSelectedMember(null);
+    setLoading(false);
     setModalOpen(false);
   };
 
+  const updateProjMembers = async () => {
+    const data = await getProject(walletAddress, projectData.project.id);
+    dispatch(updateCurrentProject(data));
+  }
+
   return (
-    <MembersListContainer className="members-list">
-      {members.map((member) => (
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center",
+      }}
+    >
+      {projectData.members.map((member) => (
         <div
           key={member.id}
           onClick={() => handleSelectMember(member)}
-          className="member"
+          style={{
+            width: "200px",
+            height: "200px",
+            margin: "10px",
+            bordeRadius: "10px",
+            boxShadow: "0px 0px 10px #ccc",
+            cursor: "pointer",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
-          <p className="member-name">{member.codename}</p>
+          <p style={{ fontSize: "18px", fontWeight: "bold" }}>
+            {member.codename}
+          </p>
         </div>
       ))}
       <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-        <Modal.Header>Delete Member</Modal.Header>
+        <Modal.Header style={{ textAlign: "center" }}>
+          Delete Member
+        </Modal.Header>
         <Modal.Content>
-          <p>
+          <h3 style={{ textAlign: "center" }}>
             Are you sure you want to delete{" "}
             {selectedMember && selectedMember.codename}?
-          </p>
+          </h3>
         </Modal.Content>
         <Modal.Actions>
-          <button onClick={() => setModalOpen(false)}>Cancel</button>
-          <button onClick={handleDeleteMember}>Delete</button>
+          <Button loading={loading} onClick={() => setModalOpen(false)}>Cancel</Button>
+          <Button loading={loading} negative onClick={handleDeleteMember}>
+            Delete
+          </Button>
         </Modal.Actions>
       </Modal>
-    </MembersListContainer>
+    </div>
   );
 };
 

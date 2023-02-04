@@ -9,7 +9,6 @@ export const approveTokenContract = async() => {
     const account = await web3.eth.getAccounts();
     const bigIntAmount = BigInt(10000000 * (10 ** 18)).toString();
     const spenderAmount = await web3.utils.toBN(bigIntAmount);
-    console.log(spenderAmount)
     await ponToken.methods.approveTokenContract(account[0], spenderAmount).send({
       from: account[0]
     });
@@ -31,7 +30,7 @@ export const getTokenBalance = async() => {
     console.log("Error: ", err.message);
   }
 
-  return balance;
+  return balance / (10 ** 18);
 }
 
 export const getTotalSupply = async() => {
