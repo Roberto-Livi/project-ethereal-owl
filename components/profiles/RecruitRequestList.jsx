@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Button } from "semantic-ui-react";
+import { Button, Segment, Dimmer, Loader } from "semantic-ui-react";
 import {
   updateNotification,
   getUsersNotifications,
@@ -29,12 +29,14 @@ const RecruitRequestList = ({ profileAddress }) => {
       requestId,
       approved
     );
+    const data = await getProject(walletAddress, projectId);
     if (response) {
-      const data = await getProject(walletAddress, projectId);
       dispatch(updateCurrentProject(data));
-      await updateRequestList();
-      await sendNotificationsToMembers(data.members, data.project.name, approved);
-      await activateModal(data.project.name, approved);
+      updateRequestList();
+      sendNotificationsToMembers(data.members, data.project.name, approved);
+    }
+    if(response) {
+      activateModal(data.project.name, approved);
     }
     setTransactionPending(false);
   };
@@ -75,7 +77,6 @@ const RecruitRequestList = ({ profileAddress }) => {
   };
 
   const updateRequestList = async() => {
-    console.log(userInfo.pendingRequestsCount);
     const reqs = await getUsersRecruitRequests(
       profileAddress,
       parseInt(userInfo.pendingRequestsCount - 1)
@@ -83,37 +84,48 @@ const RecruitRequestList = ({ profileAddress }) => {
     dispatch(updateRecruitRequests(reqs));
   }
 
+  const closeModal = () => {
+    setOpenModal(false);
+  }
+
   return (
     <div>
-      {requests.map((request, index) => (
-        <div key={index}>
-          <h3>{request.project.name}</h3>
-          <Button
-            disabled={transactionPending}
-            color="violet"
-            onClick={() =>
-              answerRequest(request.project.id, request.requestId, true)
-            }
-          >
-            Approve
-          </Button>
-          <Button
-            disabled={transactionPending}
-            color="red"
-            onClick={() =>
-              answerRequest(request.project.id, request.requestId, false)
-            }
-          >
-            Reject
-          </Button>
-          <ModalMessage
-            header={modal.header}
-            message={modal.message}
-            open={openModal}
-            closeModal={() => setOpenModal(false)}
-          />
-        </div>
-      ))}
+      <Segment>
+        {requests.map((request, index) => (
+          <div key={index}>
+            <h3>{request.project.name}</h3>
+            <Button
+              disabled={transactionPending}
+              color="violet"
+              onClick={() =>
+                answerRequest(request.project.id, request.requestId, true)
+              }
+            >
+              Approve
+            </Button>
+            <Button
+              disabled={transactionPending}
+              color="red"
+              onClick={() =>
+                answerRequest(request.project.id, request.requestId, false)
+              }
+            >
+              Reject
+            </Button>
+          </div>
+        ))}
+        <ModalMessage
+          header={modal.header}
+          message={modal.message}
+          open={openModal}
+          closeModal={closeModal}
+        />
+        <Dimmer active={transactionPending} inverted>
+          <Loader style={{ fontSize: "25px", top: "150px" }}>
+            Transaction Pending
+          </Loader>
+        </Dimmer>
+      </Segment>
     </div>
   );
 };

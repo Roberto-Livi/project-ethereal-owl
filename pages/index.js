@@ -4,19 +4,18 @@ import Layout from "../components/utilities/Layout";
 import { getTokenBalance } from "../helpers/proj-token/proj-token";
 import { Button } from "semantic-ui-react";
 import { approveTokenContract } from "../helpers/proj-token/proj-token";
-import { convertToBigNumber } from "../helpers/proj-token/helpers";
 import { enterLottery, getLotteryWinner, getPlayers, pickWinner, getLotteryBalance } from "../helpers/lottery/lotteryCenter";
 import { transferTokens } from "../helpers/proj-token/proj-token";
 
 
-const ChaincrackerIndex = () => {
+const IgnitionistIndex = () => {
 
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
 
   const info = async() => {
     if(walletAddress) {
       const balance = await getTokenBalance(walletAddress);
-      console.log(await convertToBigNumber(balance))
+      console.log(balance);
     }
   }
 
@@ -49,7 +48,7 @@ const ChaincrackerIndex = () => {
 
   return (
     <Layout>
-      Welcome to Chaincracker
+      Welcome Ignitionist!
       <Button primary onClick={sendPon}>
         Send Pon
       </Button>
@@ -63,4 +62,4 @@ const ChaincrackerIndex = () => {
 //   return { stars: 2, address };
 // };
 
-export default ChaincrackerIndex;
+export default IgnitionistIndex;

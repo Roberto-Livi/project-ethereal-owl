@@ -192,13 +192,18 @@ export const getProjectElementId = async (userAddress, projectName) => {
 
 export const getProject = async(walletAddress, id) => {
   const project = await users.methods.allProjects(id).call();
+  console.log(project)
   const members = [];
   const addresses = [];
+  let memberCount = 0;
 
-  for(let i = 0; i < project.membersCount; i++) {
-    let member = await users.methods.projectMembers(id, i).call();
-    members.push(member);
-    addresses.push(member.userAddress);
+  while(members.length < project.membersCount) {
+    let member = await users.methods.projectMembers(id, memberCount).call();
+    if(!_.isEmpty(member.codename)) {
+      members.push(member);
+      addresses.push(member.userAddress);
+    }
+    memberCount++;
   }
 
   const pendingRequests = await getProjectPendingRequests(project);

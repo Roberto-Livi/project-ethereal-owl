@@ -69,7 +69,7 @@ const NavHeader = () => {
   return (
     <Menu style={{ marginTop: "10px" }}>
       <Link route="/">
-        <a className="item">Chaincracker</a>
+        <a className="item">Ignitionist</a>
       </Link>
       {admin && (
         <Link route={ROUTES.ADMIN}>

@@ -52,6 +52,9 @@ const RecruitUserModal = ({ user, open, closeModal }) => {
       if(response && !_.isEqual(user.mongoNotificationsId, "0")) {
         sendNotificationToUser(data.project.name);
       }
+      if(response){
+        setSubmitMessage(`Request has been sent to ${user.header}`);
+      }
     }
     setLoading(false);
   }
@@ -87,9 +90,6 @@ const RecruitUserModal = ({ user, open, closeModal }) => {
       };
       updateNotification(user.mongoNotificationsId, updatedUser);
     }
-    setSubmitMessage(
-      `Request has been sent to ${user.header}`
-    );
   }
 
   const setDropdown = () => {
