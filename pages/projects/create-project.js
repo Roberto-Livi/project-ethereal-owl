@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Layout from "../../components/utilities/Layout";
 import { Button, Form, Grid, Header, Segment, Container, Message } from "semantic-ui-react";
-import { createProject, getUsersProjects } from "../../helpers/users/users";
+import { createProject, getUserData, getUsersProjects } from "../../helpers/users/users";
 import { Router } from "../../routes";
-import { retrieveProjects } from "../../store/actions";
+import { retrieveProjects, updateUserInfo } from "../../store/actions";
 import _ from "lodash";
 
 
@@ -26,6 +26,8 @@ const CreateProject = () => {
 
     if(response) {
       const projs = await getUsersProjects(walletAddress);
+      const user = await getUserData();
+      dispatch(updateUserInfo(user));
       dispatch(retrieveProjects(projs));
       Router.pushRoute("/projects/users-projects");
     }

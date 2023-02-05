@@ -2,7 +2,5 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/recruit-requests": "pages/recruit-requests.js",
-  "/": "pages/index.js",
-  "/api/notifications/[id]": "pages/api/notifications/[id].js"
+  "/profiles": "pages/profiles.js"
 }

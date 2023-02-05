@@ -31,6 +31,8 @@ const RecruitRequestList = ({ profileAddress }) => {
     );
     const data = await getProject(walletAddress, projectId);
     if (response) {
+      const user = await getUserData();
+      dispatch(updateUserInfo(user));
       dispatch(updateCurrentProject(data));
       updateRequestList();
       sendNotificationsToMembers(data.members, data.project.name, approved);
