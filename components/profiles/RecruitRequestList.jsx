@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Button, Segment, Dimmer, Loader } from "semantic-ui-react";
 import {
   updateNotification,
-  getUsersNotifications,
+  getUsersNotifications
 } from "../../helpers/mongodb/NotificationCallCenter";
 import ModalMessage from "../utilities/ModalMessage";
 import _ from "lodash";

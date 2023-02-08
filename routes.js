@@ -11,6 +11,7 @@ routes
   .add("/projects/:id", "/project")
   .add("/notifications", "/notifications")
   .add("/lottery", "/lottery")
+  .add("/chat", "/chat")
   // .add("/campaigns/:address", "/campaigns/show")
   // .add("/campaigns/:address/requests", "campaigns/requests/index")
   // .add("/campaigns/:address/requests/new", "/campaigns/requests/new");

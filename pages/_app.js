@@ -16,6 +16,9 @@ import { isAdmin, getUsersProjects } from "../helpers/users/users";
 import _ from "lodash";
 import { getUsersNotifications } from "../helpers/mongodb/NotificationCallCenter";
 import { getTokenBalance, userApprovedTokenContract } from "../helpers/proj-token/proj-token";
+import { io } from "socket.io-client";
+
+const socket = io.connect("http://localhost:3001");
 
 
 const MyApp = ({ Component, pageProps }) => {

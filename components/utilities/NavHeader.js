@@ -100,9 +100,10 @@ const NavHeader = () => {
           </Link>
         )}
         <Link route={ROUTES.LOTTERY}>
-          <Menu.Item key="lottery">
-            Lottery
-          </Menu.Item>
+          <Menu.Item key="lottery">Lottery</Menu.Item>
+        </Link>
+        <Link route={ROUTES.CHAT}>
+          <Menu.Item key="chat">Chat</Menu.Item>
         </Link>
         <Menu.Item>
           <Button
