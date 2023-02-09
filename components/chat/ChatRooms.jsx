@@ -1,23 +1,33 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Link } from "../../routes";
+import { getChatRooms } from "../../helpers/mongodb/ChatCallCenter";
+
 
 const ChatRooms = () => {
+
   const [rooms, setRooms] = useState([]);
   const [latestMessages, setLatestMessages] = useState({});
 
-  useEffect(() => {
-    socket.on("rooms", (rooms) => {
-      setRooms(rooms);
-    });
-  }, []);
+  const walletAddress = useSelector((state) => state.manageData.walletAddress);
+
+  const setTheRooms = async() => {
+    const rms = await getChatRooms(walletAddress);
+    setRooms(rms);
+  }
 
   useEffect(() => {
-    socket.on("message", (message) => {
-      setLatestMessages({
-        ...latestMessages,
-        [message.room]: message.text,
-      });
-    });
-  }, [latestMessages]);
+    setTheRooms();
+  }, [walletAddress]);
+
+  // useEffect(() => {
+  //   socket.on("message", (message) => {
+  //     setLatestMessages({
+  //       ...latestMessages,
+  //       [message.room]: message.text
+  //     });
+  //   });
+  // }, [latestMessages]);
 
   return (
     <div
@@ -48,18 +58,18 @@ const ChatRooms = () => {
           textAlign: "center",
         }}
       >
-        {rooms.map((room) => (
+        {!!rooms.length && rooms.map((room, idx) => (
           <li
-            key={room}
+            key={idx}
             style={{
               margin: "16px",
               fontSize: "24px",
               color: "#00bfff",
               textShadow:
-                "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)",
+                "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)"
             }}
           >
-            <Link to={`/chat-room/${room}`}>{room}</Link>
+            <Link route={`/chat-room/${room.roomId}`}>{room.roomId}</Link>
             <br />
             <span
               style={{
