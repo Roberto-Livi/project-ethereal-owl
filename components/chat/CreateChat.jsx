@@ -13,6 +13,7 @@ const CreateChat = () => {
   const [message, setMessage] = useState("");
 
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
+  const userInfo = useSelector((state) => state.manageData.userInfo);
 
   const handleModalOpen = () => {
     setModalOpen(true);
@@ -26,7 +27,7 @@ const CreateChat = () => {
     event.preventDefault();
     const roomId = uuidv4();
     const chatMessage = {
-      address: walletAddress,
+      codename: userInfo.codename,
       message
     };
     // Emit the 'create-chat' event to the server with the data

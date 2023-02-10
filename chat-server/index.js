@@ -71,6 +71,13 @@ router.get(`/api/chat-rooms`, async (req, res) => {
   res.send(chatRooms);
 });
 
+router.get(`/api/chat-rooms/:roomId`, async (req, res) => {
+  const roomId = req.params.roomId;
+  const chatRoom = await collection.findOne({ roomId });
+  res.send(chatRoom);
+});
+
+
 app.use(router);
 
 server.listen(3001, () => {
