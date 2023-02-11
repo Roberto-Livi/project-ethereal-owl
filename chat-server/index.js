@@ -53,6 +53,7 @@ io.on("connection", async (socket) => {
 
   socket.on("update-chat", async (data) => {
     const { roomId, userId1, userId2, message } = data;
+    io.emit("receive-message", message);
     await collection.updateOne(
       { roomId, userId1, userId2 },
       { $push: { messages: message } }
@@ -62,7 +63,6 @@ io.on("connection", async (socket) => {
 
 router.get(`/api/chat-rooms`, async (req, res) => {
   const { userId } = req.query;
-  console.log(userId)
   const chatRooms = await collection
     .find({
       $or: [{ userId1: userId }, { userId2: userId }]

@@ -16,9 +16,11 @@ import { isAdmin, getUsersProjects } from "../helpers/users/users";
 import _ from "lodash";
 import { getUsersNotifications } from "../helpers/mongodb/NotificationCallCenter";
 import { getTokenBalance, userApprovedTokenContract } from "../helpers/proj-token/proj-token";
-import { io } from "socket.io-client";
+import { SocketContext } from "../components/utilities/socket";
+import socketIOClient from "socket.io-client";
 
-const socket = io.connect("http://localhost:3001");
+const endpoint = "http://localhost:3001";
+const socket = socketIOClient(endpoint);
 
 
 const MyApp = ({ Component, pageProps }) => {
@@ -94,9 +96,11 @@ const MyApp = ({ Component, pageProps }) => {
 
   return (
     <>
+    <SocketContext.Provider value={socket}>
       <Provider store={store}>
         <Component {...pageProps} />
       </Provider>
+    </SocketContext.Provider>
     </>
   );
 }

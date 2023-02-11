@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useSelector } from "react-redux";
 import Layout from "../components/utilities/Layout";
 import ChatRoom from "../components/chat/ChatRoom";
 import ChatMessageForm from "../components/chat/ChatMessageForm";
 import { getChatRoom } from "../helpers/mongodb/ChatCallCenter";
-import socket from "../components/utilities/socket";
+import { SocketContext } from "../components/utilities/socket";
 
 
 const Chat = ({ roomId }) => {
+
+  const socket = useContext(SocketContext);
 
   const [userAddress1, setUserAddress1] = useState("");
   const [userAddress2, setUserAddress2] = useState("");
@@ -27,16 +29,18 @@ const Chat = ({ roomId }) => {
   }, []);
 
   useEffect(() => {
-    socket.on("update-chat", (data) => {
-      console.log("update-chat")
+    socket.on("receive-message", (data) => {
       setMessages((prevMessages) => [...prevMessages, data]);
     });
-  }, []);
+    return () => {
+      socket.off("receive-message");
+    }
+  }, [socket]);
 
   return (
     <Layout>
       <ChatRoom messages={messages} />
-      <ChatMessageForm roomId={roomId} userId1={userAddress1} userId2={userAddress2} />
+      <ChatMessageForm roomId={roomId} userId1={userAddress1} userId2={userAddress2} socket={socket} />
     </Layout>
   );
 }

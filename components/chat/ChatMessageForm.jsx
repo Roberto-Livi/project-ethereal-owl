@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useSelector } from "react-redux";
-import socketIOClient from "socket.io-client";
+import { SocketContext } from "../utilities/socket";
 
-const endpoint = "http://localhost:3001";
-const socket = socketIOClient(endpoint);
 
 const ChatMessageForm = ({ roomId, userId1, userId2 }) => {
+
+  const socket = useContext(SocketContext);
 
   const [message, setMessage] = useState("");
 
