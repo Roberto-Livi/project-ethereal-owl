@@ -10,24 +10,16 @@ const ChatRooms = () => {
   const [latestMessages, setLatestMessages] = useState({});
 
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
+  const userInfo = useSelector((state) => state.manageData.userInfo);
 
   const setTheRooms = async() => {
-    const rms = await getChatRooms(walletAddress);
+    const rms = await getChatRooms(userInfo.codename);
     setRooms(rms);
   }
 
   useEffect(() => {
     setTheRooms();
   }, [walletAddress]);
-
-  // useEffect(() => {
-  //   socket.on("message", (message) => {
-  //     setLatestMessages({
-  //       ...latestMessages,
-  //       [message.room]: message.text
-  //     });
-  //   });
-  // }, [latestMessages]);
 
   return (
     <div

@@ -39,13 +39,13 @@ io.on("connection", async (socket) => {
   });
 
   socket.on("create-chat", async (data) => {
-    const { roomId, roomName, userIds, chatMessage } = data;
+    const { roomId, roomName, users, chatMessage } = data;
     const chatRoom = await collection.findOne({ roomId });
     if (!chatRoom) {
       await collection.insertOne({
         roomId,
         roomName,
-        userIds,
+        users,
         messages: [chatMessage]
       });
     }
@@ -62,10 +62,10 @@ io.on("connection", async (socket) => {
 });
 
 router.get(`/api/chat-rooms`, async (req, res) => {
-  const { userId } = req.query;
+  const { codename } = req.query;
   const chatRooms = await collection
     .find({
-      userIds: { $in: [userId] }
+      users: { $in: [codename] }
     })
     .toArray();
   res.send(chatRooms);

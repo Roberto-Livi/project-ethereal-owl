@@ -4,8 +4,8 @@ import _ from "lodash";
 const localUrl = "http://localhost:3001";
 
 
-export const getChatRooms = async (userId) => {
-  const response = await axios.get(`${localUrl}/api/chat-rooms`, { params: { userId } });
+export const getChatRooms = async (codename) => {
+  const response = await axios.get(`${localUrl}/api/chat-rooms`, { params: { codename } });
   return response.data;
 }
 

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { debounce } from "lodash";
 
 const localUrl = "http://localhost:3000";
 
@@ -16,3 +17,18 @@ export const createMongoUserObj = async (codename, address) => {
 
   return successfulResponse;
 };
+
+export const searchMongoCodename = debounce(async(searchTerm) => {
+  let users = [];
+
+  try {
+    const response = await axios.get(
+      `${localUrl}/api/users/search`, { params: { searchTerm } }
+    );
+    users = response.data.users;
+  } catch(err) {
+    console.log("Error: ", err.message);
+  }
+
+  return users;
+}, 500);

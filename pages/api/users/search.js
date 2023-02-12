@@ -1,18 +1,19 @@
 import clientPromise from "../../../lib/mongodb";
-import { debounce } from "lodash";
 
-export default debounce(async (searchTerm) => {
+export default async (req, res) => {
   try {
+    console.log(req.query.searchTerm)
     const mongoClient = await clientPromise;
-    const users = mongoClient
+    const users = await mongoClient
       .db("MetaLiberation")
       .collection("users")
       .find({
-        codename: { $regex: "^" + searchTerm, $options: "i" },
-      });
-    return { users, success: true };
+        codename: { $regex: "^" + req.query.searchTerm, $options: "i" },
+      })
+      .toArray();
+    return res.status(200).json({ users, success: true });
   } catch (error) {
     console.error(error);
-    return { success: false };
+    return res.status(500).json({ success: false });
   }
-}, 500);
+}
