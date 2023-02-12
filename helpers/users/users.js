@@ -40,12 +40,26 @@ export const fetchUser = async(userAddress) => {
 }
 
 export const createUser = async (userInfo) => {
-  const accounts = await web3.eth.getAccounts();
-  await users.methods
-    .createUser(accounts[0], userInfo.codename, userInfo.profession, userInfo.description)
-    .send({
-      from: accounts[0]
-    });
+  let successfulResponse = false;
+
+  try {
+    const accounts = await web3.eth.getAccounts();
+    await users.methods
+      .createUser(
+        accounts[0],
+        userInfo.codename,
+        userInfo.profession,
+        userInfo.description
+      )
+      .send({
+        from: accounts[0],
+      });
+    successfulResponse = true;
+  } catch(err) {
+    console.log("Error: ", err.message);
+  }
+
+  return successfulResponse;
 }
 
 export const getUsers = async (profession) => {

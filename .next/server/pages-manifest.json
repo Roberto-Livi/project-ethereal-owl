@@ -2,8 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/chat": "pages/chat.js",
-  "/api/notifications/[id]": "pages/api/notifications/[id].js",
-  "/": "pages/index.js",
-  "/chats": "pages/chats.js"
+  "/api/users/new": "pages/api/users/new.js",
+  "/profile": "pages/profile.js"
 }

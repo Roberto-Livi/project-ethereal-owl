@@ -13,7 +13,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: localUrl,
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST"]
   },
 });
 
@@ -39,23 +39,23 @@ io.on("connection", async (socket) => {
   });
 
   socket.on("create-chat", async (data) => {
-    const { roomId, userId1, userId2, chatMessage } = data;
-    const chatRoom = await collection.findOne({ roomId, userId1, userId2 });
+    const { roomId, roomName, userIds, chatMessage } = data;
+    const chatRoom = await collection.findOne({ roomId });
     if (!chatRoom) {
       await collection.insertOne({
         roomId,
-        userId1,
-        userId2,
+        roomName,
+        userIds,
         messages: [chatMessage]
       });
     }
   });
 
   socket.on("update-chat", async (data) => {
-    const { roomId, userId1, userId2, message } = data;
+    const { roomId, message } = data;
     io.emit("receive-message", message);
     await collection.updateOne(
-      { roomId, userId1, userId2 },
+      { roomId },
       { $push: { messages: message } }
     );
   });
@@ -65,11 +65,12 @@ router.get(`/api/chat-rooms`, async (req, res) => {
   const { userId } = req.query;
   const chatRooms = await collection
     .find({
-      $or: [{ userId1: userId }, { userId2: userId }]
+      userIds: { $in: [userId] }
     })
     .toArray();
   res.send(chatRooms);
 });
+
 
 router.get(`/api/chat-rooms/:roomId`, async (req, res) => {
   const roomId = req.params.roomId;

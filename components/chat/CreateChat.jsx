@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useSelector } from "react-redux";
-import io from "socket.io-client";
 import { v4 as uuidv4 } from "uuid";
+import { SocketContext } from "../utilities/socket";
 
 
 const CreateChat = () => {
 
-  const socket = io("http://localhost:3001");
+  const socket = useContext(SocketContext);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [userId2, setUserId2] = useState("");
@@ -25,14 +25,14 @@ const CreateChat = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const roomId = uuidv4();
-    const chatMessage = {
-      codename: userInfo.codename,
-      message
-    };
-    // Emit the 'create-chat' event to the server with the data
-    socket.emit("create-chat", { roomId, userId1: walletAddress, userId2, chatMessage });
-    handleModalClose();
+    // const roomId = uuidv4();
+    // const chatMessage = {
+    //   codename: userInfo.codename,
+    //   message
+    // };
+    // // Emit the 'create-chat' event to the server with the data
+    // socket.emit("create-chat", { roomId, roomName, userIds, chatMessage });
+    // handleModalClose();
   };
 
   return (

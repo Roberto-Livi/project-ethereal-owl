@@ -5,6 +5,7 @@ import { createUser, getUserData } from "../../helpers/users/users";
 import { updateUserInfo } from "../../store/actions";
 import { professionOptions } from "../../helpers/users/professions";
 import _ from "lodash";
+import { createMongoUserObj } from "../../helpers/mongodb/UsersCallCenter";
 
 const ProfileForm = ({ profileAddress }) => {
 
@@ -23,11 +24,14 @@ const ProfileForm = ({ profileAddress }) => {
       profession: profession,
       description: event.target[1].value
     };
-    await createUser(user)
-      .then(() => setLoading(false));
+    const resp = await createUser(user);
 
-    const userData = await getUserData();
-    dispatch(updateUserInfo(userData));
+    if(resp) {
+      createMongoUserObj(event.target[0].value, walletAddress);
+      setLoading(false);
+      const userData = await getUserData();
+      dispatch(updateUserInfo(userData));
+    }
   }
 
   if(!walletAddress || !_.isEqual(profileAddress, walletAddress)) {

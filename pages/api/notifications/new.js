@@ -14,8 +14,3 @@ export default async (req, res) => {
     console.log(err.message);
   }
 };
-
-//  .insertOne(databody, (err, data) => {
-//         if (err) return console.log(err);
-//         console.log("saved to db: " + data);
-//       });
