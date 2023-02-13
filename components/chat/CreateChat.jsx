@@ -2,8 +2,10 @@ import React, { useState, useEffect, useContext } from "react";
 import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { SocketContext } from "../utilities/socket";
-import { Button, Dropdown, Form, Modal } from "semantic-ui-react";
+import { Button, Form, Modal } from "semantic-ui-react";
 import { searchMongoCodename } from "../../helpers/mongodb/UsersCallCenter";
+import _ from "lodash";
+import Select from "react-select";
 
 
 const CreateChat = () => {
@@ -12,28 +14,40 @@ const CreateChat = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const [selected, setSelected] = useState([]);
   const [textValue, setTextValue] = useState("");
   const [options, setOptions] = useState([]);
   const [roomName, setRoomName] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const walletAddress = useSelector((state) => state.manageData.walletAddress);
   const userInfo = useSelector((state) => state.manageData.userInfo);
 
   const fetchData = async(searchTerm) => {
-    const data = await searchMongoCodename(searchTerm);
-    if(data) {
-      const updatedArray = data.map((obj, idx) => ({
-        ...obj,
-        key: idx,
-        text: data[idx].codename,
-        value: data[idx].codename,
-      }));
-      setOptions(updatedArray);
+    if(_.isEmpty(searchTerm)) {
+      return;
     }
+    const data = await searchMongoCodename(searchTerm);
+    setTimeout(() => {
+      if (data) {
+        const updatedArray = data.map((obj, idx) => ({
+          // ...obj,
+          key: idx,
+          label: data[idx].codename,
+          value: data[idx].codename,
+        }));
+        setOptions(updatedArray);
+      }
+    }, 1000);
   }
 
-  const handleMultiSelectChange = (event, data) => {
-    setSelectedOptions(data.value);
+  const handleMultiSelectChange = (data) => {
+    setSelectedOptions(data);
+    if (!_.isEqual(userInfo.codename, data[data.length - 1].value)) {
+      setSelected((previousState) => [
+        ...previousState,
+        data[data.length - 1].value
+      ]);
+    }
   };
 
   const handleTextChange = (event) => {
@@ -41,7 +55,7 @@ const CreateChat = () => {
   };
 
   const handleSearchChange = (query) => {
-    fetchData(query.target.value)
+    setSearchTerm(query);
   }
 
   const handleRoomNameChange = (event) => {
@@ -50,7 +64,7 @@ const CreateChat = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const users = [ ...selectedOptions, userInfo.codename];
+    const users = [ ...selected, userInfo.codename];
     const roomId = uuidv4();
     const chatMessage = {
       codename: userInfo.codename,
@@ -62,27 +76,23 @@ const CreateChat = () => {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(searchTerm);
+  }, [searchTerm]);
 
   return (
     <div>
-      <Button onClick={() => setIsOpen(true)}>Open Modal</Button>
+      <Button primary onClick={() => setIsOpen(true)}>Create a Room</Button>
       <Modal open={isOpen} onClose={() => setIsOpen(false)}>
         <Modal.Header>Modal Form</Modal.Header>
         <Modal.Content>
           <Form>
             <Form.Field>
-              <Dropdown
-                fluid
-                multiple
-                selection
-                search={true}
-                onSearchChange={handleSearchChange}
+              <Select
+                isMulti
                 options={options}
                 value={selectedOptions}
                 onChange={handleMultiSelectChange}
-                placeholder="Select options"
+                onInputChange={handleSearchChange}
               />
             </Form.Field>
             <Form.Field>

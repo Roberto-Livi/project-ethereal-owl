@@ -8,10 +8,10 @@ const Chats = () => {
   return (
     <Layout>
       <h1>Chat</h1>
-      <ChatRooms />
       <CreateChat />
+      <ChatRooms />
     </Layout>
-  )
+  );
 }
 
 export default Chats;

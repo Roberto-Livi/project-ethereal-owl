@@ -18,17 +18,19 @@ export const createMongoUserObj = async (codename, address) => {
   return successfulResponse;
 };
 
-export const searchMongoCodename = debounce(async(searchTerm) => {
+export const searchMongoCodename = async(searchTerm) => {
   let users = [];
 
   try {
     const response = await axios.get(
       `${localUrl}/api/users/search`, { params: { searchTerm } }
     );
+    console.log(searchTerm)
+    console.log(response.data.users)
     users = response.data.users;
   } catch(err) {
     console.log("Error: ", err.message);
   }
 
   return users;
-}, 500);
+}

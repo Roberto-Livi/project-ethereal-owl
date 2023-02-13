@@ -11,17 +11,13 @@ const Chat = ({ roomId }) => {
 
   const socket = useContext(SocketContext);
 
-  const [userAddress1, setUserAddress1] = useState("");
-  const [userAddress2, setUserAddress2] = useState("");
   const [messages, setMessages] = useState([]);
 
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
 
   const getRoomData = async () => {
-    const data = await getChatRoom(roomId, walletAddress);
+    const data = await getChatRoom(roomId);
     setMessages(data.messages);
-    setUserAddress1(data.userId1);
-    setUserAddress2(data.userId2);
   };
 
   useEffect(() => {
@@ -39,8 +35,8 @@ const Chat = ({ roomId }) => {
 
   return (
     <Layout>
-      <ChatRoom messages={messages} />
-      <ChatMessageForm roomId={roomId} userId1={userAddress1} userId2={userAddress2} socket={socket} />
+      <ChatRoom messages={messages} roomId={roomId} />
+      <ChatMessageForm roomId={roomId} />
     </Layout>
   );
 }

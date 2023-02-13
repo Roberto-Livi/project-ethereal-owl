@@ -9,7 +9,7 @@ export const getChatRooms = async (codename) => {
   return response.data;
 }
 
-export const getChatRoom = async (roomId, walletAddress) => {
+export const getChatRoom = async (roomId) => {
   let data;
 
   try {

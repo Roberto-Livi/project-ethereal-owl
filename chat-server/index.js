@@ -59,6 +59,17 @@ io.on("connection", async (socket) => {
       { $push: { messages: message } }
     );
   });
+
+  socket.on("add-user-to-chat", async (data) => {
+    const { roomId, codename } = data;
+    await collection.updateOne({ roomId }, { $push: { users: codename } });
+  });
+
+  socket.on("remove-user-from-chat", async (data) => {
+    const { roomId, codename } = data;
+    await collection.updateOne({ roomId }, { $pull: { users: codename } });
+  });
+
 });
 
 router.get(`/api/chat-rooms`, async (req, res) => {

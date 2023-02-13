@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { SocketContext } from "../utilities/socket";
 
 
-const ChatMessageForm = ({ roomId, userId1, userId2 }) => {
+const ChatMessageForm = ({ roomId }) => {
 
   const socket = useContext(SocketContext);
 
@@ -18,7 +18,7 @@ const ChatMessageForm = ({ roomId, userId1, userId2 }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!message) return;
-    socket.emit("update-chat", { roomId, userId1, userId2, message: { codename: userInfo.codename, message } });
+    socket.emit("update-chat", { roomId, message: { codename: userInfo.codename, message } });
     setMessage("");
   };
 
