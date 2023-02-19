@@ -4,6 +4,7 @@ import { updateUserProfileCard } from "../../store/actions";
 import { Button, Dimmer, Loader } from "semantic-ui-react";
 import { Router } from "../../routes";
 import _ from "lodash";
+import ImageUploadForm from "../utilities/ImageUploadForm";
 
 
 const ProfileCard = ({profileCardAddress}) => {
@@ -32,6 +33,9 @@ const ProfileCard = ({profileCardAddress}) => {
           <li>{userProfile.description}</li>
         </ul>
       )}
+      {_.isEqual(profileCardAddress, userInfo.userAddress) ? (
+        <ImageUploadForm />
+      ) : null}
       {_.isEqual(profileCardAddress, userInfo.userAddress) && (
         <div>
           <Button

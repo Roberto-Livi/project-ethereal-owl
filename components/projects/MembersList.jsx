@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Modal, Button } from "semantic-ui-react";
 import { getProject, removeUserFromProject, getProjectElementId, getUserElementIdFromProjMembers } from "../../helpers/users/users";
 import { updateCurrentProject } from "../../store/actions";
+import { Router } from "../../routes";
 
 
 const MembersList = () => {
@@ -61,8 +62,8 @@ const MembersList = () => {
           key={member.id}
           onClick={() => handleSelectMember(member)}
           style={{
-            width: "200px",
-            height: "200px",
+            width: "150px",
+            height: "150px",
             margin: "10px",
             bordeRadius: "10px",
             boxShadow: "0px 0px 10px #ccc",
@@ -79,18 +80,28 @@ const MembersList = () => {
       ))}
       <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
         <Modal.Header style={{ textAlign: "center" }}>
-          Delete Member
+          {selectedMember && selectedMember.codename}
         </Modal.Header>
         <Modal.Content>
           <h3 style={{ textAlign: "center" }}>
-            Are you sure you want to delete{" "}
-            {selectedMember && selectedMember.codename}?
+            Choose from the following options
           </h3>
         </Modal.Content>
         <Modal.Actions>
-          <Button loading={loading} onClick={() => setModalOpen(false)}>Cancel</Button>
+          <Button loading={loading} onClick={() => setModalOpen(false)}>
+            Cancel
+          </Button>
           <Button loading={loading} negative onClick={handleDeleteMember}>
-            Delete
+            Remove Member From Project
+          </Button>
+          <Button
+            loading={loading}
+            positive
+            onClick={() =>
+              Router.pushRoute(`/profiles/${selectedMember.userAddress}`)
+            }
+          >
+            Go To User Profile
           </Button>
         </Modal.Actions>
       </Modal>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Menu, Button, Label } from "semantic-ui-react";
+import { Menu, Button, Label, Dropdown } from "semantic-ui-react";
 import { Link } from "../../routes";
 import { ROUTES } from "./constants";
 import _ from "lodash";
@@ -78,33 +78,47 @@ const NavHeader = () => {
       )}
 
       <Menu.Menu position="right">
-        <Link route={ROUTES.PROFILES}>
-          <a className="item">Profiles</a>
-        </Link>
-        <Link route={ROUTES.PROJECTS}>
-          <a className="item">Projects</a>
-        </Link>
-        {/* {walletConnected && (
-          <Link route={ROUTES.PROJECTS}>
-            <a className="item">+</a>
-          </Link>
-        )} */}
+        <Dropdown item text="Profiles">
+          <Dropdown.Menu>
+            <Link route={ROUTES.PROFILES}>
+              <a className="item">All Profiles</a>
+            </Link>
+            <Link route={`/profiles/${walletAddress}`}>
+              <a className="item">User Profile</a>
+            </Link>
+          </Dropdown.Menu>
+        </Dropdown>
+        <Dropdown item text="Projects">
+          <Dropdown.Menu>
+            <Link route={ROUTES.PROJECTS}>
+              <a className="item">All Projects</a>
+            </Link>
+            <Link route={ROUTES.USERS_PROJECTS}>
+              <a className="item">Projects Dashboard</a>
+            </Link>
+            <Link route={ROUTES.CREATE_PROJECT}>
+              <a className="item">Create a Project</a>
+            </Link>
+          </Dropdown.Menu>
+        </Dropdown>
         {userInfo && (
-          <Link route={ROUTES.NOTIFICATIONS}>
-            <Menu.Item key="messages">
-              Messages
-              <Label color={"violet"}>
-                {_.isNull(mongoClient) ? "0" : notificationsUnread}
-              </Label>
-            </Menu.Item>
-          </Link>
+          <>
+            <Link route={ROUTES.NOTIFICATIONS}>
+              <Menu.Item key="messages">
+                Notifications
+                <Label color={"violet"}>
+                  {_.isNull(mongoClient) ? "0" : notificationsUnread}
+                </Label>
+              </Menu.Item>
+            </Link>
+            <Link route={ROUTES.CHATS}>
+              <Menu.Item key="chat">Chat</Menu.Item>
+            </Link>
+            <Link route={ROUTES.LOTTERY}>
+              <Menu.Item key="lottery">Lottery</Menu.Item>
+            </Link>
+          </>
         )}
-        <Link route={ROUTES.LOTTERY}>
-          <Menu.Item key="lottery">Lottery</Menu.Item>
-        </Link>
-        <Link route={ROUTES.CHATS}>
-          <Menu.Item key="chat">Chat</Menu.Item>
-        </Link>
         <Menu.Item>
           <Button
             color="violet"
