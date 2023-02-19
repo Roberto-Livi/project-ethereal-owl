@@ -6,6 +6,8 @@ import { Button } from "semantic-ui-react";
 import { approveTokenContract } from "../helpers/proj-token/proj-token";
 import { enterLottery, getLotteryWinner, getPlayers, pickWinner, getLotteryBalance } from "../helpers/lottery/lotteryCenter";
 import { transferTokens } from "../helpers/proj-token/proj-token";
+import DataDashboard from "../components/homepage/DataDashboard";
+import DashboardProjects from "../components/homepage/DashboardProjects";
 
 
 const IgnitionistIndex = () => {
@@ -48,6 +50,8 @@ const IgnitionistIndex = () => {
 
   return (
     <Layout>
+      <DataDashboard />
+      <DashboardProjects />
       Welcome Ignitionist!
       <Button primary onClick={sendPon}>
         Send Pon

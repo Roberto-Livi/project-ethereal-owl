@@ -40,8 +40,13 @@ const PendingRequests = ({ projectId }) => {
     if(mongoUser.successfulResponse) {
       const notification = {
         message: `${userInfo.codename} has ${approvedMessage} your request to join ${projectData.project.name}`,
-        seen: false
+        seen: false,
       };
+      // Check if user has more than 99 notifications
+      if (mongoUser.data.notifications.length >= 100) {
+        // Remove the last notification from the array
+        mongoUser.data.notifications.pop();
+      }
       const updatedUser = {
         notifications: [notification, ...mongoUser.data.notifications],
       };
