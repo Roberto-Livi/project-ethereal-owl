@@ -83,9 +83,13 @@ const NavHeader = () => {
             <Link route={ROUTES.PROFILES}>
               <a className="item">All Profiles</a>
             </Link>
-            <Link route={`/profiles/${walletAddress}`}>
-              <a className="item">User Profile</a>
-            </Link>
+            {userInfo && (
+              <>
+                <Link route={`/profiles/${walletAddress}`}>
+                  <a className="item">User Profile</a>
+                </Link>
+              </>
+            )}
           </Dropdown.Menu>
         </Dropdown>
         <Dropdown item text="Projects">
@@ -93,12 +97,16 @@ const NavHeader = () => {
             <Link route={ROUTES.PROJECTS}>
               <a className="item">All Projects</a>
             </Link>
-            <Link route={ROUTES.USERS_PROJECTS}>
-              <a className="item">Projects Dashboard</a>
-            </Link>
-            <Link route={ROUTES.CREATE_PROJECT}>
-              <a className="item">Create a Project</a>
-            </Link>
+            {userInfo && (
+              <>
+                <Link route={ROUTES.USERS_PROJECTS}>
+                  <a className="item">Projects Dashboard</a>
+                </Link>
+                <Link route={ROUTES.CREATE_PROJECT}>
+                  <a className="item">Create a Project</a>
+                </Link>
+              </>
+            )}
           </Dropdown.Menu>
         </Dropdown>
         {userInfo && (

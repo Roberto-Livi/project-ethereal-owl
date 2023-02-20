@@ -12,22 +12,45 @@ const Projects = () => {
 
   return (
     <Layout>
-      {/* TODO: route should lead to manager page for all users projects */}
-      <ProjectsHeader
-        title={"Projects"}
-      />
+      <ProjectsHeader title={"Projects"} />
       <ProjectSearch />
       {/* <ProfilesHeader /> */}
-      {/* <ProfessionDropdown /> */}
       <LoadingOverlay active={false}>
+        <Grid>
+          <Grid.Column
+            style={{
+              textAlign: "center",
+              backgroundColor: "#9370db",
+            }}
+            width={10}
+          >
+            <h1>Search Results</h1>
+          </Grid.Column>
+          <Grid.Column
+            style={{
+              textAlign: "center",
+              backgroundColor: "blueviolet",
+            }}
+            width={6}
+          >
+            <h1>Featured</h1>
+          </Grid.Column>
+        </Grid>
         <Grid style={{ backgroundColor: "#e6e6fa" }}>
           <Grid.Row>
             <Grid.Column width={10}>
-
+              {/* <ProfileCardGroup
+                errorMessage={"No Results Found"}
+                cardData={searchResults}
+                resultsLoading={resultsLoading}
+              /> */}
             </Grid.Column>
-            {/* <Grid.Column>
-              Advertised Projects
-            </Grid.Column> */}
+            <Grid.Column width={6}>
+              {/* <ProfileCardGroup
+                errorMessage={"Featured Projects Coming Soon"}
+                cardData={featuredUsers}
+              /> */}
+            </Grid.Column>
           </Grid.Row>
         </Grid>
       </LoadingOverlay>

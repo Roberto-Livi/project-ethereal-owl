@@ -74,7 +74,7 @@ const Profiles = () => {
               <ProfileCardGroup errorMessage={"No Results Found"} cardData={searchResults} resultsLoading={resultsLoading} />
             </Grid.Column>
             <Grid.Column width={6}>
-              <ProfileCardGroup errorMessage={"Featured Projects Coming Soon"} cardData={featuredUsers} />
+              <ProfileCardGroup errorMessage={"Featured Profiles Coming Soon"} cardData={featuredUsers} />
             </Grid.Column>
           </Grid.Row>
         </Grid>
