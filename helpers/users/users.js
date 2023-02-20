@@ -1,6 +1,6 @@
 import users from "../../ethereum/users";
 import web3 from "../../ethereum/web3";
-import { getUniqueUser } from "./helpers";
+import { getUniqueUser, getUniqueProject } from "./helpers";
 import _ from "lodash";
 
 export const getAccount = async () => {
@@ -23,8 +23,27 @@ export const getUserData = async () => {
 }
 
 export const getUserFromAllUsers = async (index) => {
-  const user = await users.methods.allUsers(index).call();
+  let user = null;
+
+  try {
+    user = await users.methods.allUsers(index).call();
+  } catch(err) {
+    console.log("Error: ", err.message);
+  }
+
   return user;
+}
+
+export const getProjectFromAllProjects = async (index) => {
+  let project = null;
+
+  try {
+    project = await users.methods.allProjects(index).call();
+  } catch(err) {
+    console.log("Error: ", err.message);
+  }
+
+  return project;
 }
 
 export const fetchUser = async(userAddress) => {
@@ -111,6 +130,33 @@ export const getFiveUsers = async () => {
 
   return userCollection;
 }
+
+export const getFiveProjects = async () => {
+  let projectsCollection = [];
+
+  try {
+    const projectsCount = await users.methods.projectsCount().call();
+    const maxResultsCount = 5;
+    let projectIds = [];
+
+    let resultsReqCount;
+
+    if (projectsCount) {
+      resultsReqCount =
+        projectsCount <= maxResultsCount ? projectsCount : maxResultsCount;
+    } else {
+      resultsReqCount = 0;
+    }
+
+    for (let i = 0; i < resultsReqCount; i++) {
+      await getUniqueProject(projectsCollection, projectIds, projectsCount);
+    }
+  } catch (err) {
+    console.log("Error: ", err.message);
+  }
+
+  return projectsCollection;
+};
 
 export const getUserByCodename = async(codename) => {
   const user = await users.methods.getUserByCodename(codename).call();
@@ -206,7 +252,6 @@ export const getProjectElementId = async (userAddress, projectName) => {
 
 export const getProject = async(walletAddress, id) => {
   const project = await users.methods.allProjects(id).call();
-  console.log(project)
   const members = [];
   const addresses = [];
   let memberCount = 0;

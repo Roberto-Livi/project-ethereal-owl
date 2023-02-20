@@ -8,13 +8,17 @@ import { enterLottery, getLotteryWinner, getPlayers, pickWinner, getLotteryBalan
 import { transferTokens } from "../helpers/proj-token/proj-token";
 import DataDashboard from "../components/homepage/DataDashboard";
 import DashboardProjects from "../components/homepage/DashboardProjects";
+import { getFiveProjects } from "../helpers/users/users";
 
 
 const IgnitionistIndex = () => {
 
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
+  const userInfo = useSelector((state) => state.manageData.userInfo);
 
   const info = async() => {
+    let projs = await getFiveProjects();
+    console.log(projs);
     if(walletAddress) {
       const balance = await getTokenBalance(walletAddress);
       console.log(balance);
@@ -32,7 +36,7 @@ const IgnitionistIndex = () => {
         // console.log(winner)
       // }
       // await getPlayers();
-      await getLotteryBalance();
+      // await getLotteryBalance();
       // await enterLottery();
       // await transferTokens("0x042072566B98039Be7Ab44731592BC7EB966B9d1", 10000);
       // const amount = 99 * (10 ** 18);
@@ -50,7 +54,7 @@ const IgnitionistIndex = () => {
 
   return (
     <Layout>
-      <DataDashboard />
+      { userInfo && <DataDashboard /> }
       <DashboardProjects />
       Welcome Ignitionist!
       <Button primary onClick={sendPon}>
@@ -60,7 +64,7 @@ const IgnitionistIndex = () => {
   )
 }
 
-// Chaincracker.getInitialProps = async () => {
+// Ignitionist.getInitialProps = async () => {
 //   // const address = await web3.eth.getAccounts();
 //   // console.log(address)
 //   return { stars: 2, address };
