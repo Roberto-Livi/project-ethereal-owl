@@ -6,6 +6,7 @@ import { createProject, getUserData, getUsersProjects } from "../../helpers/user
 import { Router } from "../../routes";
 import { retrieveProjects, updateUserInfo } from "../../store/actions";
 import _ from "lodash";
+import { createMongoProject } from "../../helpers/mongodb/ProjectsCallCenter";
 
 
 const CreateProject = () => {
@@ -22,9 +23,10 @@ const CreateProject = () => {
     event.preventDefault();
     setLoading(true);
 
-    const response = await createProject(walletAddress, event.target[0].value, event.target[1].value)
+    const response = await createProject(walletAddress, event.target[0].value, event.target[1].value);
 
     if(response) {
+      await createMongoProject(event.target[0].value);
       const projs = await getUsersProjects(walletAddress);
       const user = await getUserData();
       dispatch(updateUserInfo(user));

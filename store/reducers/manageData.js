@@ -12,7 +12,9 @@ import {
   UPDATE_CURRENT_PROJECT,
   UPDATE_RECRUIT_REQUESTS,
   UPDATE_TOKEN_BALANCE,
-  APPROVE_TOKEN
+  APPROVE_TOKEN,
+  UPDATE_PROJECT_SEARCH_REQUEST,
+  UPDATE_PROJECT_SEARCH
 } from "../actions/types";
 
 const initialState = {
@@ -34,6 +36,10 @@ const initialState = {
     results: [],
     loading: false
   },
+  projectSearch: {
+    results: [],
+    loading: false
+  },
   recruitRequests: [],
   mongoNotifications: null,
   notificationsUnread: 0,
@@ -43,7 +49,12 @@ const initialState = {
 const manageData = (state = initialState, action) => {
   switch (action.type) {
     case CONNECT_WALLET:
-      return { ...state, connected: true, walletAddress: action.walletAddress, userInfo: action.userInfo };
+      return {
+        ...state,
+        connected: true,
+        walletAddress: action.walletAddress,
+        userInfo: action.userInfo,
+      };
     case DISCONNECT:
       return initialState;
     case GET_ADMIN_ROLE:
@@ -55,7 +66,7 @@ const manageData = (state = initialState, action) => {
     case UPDATE_PROFILE_CARD_ADDRESS:
       return { ...state, userProfileCard: action.payload };
     case UPDATE_PROFILE_SEARCH_REQUEST:
-      return { ...state, profileSearch: {results: [], loading: true}};
+      return { ...state, profileSearch: { results: [], loading: true } };
     case UPDATE_PROFILE_SEARCH:
       return { ...state, profileSearch: action.payload };
     case GET_PROJECTS:
@@ -70,6 +81,10 @@ const manageData = (state = initialState, action) => {
       return { ...state, recruitRequests: action.payload };
     case APPROVE_TOKEN:
       return { ...state, approvedToken: action.payload };
+    case UPDATE_PROJECT_SEARCH_REQUEST:
+      return { ...state, projectSearch: { results: [], loading: true } };
+    case UPDATE_PROJECT_SEARCH:
+      return { ...state, projectSearch: action.payload };
     default:
       return state;
   }

@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Form, Input } from "semantic-ui-react";
+import { Dropdown } from "semantic-ui-react";
 import _ from "lodash";
 
 const ProjectSearch = () => {
@@ -39,9 +39,9 @@ const ProjectSearch = () => {
 
   return (
     <div style={{ marginBottom: "20px" }}>
-      <Form onSubmit={onSubmit}>
-        <Input fluid icon="search" placeholder="Search..." />
-      </Form>
+      <Dropdown
+
+      />
     </div>
   );
 };

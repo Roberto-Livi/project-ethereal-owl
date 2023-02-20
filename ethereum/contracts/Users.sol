@@ -29,6 +29,7 @@ contract Users {
     Project[] public featuredProjects;
     mapping(address => User) public users;
     mapping(address => Project[]) public usersProjects;
+    mapping(string => Project) public getProjectByName;
     mapping(uint => User[]) public projectMembers;
     mapping(uint => User[]) public projectPendingRequests;
     mapping(address => Project[]) public recruitPendingRequests;
@@ -105,6 +106,7 @@ contract Users {
         project.membersCount++;
 
         projectNameTaken[projectName] = true;
+        getProjectByName[projectName] = project;
 
         allUsers[user.id] = user;
 

@@ -25,8 +25,6 @@ export const searchMongoCodename = async(searchTerm) => {
     const response = await axios.get(
       `${localUrl}/api/users/search`, { params: { searchTerm } }
     );
-    console.log(searchTerm)
-    console.log(response.data.users)
     users = response.data.users;
   } catch(err) {
     console.log("Error: ", err.message);

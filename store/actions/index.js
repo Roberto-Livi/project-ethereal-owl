@@ -12,7 +12,9 @@ import {
   UPDATE_CURRENT_PROJECT,
   UPDATE_RECRUIT_REQUESTS,
   UPDATE_TOKEN_BALANCE,
-  APPROVE_TOKEN
+  APPROVE_TOKEN,
+  UPDATE_PROJECT_SEARCH_REQUEST,
+  UPDATE_PROJECT_SEARCH
 } from "./types";
 import users from "../../ethereum/users";
 
@@ -74,3 +76,12 @@ export const updateTokenBalance = (balance) => dispatch => {
 export const approveToken = () => dispatch => {
   dispatch({ type: APPROVE_TOKEN, payload: true });
 }
+
+export const updateProjectSearchRequest = () => (dispatch) => {
+  dispatch({ type: UPDATE_PROJECT_SEARCH_REQUEST });
+};
+
+export const updateProjectSearch = (results) => (dispatch) => {
+  const searchResults = { results, loading: false };
+  dispatch({ type: UPDATE_PROJECT_SEARCH, payload: searchResults });
+};

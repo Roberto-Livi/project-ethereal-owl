@@ -2,7 +2,8 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/profile": "pages/profile.js",
-  "/api/users/search": "pages/api/users/search.js",
-  "/api/users/new": "pages/api/users/new.js"
+  "/": "pages/index.js",
+  "/api/projects/new": "pages/api/projects/new.js",
+  "/projects/users-projects": "pages/projects/users-projects.js",
+  "/projects/create-project": "pages/projects/create-project.js"
 }
