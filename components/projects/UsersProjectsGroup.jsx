@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { Card, Button, Image } from "semantic-ui-react";
 import { getRandomNum } from "../../helpers/users/helpers";
@@ -8,10 +8,6 @@ import { Router } from "../../routes";
 const UsersProjectsGroup = () => {
 
   const projects = useSelector((state) => state.manageData.projects);
-
-  useEffect(() => {
-    console.log(projects);
-  }, []);
 
   return (
     <div>

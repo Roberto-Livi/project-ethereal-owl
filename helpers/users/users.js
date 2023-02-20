@@ -447,3 +447,15 @@ export const getUserElementIdFromProjMembers = async (codename, projectId) => {
 
   return elementId;
 }
+
+export const retrieveProjectByName = async (projectName) => {
+  let user = "";
+
+  try {
+    user = await users.methods.getProjectByName(projectName).call();
+  } catch(err) {
+    console.log("Error: ", err.message);
+  }
+
+  return user;
+};
