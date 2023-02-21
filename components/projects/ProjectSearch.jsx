@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState, useEffect} from "react";
 import { useDispatch } from "react-redux";
 import { Dropdown } from "semantic-ui-react";
 import _ from "lodash";
 import { searchMongoProjectName } from "../../helpers/mongodb/ProjectsCallCenter";
 import { updateProjectSearchRequest, updateProjectSearch } from "../../store/actions";
-import { retrieveProjectByName } from "../../helpers/users/users";
+import { getFiveProjects, retrieveProjectByName } from "../../helpers/users/users";
 
 const ProjectSearch = () => {
 
@@ -66,9 +66,21 @@ const ProjectSearch = () => {
     setSearchTerm(data.searchQuery);
   };
 
+  const getStartingData = async() => {
+    dispatch(updateProjectSearchRequest());
+    const projects = await getFiveProjects();
+    if(projects.length) {
+      dispatch(updateProjectSearch(projects));
+    }
+  }
+
   useEffect(() => {
     fetchOptions(searchTerm);
   }, [searchTerm]);
+
+  useEffect(() => {
+    getStartingData();
+  }, []);
 
   return (
     <div style={{ marginBottom: "20px" }}>

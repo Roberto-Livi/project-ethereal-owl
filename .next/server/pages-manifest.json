@@ -1,9 +1,6 @@
 {
   "/_app": "pages/_app.js",
-  "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js",
-  "/api/projects/new": "pages/api/projects/new.js",
-  "/projects/users-projects": "pages/projects/users-projects.js",
-  "/projects/create-project": "pages/projects/create-project.js"
+  "/_error": "pages/_error.js",
+  "/projects": "pages/projects.js"
 }

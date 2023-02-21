@@ -1,21 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import Layout from "../../components/utilities/Layout";
 import { Grid } from "semantic-ui-react";
 import LoadingOverlay from "../../components/utilities/LoadingOverlay";
 import ProjectSearch from "../../components/projects/ProjectSearch";
 import ProjectsHeader from "../../components/projects/ProjectsHeader";
+import ProjectCardGroup from "../../components/projects/ProjectCardGroup";
 
 const Projects = () => {
 
+  const [featuredProjects, setFeaturedProjects] = useState([]);
+
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
+  const projects = useSelector(
+    (state) => state.manageData.projectSearch
+  );
 
   return (
     <Layout>
       <ProjectsHeader title={"Projects"} />
       <ProjectSearch />
-      {/* <ProfilesHeader /> */}
-      <LoadingOverlay active={false}>
+      <LoadingOverlay active={projects.loading}>
         <Grid>
           <Grid.Column
             style={{
@@ -39,17 +44,17 @@ const Projects = () => {
         <Grid style={{ backgroundColor: "#e6e6fa" }}>
           <Grid.Row>
             <Grid.Column width={10}>
-              {/* <ProfileCardGroup
-                errorMessage={"No Results Found"}
-                cardData={searchResults}
-                resultsLoading={resultsLoading}
-              /> */}
+            <ProjectCardGroup
+              projects={projects.results}
+              resultsLoading={projects.loading}
+              errorMessage={"No Results Found"}
+            />
             </Grid.Column>
             <Grid.Column width={6}>
-              {/* <ProfileCardGroup
+              <ProjectCardGroup
+                projects={featuredProjects}
                 errorMessage={"Featured Projects Coming Soon"}
-                cardData={featuredUsers}
-              /> */}
+              />
             </Grid.Column>
           </Grid.Row>
         </Grid>
