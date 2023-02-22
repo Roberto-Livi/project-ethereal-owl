@@ -449,13 +449,13 @@ export const getUserElementIdFromProjMembers = async (codename, projectId) => {
 }
 
 export const retrieveProjectByName = async (projectName) => {
-  let user = "";
+  let project = "";
 
   try {
-    user = await users.methods.getProjectByName(projectName).call();
+    project = await users.methods.getProjectByName(projectName).call();
   } catch(err) {
     console.log("Error: ", err.message);
   }
 
-  return user;
+  return project;
 };

@@ -15,30 +15,15 @@ const ProjectSearch = () => {
 
   const onSelectionChange = async (selected) => {
     dispatch(updateProjectSearchRequest());
-    const user = await retrieveProjectByName(selected);
+    const project = await retrieveProjectByName(selected);
     let results;
 
     if (_.isEmpty(selected)) {
-      const users = await getFiveUsers();
-      results = users.map((user) => {
-        return {
-          header: user.codename,
-          address: user.userAddress,
-          meta: user.profession,
-          description: user.description,
-        };
-      });
-    } else if (_.isEmpty(user.codename)) {
+      results = await getFiveProjects();
+    } else if (_.isEmpty(project.name)) {
       results = [];
     } else {
-      results = [
-        {
-          header: user.codename,
-          address: user.userAddress,
-          meta: user.profession,
-          description: user.description,
-        },
-      ];
+      results = [project];
     }
 
     dispatch(updateProjectSearch(results));
@@ -54,8 +39,8 @@ const ProjectSearch = () => {
       if (data) {
         const updatedArray = data.map((obj, idx) => ({
           key: idx,
-          value: data[idx].codename,
-          text: data[idx].codename,
+          value: data[idx].projectName,
+          text: data[idx].projectName
         }));
         setOptions(updatedArray);
       }

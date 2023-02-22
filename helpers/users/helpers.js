@@ -18,7 +18,7 @@ export const getUniqueProject = async(projectsCollection, projectIds, projectsCo
   let project = await retrieveProject(projectsCount);
 
   while(projectIds.includes(project.id)) {
-    project = retrieveProject(projectsCount);
+    project = await retrieveProject(projectsCount);
   }
 
   projectIds.push(project.id)
