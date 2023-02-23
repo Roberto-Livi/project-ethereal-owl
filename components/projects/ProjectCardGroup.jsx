@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Image, Button } from "semantic-ui-react";
 import { Router } from "../../routes";
 
+
 const ProjectCardGroup = ({ projects }) => {
+
+  const [openJoinModal, setOpenJoinModal] = useState(false);
+  const [currentProject, setCurrentProject] = useState(null);
+
+  const setJoinRequestInfo = (project) => {
+    setOpenRecruitModal(true);
+    setCurrentProject(project);
+  };
+
   return (
     <>
       {projects.map((project, index) => (
@@ -22,13 +32,6 @@ const ProjectCardGroup = ({ projects }) => {
             <Card.Content extra>
               <div className="ui two buttons">
                 <Button
-                  onClick={() => console.log(project)}
-                  basic
-                  color="green"
-                >
-                  Request to Join
-                </Button>
-                <Button
                   basic
                   color="blue"
                   onClick={() => Router.pushRoute(`/projects/${project.id}`)}
@@ -40,6 +43,13 @@ const ProjectCardGroup = ({ projects }) => {
           </Card>
         </Card.Group>
       ))}
+      {openJoinModal && (
+        <RecruitUserModal
+          user={currentUser}
+          open={openRecruitModal}
+          closeModal={() => setOpenRecruitModal(false)}
+        />
+      )}
     </>
   );
 }

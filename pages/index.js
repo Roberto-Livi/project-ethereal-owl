@@ -8,7 +8,6 @@ import { enterLottery, getLotteryWinner, getPlayers, pickWinner, getLotteryBalan
 import { transferTokens } from "../helpers/proj-token/proj-token";
 import DataDashboard from "../components/homepage/DataDashboard";
 import DashboardProjects from "../components/homepage/DashboardProjects";
-import { getFiveProjects } from "../helpers/users/users";
 
 
 const IgnitionistIndex = () => {
@@ -17,8 +16,6 @@ const IgnitionistIndex = () => {
   const userInfo = useSelector((state) => state.manageData.userInfo);
 
   const info = async() => {
-    let projs = await getFiveProjects();
-    console.log(projs);
     if(walletAddress) {
       const balance = await getTokenBalance(walletAddress);
       console.log(balance);

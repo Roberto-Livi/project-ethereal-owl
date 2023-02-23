@@ -291,6 +291,7 @@ export const getProjectPendingRequests = async(project) => {
     counter++;
   }
 
+  console.log("getPendingRequests");
   return results;
 }
 
@@ -306,6 +307,7 @@ export const getPendingRequestsAfterJoinRequest = async(projectId) => {
     console.log("Error: ", err.message);
   }
 
+  console.log("getPendingRequestsAfterJoinRequest");
   return successfulResponse ? updatedRequests : successfulResponse;
 }
 

@@ -6,6 +6,7 @@ import { ROUTES } from "./constants";
 import _ from "lodash";
 import { updateUnreadNotifications, approveToken } from "../../store/actions";
 import { approveTokenContract } from "../../helpers/proj-token/proj-token";
+import { Router } from "../../routes";
 
 const NavHeader = () => {
 
@@ -126,6 +127,16 @@ const NavHeader = () => {
               <Menu.Item key="lottery">Lottery</Menu.Item>
             </Link>
           </>
+        )}
+        {walletConnected && _.isNull(userInfo) && (
+          <Menu.Item>
+            <Button
+              primary
+              onClick={() => Router.pushRoute(`/profiles/${walletAddress}`)}
+            >
+              Create Profile
+            </Button>
+          </Menu.Item>
         )}
         <Menu.Item>
           <Button

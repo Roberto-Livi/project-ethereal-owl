@@ -2,9 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/api/users/new": "pages/api/users/new.js",
-  "/projects": "pages/projects.js",
-  "/": "pages/index.js",
   "/project": "pages/project.js",
-  "/profile": "pages/profile.js"
+  "/": "pages/index.js",
+  "/projects": "pages/projects.js"
 }

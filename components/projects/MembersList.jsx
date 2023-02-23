@@ -91,9 +91,11 @@ const MembersList = () => {
           <Button loading={loading} onClick={() => setModalOpen(false)}>
             Cancel
           </Button>
-          <Button loading={loading} negative onClick={handleDeleteMember}>
-            Remove Member From Project
-          </Button>
+          { projectData.isMember &&
+            <Button loading={loading} negative onClick={handleDeleteMember}>
+              Remove Member From Project
+            </Button>
+          }
           <Button
             loading={loading}
             positive

@@ -60,6 +60,7 @@ const JoinRequest = ({ projectData, projectId, alreadyRecruited }) => {
   const isRequestPending = async() => {
     if(userInfo && !projectData.isMember) {
       const resp = await getPendingRequestsAfterJoinRequest(projectData.project.id);
+      console.log(resp)
       const pending = await resp.some((request) =>
         _.isEqual(request.user.userAddress, userInfo.userAddress)
       );
