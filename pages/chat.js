@@ -11,13 +11,12 @@ const Chat = ({ roomId }) => {
 
   const socket = useContext(SocketContext);
 
-  const [messages, setMessages] = useState([]);
-
-  const walletAddress = useSelector((state) => state.manageData.walletAddress);
+  const [chatData, setChatData] = useState({});
 
   const getRoomData = async () => {
     const data = await getChatRoom(roomId);
-    setMessages(data.messages);
+    console.log(data)
+    setChatData(data);
   };
 
   useEffect(() => {
@@ -26,7 +25,10 @@ const Chat = ({ roomId }) => {
 
   useEffect(() => {
     socket.on("receive-message", (data) => {
-      setMessages((prevMessages) => [...prevMessages, data]);
+      setChatData((prevState) => ({
+        ...prevState,
+        messages: [...prevState.messages, data]
+      }));
     });
     return () => {
       socket.off("receive-message");
@@ -35,7 +37,7 @@ const Chat = ({ roomId }) => {
 
   return (
     <Layout>
-      <ChatRoom messages={messages} roomId={roomId} />
+      <ChatRoom chatData={chatData} roomId={roomId} />
       <ChatMessageForm roomId={roomId} />
     </Layout>
   );

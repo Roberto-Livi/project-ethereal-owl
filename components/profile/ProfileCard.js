@@ -22,8 +22,8 @@ const ProfileCard = ({profileCardAddress}) => {
   return (
     <div>
       <h1>Profile Card</h1>
-      <Dimmer active={!userProfile}>
-        <Loader>Loading Profile</Loader>
+      <Dimmer active={!userProfile} inverted>
+        <Loader size="massive">Loading Profile</Loader>
       </Dimmer>
       {userProfile && (
         <ul>

@@ -14,7 +14,8 @@ import {
   UPDATE_TOKEN_BALANCE,
   APPROVE_TOKEN,
   UPDATE_PROJECT_SEARCH_REQUEST,
-  UPDATE_PROJECT_SEARCH
+  UPDATE_PROJECT_SEARCH,
+  SET_CHAT_ROOMS
 } from "./types";
 import users from "../../ethereum/users";
 
@@ -84,4 +85,8 @@ export const updateProjectSearchRequest = () => (dispatch) => {
 export const updateProjectSearch = (results) => (dispatch) => {
   const searchResults = { results, loading: false };
   dispatch({ type: UPDATE_PROJECT_SEARCH, payload: searchResults });
+};
+
+export const setChatRooms = (rooms) => dispatch => {
+  dispatch({ type: SET_CHAT_ROOMS, payload: rooms });
 };

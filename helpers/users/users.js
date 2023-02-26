@@ -60,25 +60,32 @@ export const fetchUser = async(userAddress) => {
 
 export const createUser = async (userInfo) => {
   let successfulResponse = false;
+  let message = "";
 
   try {
-    const accounts = await web3.eth.getAccounts();
-    await users.methods
-      .createUser(
-        accounts[0],
-        userInfo.codename,
-        userInfo.profession,
-        userInfo.description
-      )
-      .send({
-        from: accounts[0],
-      });
-    successfulResponse = true;
+    const usernameTaken = await users.methods.codenameTaken(userInfo.codename).call();
+    if(usernameTaken) {
+      message = "Codename has been taken";
+      return { successfulResponse, message };
+    } else {
+      const accounts = await web3.eth.getAccounts();
+      await users.methods
+        .createUser(
+          accounts[0],
+          userInfo.codename,
+          userInfo.profession,
+          userInfo.description
+        )
+        .send({
+          from: accounts[0],
+        });
+      successfulResponse = true;
+    }
   } catch(err) {
-    console.log("Error: ", err.message);
+    message = `Error: ${err.message}`;
   }
 
-  return successfulResponse;
+  return { successfulResponse, message };
 }
 
 export const getUsers = async (profession) => {
@@ -291,7 +298,6 @@ export const getProjectPendingRequests = async(project) => {
     counter++;
   }
 
-  console.log("getPendingRequests");
   return results;
 }
 
@@ -307,7 +313,6 @@ export const getPendingRequestsAfterJoinRequest = async(projectId) => {
     console.log("Error: ", err.message);
   }
 
-  console.log("getPendingRequestsAfterJoinRequest");
   return successfulResponse ? updatedRequests : successfulResponse;
 }
 

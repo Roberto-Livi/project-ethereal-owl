@@ -14,7 +14,8 @@ import {
   UPDATE_TOKEN_BALANCE,
   APPROVE_TOKEN,
   UPDATE_PROJECT_SEARCH_REQUEST,
-  UPDATE_PROJECT_SEARCH
+  UPDATE_PROJECT_SEARCH,
+  SET_CHAT_ROOMS
 } from "../actions/types";
 
 const initialState = {
@@ -43,7 +44,8 @@ const initialState = {
   recruitRequests: [],
   mongoNotifications: null,
   notificationsUnread: 0,
-  approvedToken: false
+  approvedToken: false,
+  chatRooms: []
 };
 
 const manageData = (state = initialState, action) => {
@@ -85,6 +87,8 @@ const manageData = (state = initialState, action) => {
       return { ...state, projectSearch: { results: [], loading: true } };
     case UPDATE_PROJECT_SEARCH:
       return { ...state, projectSearch: action.payload };
+    case SET_CHAT_ROOMS:
+      return { ...state, chatRooms: action.payload };
     default:
       return state;
   }

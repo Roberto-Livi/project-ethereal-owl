@@ -1,25 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "../../routes";
 import { getChatRooms } from "../../helpers/mongodb/ChatCallCenter";
+import { setChatRooms } from "../../store/actions";
 
 
 const ChatRooms = () => {
 
-  const [rooms, setRooms] = useState([]);
+  const dispatch = useDispatch();
+
   const [latestMessages, setLatestMessages] = useState({});
 
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
   const userInfo = useSelector((state) => state.manageData.userInfo);
+  const rooms = useSelector((state) => state.manageData.chatRooms);
 
   const setTheRooms = async() => {
-    const rms = await getChatRooms(userInfo.codename);
-    setRooms(rms);
+    if(userInfo) {
+      const rms = await getChatRooms(userInfo.codename);
+      dispatch(setChatRooms(rms));
+    }
   }
 
   useEffect(() => {
     setTheRooms();
-  }, [walletAddress]);
+  }, [walletAddress, rooms]);
 
   return (
     <div

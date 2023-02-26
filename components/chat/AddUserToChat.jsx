@@ -3,7 +3,7 @@ import { Modal, Dropdown, Button } from "semantic-ui-react";
 import { SocketContext } from "../utilities/socket";
 import { searchMongoCodename } from "../../helpers/mongodb/UsersCallCenter";
 
-const AddUserToChat = ({ roomId }) => {
+const AddUserToChat = ({ roomId, chatData }) => {
 
   const socket = useContext(SocketContext);
 
@@ -11,13 +11,14 @@ const AddUserToChat = ({ roomId }) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [options, setOptions] = useState([]);
+  const [headerMessage, setHeaderMessage] = useState("Add User to Chat");
 
   const fetchData = async (searchTerm) => {
     if (_.isEmpty(searchTerm)) {
       return;
     }
-    const data = await searchMongoCodename(searchTerm);
-    setTimeout(() => {
+    setTimeout(async() => {
+      const data = await searchMongoCodename(searchTerm);
       if (data) {
         const updatedArray = data.map((obj, idx) => ({
           key: idx,
@@ -30,13 +31,21 @@ const AddUserToChat = ({ roomId }) => {
   };
 
   const handleAddUser = () => {
-    if (selectedUser) {
+    const alreadyInChat = userAlreadyInChat(chatData.users, selectedUser);
+    if (selectedUser && !alreadyInChat) {
       socket.emit("add-user-to-chat", { roomId, codename: selectedUser });
       setOpen(false);
+    } else if(selectedUser && alreadyInChat) {
+      setHeaderMessage(`${selectedUser} is already in the chat`);
     }
   };
 
+  const userAlreadyInChat = (users, selected) => {
+    return users.some((user) => user === selected);
+  }
+
   const handleSearchChange = (event, data) => {
+    setHeaderMessage(`Add User to Chat`);
     setSearchTerm(data.searchQuery);
   };
 
@@ -50,7 +59,7 @@ const AddUserToChat = ({ roomId }) => {
       onClose={() => setOpen(false)}
       trigger={<Button onClick={() => setOpen(true)}>Add User</Button>}
     >
-      <Modal.Header>Add User to Chat Room</Modal.Header>
+      <Modal.Header>{headerMessage}</Modal.Header>
       <Modal.Content>
         <Dropdown
           placeholder="Select User"

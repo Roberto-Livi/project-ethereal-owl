@@ -1,15 +1,18 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { SocketContext } from "../utilities/socket";
 import { Button, Form, Modal } from "semantic-ui-react";
 import { searchMongoCodename } from "../../helpers/mongodb/UsersCallCenter";
 import _ from "lodash";
 import Select from "react-select";
+import { getChatRooms } from "../../helpers/mongodb/ChatCallCenter";
+import { setChatRooms } from "../../store/actions";
 
 
 const CreateChat = () => {
 
+  const dispatch = useDispatch();
   const socket = useContext(SocketContext);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -72,6 +75,8 @@ const CreateChat = () => {
     };
     // Emit the 'create-chat' event to the server with the data
     socket.emit("create-chat", { roomId, roomName, users, chatMessage });
+    const rms = await getChatRooms(userInfo.codename);
+    dispatch(setChatRooms(rms));
     setIsOpen(false);
   };
 

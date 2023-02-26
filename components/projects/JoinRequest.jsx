@@ -59,13 +59,17 @@ const JoinRequest = ({ projectData, projectId, alreadyRecruited }) => {
 
   const isRequestPending = async() => {
     if(userInfo && !projectData.isMember) {
+      console.log("Project Data: ",projectData)
       const resp = await getPendingRequestsAfterJoinRequest(projectData.project.id);
       console.log(resp)
       const pending = await resp.some((request) =>
         _.isEqual(request.user.userAddress, userInfo.userAddress)
       );
       if (pending) {
+        console.log("pending")
         setRequestButton({ label: "Request Pending", disabled: true });
+      } else {
+        setRequestButton({ label: "Request to Join", disabled: false });
       }
     }
   }

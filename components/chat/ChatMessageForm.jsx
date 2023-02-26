@@ -1,14 +1,11 @@
 import React, { useState, useContext } from "react";
 import { useSelector } from "react-redux";
 import { SocketContext } from "../utilities/socket";
-
+import { Form, Input, Button } from "semantic-ui-react";
 
 const ChatMessageForm = ({ roomId }) => {
-
   const socket = useContext(SocketContext);
-
   const [message, setMessage] = useState("");
-
   const userInfo = useSelector((state) => state.manageData.userInfo);
 
   const handleChange = (event) => {
@@ -18,16 +15,19 @@ const ChatMessageForm = ({ roomId }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!message) return;
-    socket.emit("update-chat", { roomId, message: { codename: userInfo.codename, message } });
+    socket.emit("update-chat", {
+      roomId,
+      message: { codename: userInfo.codename, message },
+    });
     setMessage("");
   };
 
   return (
-    <form
+    <Form
       onSubmit={handleSubmit}
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
-      <input
+      <Input
         type="text"
         value={message}
         onChange={handleChange}
@@ -35,20 +35,19 @@ const ChatMessageForm = ({ roomId }) => {
           width: "700px",
           padding: "10px",
           fontSize: "20px",
-          marginBottom: "10px",
+          marginBottom: "10px"
         }}
       />
-      <button
+      <Button
         type="submit"
         style={{
-          padding: "10px",
           fontSize: "20px",
-          backgroundColor: "lightblue",
+          backgroundColor: "lightblue"
         }}
       >
         Send
-      </button>
-    </form>
+      </Button>
+    </Form>
   );
 };
 
