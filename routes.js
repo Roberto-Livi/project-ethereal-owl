@@ -9,6 +9,7 @@ routes
   .add("/profiles/:address/recruit-requests", "/recruit-requests")
   .add("/projects/create-project", "/projects/create-project")
   .add("/projects/:id", "/project")
+  .add("/projects/:id/scrum-board", "/projects/scrum-board")
   .add("/notifications", "/notifications")
   .add("/lottery", "/lottery")
   .add("/chats", "/chats")

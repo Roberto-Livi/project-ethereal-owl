@@ -12,7 +12,7 @@ const UsersProjects = () => {
   const dispatch = useDispatch();
 
   const projects = useSelector((state) => state.manageData.projects);
-  const walletAddress  = useSelector((state) => state.manageData.walletAddress);
+  const walletAddress = useSelector((state) => state.manageData.walletAddress);
 
   const getProjects = async() => {
     const projs = await getUsersProjects(walletAddress);

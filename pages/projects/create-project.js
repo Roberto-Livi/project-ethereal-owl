@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Layout from "../../components/utilities/Layout";
 import { Button, Form, Grid, Header, Segment, Container, Message } from "semantic-ui-react";
-import { createProject, getUserData, getUsersProjects } from "../../helpers/users/users";
+import { createProject, getUserData, getUsersProjects, retrieveProjectByName } from "../../helpers/users/users";
 import { Router } from "../../routes";
 import { retrieveProjects, updateUserInfo } from "../../store/actions";
 import _ from "lodash";
 import { createMongoProject } from "../../helpers/mongodb/ProjectsCallCenter";
+import { createScrumboard } from "../../helpers/mongodb/ScrumCallCenter";
 
 
 const CreateProject = () => {
@@ -31,11 +32,27 @@ const CreateProject = () => {
       const user = await getUserData();
       dispatch(updateUserInfo(user));
       dispatch(retrieveProjects(projs));
+      const proj = await retrieveProjectByName(event.target[0].value);
+      scrumBoardCreation(proj);
       Router.pushRoute("/projects/users-projects");
     }
 
     setLoading(false);
   };
+
+  const scrumBoardCreation = (proj) => {
+    createScrumboard(proj, walletAddress)
+      .then((success) => {
+        if (success) {
+          console.log("Scrum board created successfully");
+        } else {
+          console.log("Error creating Scrum board");
+        }
+      })
+      .catch((err) => {
+        console.error("Error creating Scrum board:", err);
+      });
+  }
 
   return (
     <Layout>

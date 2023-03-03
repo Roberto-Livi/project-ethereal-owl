@@ -2,6 +2,5 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/projects/users-projects": "pages/projects/users-projects.js",
-  "/projects/create-project": "pages/projects/create-project.js"
+  "/projects/scrum-board": "pages/projects/scrum-board.js"
 }
