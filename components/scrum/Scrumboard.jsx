@@ -26,20 +26,18 @@ const ScrumBoard = ({ initialCards }) => {
     e.preventDefault();
   };
 
- const handleDrop = (e, status) => {
-   e.preventDefault();
-   const id = e.dataTransfer.getData("text/plain");
-   const updatedStoryCards = storyCards.map((storyCard) => {
-     if (storyCard.id === id) {
-       return { ...storyCard, status };
-     } else {
-       return storyCard;
-     }
-   });
-   setStoryCards(updatedStoryCards);
- };
-
-
+  const handleDrop = (e, status) => {
+    e.preventDefault();
+    const id = e.dataTransfer.getData("text/plain");
+    const updatedStoryCards = storyCards.map((storyCard) => {
+      if (storyCard.id === id) {
+        return { ...storyCard, status };
+      } else {
+        return storyCard;
+      }
+    });
+    setStoryCards(updatedStoryCards);
+  };
 
   const columns = [
     { title: "Ready", status: "Ready" },
