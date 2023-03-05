@@ -1,9 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Tab } from "semantic-ui-react";
 import Scrumboard from "./Scrumboard";
 import Backlog from "./Backlog";
+import { getScrumboardByProjectId } from "../../helpers/mongodb/ScrumCallCenter";
 
 const SubTabs = ({ projectId }) => {
+
+  const [stories, setStories] = useState([]);
+
+  const getData = async() => {
+    const data = await getScrumboardByProjectId(projectId);
+    console.log(data)
+  }
+
   const panes = [
     {
       menuItem: "Scrum Board",
@@ -62,6 +71,10 @@ const SubTabs = ({ projectId }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handleTabChange = (e, { activeIndex }) => setActiveIndex(activeIndex);
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <div>

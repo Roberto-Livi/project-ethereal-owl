@@ -4,7 +4,7 @@ const localUrl = "http://localhost:3000";
 
 export const getScrumboardByProjectId = async (projectId) => {
   try {
-    const response = await axios.get(`${localUrl}/api/scrum-board/${projectId}`);
+    const response = await axios.get(`${localUrl}/api/scrum/${projectId}`, { projectId });
     return response.data;
   } catch (err) {
     console.log("Error: ", err.message);
