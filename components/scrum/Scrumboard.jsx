@@ -93,8 +93,8 @@ const ScrumBoard = ({ initialCards }) => {
           />
         ))}
       </div>
-      <Button color="blue" size="large" icon="refresh" onClick={handleReset}>
-        Reset Board
+      <Button style={{marginTop: "25px"}} color="violet" size="large" onClick={handleReset}>
+        Close Sprint
       </Button>
     </div>
   );

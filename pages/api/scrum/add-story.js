@@ -1,7 +1,7 @@
 import clientPromise from "../../../lib/mongodb";
 
 export default async (req, res) => {
-  const { projectId, item } = req.body;
+  const { projectId, story } = req.body;
 
   try {
     const mongoClient = await clientPromise;
@@ -9,7 +9,7 @@ export default async (req, res) => {
     const result = await mongoClient
       .db("MetaLiberation")
       .collection("scrum")
-      .updateOne({ projectId }, { $push: { backlog: item } });
+      .updateOne({ projectId }, { $push: { backlog: story } });
 
     if (result.modifiedCount === 1) {
       return res.status(200).json({ success: true });

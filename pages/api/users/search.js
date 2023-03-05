@@ -2,7 +2,6 @@ import clientPromise from "../../../lib/mongodb";
 
 export default async (req, res) => {
   try {
-    console.log(req.query.searchTerm)
     const mongoClient = await clientPromise;
     const users = await mongoClient
       .db("MetaLiberation")

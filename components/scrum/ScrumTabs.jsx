@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Tab } from "semantic-ui-react";
 import Scrumboard from "./Scrumboard";
 import Backlog from "./Backlog";
 import { getScrumboardByProjectId } from "../../helpers/mongodb/ScrumCallCenter";
+import { getScrumUsers } from "../../helpers/mongodb/UsersCallCenter";
+import { setScrumData } from "../../store/actions";
 
 const SubTabs = ({ projectId }) => {
 
+  const dispatch = useDispatch();
+
   const [stories, setStories] = useState([]);
+  const [codenames, setCodenames] = useState([]);
 
   const getData = async() => {
-    const data = await getScrumboardByProjectId(projectId);
-    console.log(data)
+    const scrumData = await getScrumboardByProjectId(projectId);
+    dispatch(setScrumData(scrumData.data));
+    const users = await getScrumUsers(scrumData.data.users);
+    setCodenames(users.map((user) => user.codename));
   }
 
   const panes = [
@@ -21,18 +29,18 @@ const SubTabs = ({ projectId }) => {
           <Scrumboard
             initialCards={[
               {
-                id: "1",
+                id: "2",
                 title: "Task 1",
                 desc: "desc test",
                 acceptanceCriteria: "Task AC test",
                 storyPoints: 2,
                 taskedTo: "Ron Stoppable",
                 createdBy: "Me",
-                status: "Ready",
-                sprintNum: 1,
+                status: "In Progress",
+                sprintNum: "next",
               },
               {
-                id: "2",
+                id: "3",
                 title: "Task 2",
                 desc: "desc test",
                 acceptanceCriteria: "Task AC test",
@@ -40,10 +48,10 @@ const SubTabs = ({ projectId }) => {
                 taskedTo: "Ken Shimura",
                 createdBy: "Me",
                 status: "Ready",
-                sprintNum: 1,
+                sprintStatus: "current",
               },
               {
-                id: "3",
+                id: "4",
                 title: "Task 3",
                 desc: "desc test",
                 acceptanceCriteria: "Task AC test",
@@ -51,7 +59,7 @@ const SubTabs = ({ projectId }) => {
                 taskedTo: "Ron Stoppable",
                 createdBy: "Me",
                 status: "Ready",
-                sprintNum: 1,
+                sprintStatus: "current",
               },
             ]}
           />
@@ -62,7 +70,7 @@ const SubTabs = ({ projectId }) => {
       menuItem: "Backlog",
       render: () => (
         <Tab.Pane>
-          <Backlog projectId={projectId} />
+          <Backlog projectId={projectId} codenames={codenames} />
         </Tab.Pane>
       ),
     },

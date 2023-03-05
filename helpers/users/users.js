@@ -166,8 +166,15 @@ export const getFiveProjects = async () => {
 };
 
 export const getUserByCodename = async(codename) => {
-  const user = await users.methods.getUserByCodename(codename).call();
-  return user;
+  let cname = "";
+
+  try {
+    cname = await users.methods.getUserByCodename(codename).call();
+  } catch(err) {
+    console.log("Error: ", err.message);
+  }
+
+  return cname;
 }
 
 export const isAdmin = async(userAddress) => {

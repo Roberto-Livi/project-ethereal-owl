@@ -15,7 +15,8 @@ import {
   APPROVE_TOKEN,
   UPDATE_PROJECT_SEARCH_REQUEST,
   UPDATE_PROJECT_SEARCH,
-  SET_CHAT_ROOMS
+  SET_CHAT_ROOMS,
+  SET_SCRUM_DATA
 } from "../actions/types";
 
 const initialState = {
@@ -45,7 +46,8 @@ const initialState = {
   mongoNotifications: null,
   notificationsUnread: 0,
   approvedToken: false,
-  chatRooms: []
+  chatRooms: [],
+  scrumData: null
 };
 
 const manageData = (state = initialState, action) => {
@@ -89,6 +91,8 @@ const manageData = (state = initialState, action) => {
       return { ...state, projectSearch: action.payload };
     case SET_CHAT_ROOMS:
       return { ...state, chatRooms: action.payload };
+    case SET_SCRUM_DATA:
+      return { ...state, scrumData: action.payload };
     default:
       return state;
   }

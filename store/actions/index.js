@@ -15,7 +15,8 @@ import {
   APPROVE_TOKEN,
   UPDATE_PROJECT_SEARCH_REQUEST,
   UPDATE_PROJECT_SEARCH,
-  SET_CHAT_ROOMS
+  SET_CHAT_ROOMS,
+  SET_SCRUM_DATA
 } from "./types";
 import users from "../../ethereum/users";
 
@@ -89,4 +90,8 @@ export const updateProjectSearch = (results) => (dispatch) => {
 
 export const setChatRooms = (rooms) => dispatch => {
   dispatch({ type: SET_CHAT_ROOMS, payload: rooms });
+};
+
+export const setScrumData = (data) => (dispatch) => {
+  dispatch({ type: SET_SCRUM_DATA, payload: data });
 };

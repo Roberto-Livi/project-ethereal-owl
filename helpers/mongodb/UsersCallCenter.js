@@ -32,3 +32,15 @@ export const searchMongoCodename = async(searchTerm) => {
 
   return users;
 }
+
+export const getScrumUsers = async (addresses) => {
+  try {
+    const response = await axios.post(`${localUrl}/api/users/scrum-users`, {
+      addresses
+    });
+    return response.data.users;
+  } catch (err) {
+    console.log("Error: ", err.message);
+    return [];
+  }
+};
