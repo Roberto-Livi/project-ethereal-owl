@@ -15,7 +15,7 @@ const ScrumBoard = ({ initialCards }) => {
 
   const populateStoryCards = () => {
     setStoryCards(initialCards);
-  }
+  };
 
   const handleFilterClick = (filter) => {
     setSelectedFilter(filter);

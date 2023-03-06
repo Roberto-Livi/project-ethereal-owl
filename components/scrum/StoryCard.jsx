@@ -11,11 +11,10 @@ const StoryCard = ({
   index,
   handleDragStart,
 }) => {
+
   const handleDrag = (e) => {
     handleDragStart(e, id);
   };
-
-  console.log(title)
 
   return (
     <div className="story-card" draggable onDragStart={handleDrag}>

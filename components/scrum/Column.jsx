@@ -31,8 +31,6 @@ const Column = ({
     setIsDraggingOver(false);
   };
 
-  console.log(storyCards)
-
   return (
     <div
       className="sb-column"
