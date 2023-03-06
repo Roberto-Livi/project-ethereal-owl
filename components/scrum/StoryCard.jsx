@@ -15,6 +15,8 @@ const StoryCard = ({
     handleDragStart(e, id);
   };
 
+  console.log(title)
+
   return (
     <div className="story-card" draggable onDragStart={handleDrag}>
       <div className="story-card-header">

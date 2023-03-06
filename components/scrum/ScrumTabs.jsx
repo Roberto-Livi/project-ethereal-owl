@@ -11,14 +11,19 @@ const SubTabs = ({ projectId }) => {
 
   const dispatch = useDispatch();
 
-  const [stories, setStories] = useState([]);
   const [codenames, setCodenames] = useState([]);
+  const [storyCards, setStoryCards] = useState([]);
 
   const getData = async() => {
     const scrumData = await getScrumboardByProjectId(projectId);
     dispatch(setScrumData(scrumData.data));
     const users = await getScrumUsers(scrumData.data.users);
     setCodenames(users.map((user) => user.codename));
+    setStoryCards(
+      scrumData.data.backlog.filter(
+        (story) => story.sprintStatus === "current sprint"
+      )
+    );
   }
 
   const panes = [
@@ -27,41 +32,7 @@ const SubTabs = ({ projectId }) => {
       render: () => (
         <Tab.Pane>
           <Scrumboard
-            initialCards={[
-              {
-                id: "2",
-                title: "Task 1",
-                desc: "desc test",
-                acceptanceCriteria: "Task AC test",
-                storyPoints: 2,
-                taskedTo: "Ron Stoppable",
-                createdBy: "Me",
-                status: "In Progress",
-                sprintNum: "next",
-              },
-              {
-                id: "3",
-                title: "Task 2",
-                desc: "desc test",
-                acceptanceCriteria: "Task AC test",
-                storyPoints: 2,
-                taskedTo: "Ken Shimura",
-                createdBy: "Me",
-                status: "Ready",
-                sprintStatus: "current",
-              },
-              {
-                id: "4",
-                title: "Task 3",
-                desc: "desc test",
-                acceptanceCriteria: "Task AC test",
-                storyPoints: 3,
-                taskedTo: "Ron Stoppable",
-                createdBy: "Me",
-                status: "Ready",
-                sprintStatus: "current",
-              },
-            ]}
+            initialCards={storyCards}
           />
         </Tab.Pane>
       ),

@@ -31,6 +31,8 @@ const Column = ({
     setIsDraggingOver(false);
   };
 
+  console.log(storyCards)
+
   return (
     <div
       className="sb-column"
@@ -47,7 +49,7 @@ const Column = ({
           <StoryCard
             key={index}
             title={story.title}
-            description={story.desc}
+            description={story.description}
             acceptanceCriteria={story.acceptanceCriteria}
             storyPoints={story.storyPoints}
             taskedTo={story.taskedTo}
