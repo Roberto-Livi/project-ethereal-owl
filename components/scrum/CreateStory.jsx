@@ -51,6 +51,7 @@ const CreateStory = ({ projectId, codenames }) => {
             codenames={codenames}
             handleSubmit={handleSubmit}
             isLoading={isLoading}
+            initialValues={null}
           />
         </Modal.Content>
         <Modal.Actions>

@@ -1,12 +1,22 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { Card, Modal, Segment } from "semantic-ui-react";
-
+import { useDispatch, useSelector } from "react-redux";
+import { Card, Modal, Segment, Button } from "semantic-ui-react";
 import CreateStory from "./CreateStory";
+import StoryForm from "./StoryForm";
+import { updateScrumStory } from "../../helpers/mongodb/ScrumCallCenter";
+import { updateBacklog } from "../../store/actions";
+
 
 const Backlog = ({ projectId, codenames }) => {
+
+  const dispatch = useDispatch();
+
   const scrumData = useSelector((state) => state.manageData.scrumData);
   const [selectedStory, setSelectedStory] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
 
   const handleStoryClick = (story) => {
     setSelectedStory(story);
@@ -14,7 +24,27 @@ const Backlog = ({ projectId, codenames }) => {
 
   const handleCloseModal = () => {
     setSelectedStory(null);
+    setOpenModal(false);
+    setSuccessMessage("");
+    setErrorMessage("");
   };
+
+  const handleUpdateStory = async(updatedStory) => {
+    setIsLoading(true);
+    const response = await updateScrumStory(
+      projectId,
+      selectedStory.id,
+      updatedStory
+    );
+    setIsLoading(false);
+    if (response) {
+      dispatch(updateBacklog(updatedStory));
+      setSuccessMessage("Created Story Successfully");
+    } else {
+      setErrorMessage("Failed to Update Story");
+    }
+  };
+
 
   return (
     <div>
@@ -37,13 +67,22 @@ const Backlog = ({ projectId, codenames }) => {
         ))}
       </Card.Group>
 
-      <Modal onClose={handleCloseModal} open={selectedStory !== null}>
+      <Modal open={selectedStory !== null} onClose={handleCloseModal}>
+        <Modal.Actions>
+          <Button onClick={handleCloseModal}>
+            X
+          </Button>
+        </Modal.Actions>
         <Modal.Header>{selectedStory?.title}</Modal.Header>
+        {successMessage && <Message positive>{successMessage}</Message>}
+        {errorMessage && <Message negative>{errorMessage}</Message>}
         <Modal.Content>
-          <Modal.Description>
-            <p>{selectedStory?.description}</p>
-            <p>{`Acceptance Criteria: ${selectedStory?.acceptanceCriteria}`}</p>
-          </Modal.Description>
+          <StoryForm
+            codenames={codenames}
+            initialValues={selectedStory}
+            handleSubmit={handleUpdateStory}
+            isLoading={isLoading}
+          />
         </Modal.Content>
       </Modal>
     </div>

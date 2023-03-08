@@ -1,24 +1,33 @@
 import React, { useState } from "react";
 import { Form, Button, Loader } from "semantic-ui-react";
 
-const StoryForm = ({ codenames, handleSubmit, isLoading }) => {
-
-  const [formValues, setFormValues] = useState({
-    title: "",
-    description: "",
-    acceptanceCriteria: "",
-    storyPoints: "",
-    taskedTo: "",
-    status: "",
-    sprintStatus: "",
+const StoryForm = ({ codenames, initialValues, handleSubmit, isLoading }) => {
+  const [formValues, setFormValues] = useState(() => {
+    if (initialValues) {
+      return {
+        ...initialValues,
+        storyPoints: initialValues.storyPoints.toString(),
+      };
+    }
+    return {
+      title: "",
+      description: "",
+      acceptanceCriteria: "",
+      storyPoints: "",
+      taskedTo: "",
+      status: "",
+      sprintStatus: "",
+    };
   });
 
   const handleInputChange = (event, { name, value }) => {
+    console.log(value)
     setFormValues((prevValues) => ({
       ...prevValues,
       [name]: value,
     }));
   };
+
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
@@ -87,11 +96,7 @@ const StoryForm = ({ codenames, handleSubmit, isLoading }) => {
           name="status"
           options={[
             { key: "Ready", value: "Ready", text: "Ready" },
-            {
-              key: "In Progress",
-              value: "In Progress",
-              text: "In Progress",
-            },
+            { key: "In Progress", value: "In Progress", text: "In Progress" },
             { key: "Review", value: "Review", text: "Review" },
             { key: "Done", value: "Done", text: "Done" },
           ]}
@@ -104,13 +109,13 @@ const StoryForm = ({ codenames, handleSubmit, isLoading }) => {
         label="Sprint Status"
         name="sprintStatus"
         options={[
-          { key: "next", value: "next", text: "Next" },
+          { key: "Next", value: "Next", text: "Next" },
           {
-            key: "current sprint",
-            value: "Current sprint",
+            key: "Current Sprint",
+            value: "Current Sprint",
             text: "Current Sprint",
           },
-          { key: "backlog", value: "backlog", text: "Backlog" },
+          { key: "Backlog", value: "Backlog", text: "Backlog" },
         ]}
         selection
         value={formValues.sprintStatus}

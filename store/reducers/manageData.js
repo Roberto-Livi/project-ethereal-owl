@@ -16,7 +16,8 @@ import {
   UPDATE_PROJECT_SEARCH_REQUEST,
   UPDATE_PROJECT_SEARCH,
   SET_CHAT_ROOMS,
-  SET_SCRUM_DATA
+  SET_SCRUM_DATA,
+  UPDATE_BACKLOG
 } from "../actions/types";
 
 const initialState = {
@@ -92,6 +93,8 @@ const manageData = (state = initialState, action) => {
     case SET_CHAT_ROOMS:
       return { ...state, chatRooms: action.payload };
     case SET_SCRUM_DATA:
+      return { ...state, scrumData: action.payload };
+    case UPDATE_BACKLOG:
       return { ...state, scrumData: action.payload };
     default:
       return state;

@@ -23,13 +23,8 @@ const StoryCard = ({
         <div className="story-card-points">{storyPoints}</div>
       </div>
       <div className="story-card-body">
-        <div className="story-card-description">{description}</div>
-        <div className="story-card-acceptance-criteria">
-          {acceptanceCriteria}
-        </div>
         <div className="story-card-footer">
           <div className="story-card-tasked-to">{taskedTo}</div>
-          <div className="story-card-created-by">{createdBy}</div>
         </div>
       </div>
     </div>

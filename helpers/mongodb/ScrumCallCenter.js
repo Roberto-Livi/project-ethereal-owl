@@ -49,14 +49,14 @@ export const addToBacklog = async (projectId, story) => {
   return successfulResponse;
 };
 
-export const updateScrumStory = async (projectId, id, updateData) => {
+export const updateScrumStory = async (projectId, id, updatedFields) => {
   let successfulResponse = false;
 
   try {
     await axios.put(`${localUrl}/api/scrum/update-story`, {
       projectId,
       id,
-      updateData,
+      updatedFields
     });
     successfulResponse = true;
   } catch (error) {

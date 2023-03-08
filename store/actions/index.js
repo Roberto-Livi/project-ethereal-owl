@@ -16,7 +16,8 @@ import {
   UPDATE_PROJECT_SEARCH_REQUEST,
   UPDATE_PROJECT_SEARCH,
   SET_CHAT_ROOMS,
-  SET_SCRUM_DATA
+  SET_SCRUM_DATA,
+  UPDATE_BACKLOG
 } from "./types";
 import users from "../../ethereum/users";
 
@@ -95,3 +96,23 @@ export const setChatRooms = (rooms) => dispatch => {
 export const setScrumData = (data) => (dispatch) => {
   dispatch({ type: SET_SCRUM_DATA, payload: data });
 };
+
+export const updateBacklog =
+  (updatedStory) => async (dispatch, getState) => {
+    try {
+      const currentScrumData = getState().manageData.scrumData;
+      const updatedBacklog = currentScrumData.backlog.map((story) => {
+        if (story.id === updatedStory.id) {
+          return updatedStory;
+        }
+        return story;
+      });
+      const updatedScrumData = {
+        ...currentScrumData,
+        backlog: updatedBacklog
+      };
+      dispatch({ type: UPDATE_BACKLOG, payload: updatedScrumData });
+    } catch (error) {
+      console.error(error);
+    }
+  };

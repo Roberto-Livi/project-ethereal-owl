@@ -21,7 +21,7 @@ const SubTabs = ({ projectId }) => {
     setCodenames(users.map((user) => user.codename));
     setStoryCards(
       scrumData.data.backlog.filter(
-        (story) => story.sprintStatus === "current sprint"
+        (story) => story.sprintStatus === "Current Sprint"
       )
     );
   }
