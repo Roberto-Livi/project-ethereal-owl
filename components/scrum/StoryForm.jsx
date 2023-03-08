@@ -121,9 +121,11 @@ const StoryForm = ({ codenames, initialValues, handleSubmit, isLoading }) => {
         value={formValues.sprintStatus}
         onChange={handleInputChange}
       />
-      <Button type="submit" primary>
-        Submit
-      </Button>
+      <div style={{ textAlign: "center" }}>
+        <Button type="submit" primary>
+          Submit
+        </Button>
+      </div>
       {isLoading && <Loader active inline="centered" />}
     </Form>
   );

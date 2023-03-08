@@ -54,11 +54,6 @@ const CreateStory = ({ projectId, codenames }) => {
             initialValues={null}
           />
         </Modal.Content>
-        <Modal.Actions>
-          <button className="ui button" onClick={handleCloseModal}>
-            Close
-          </button>
-        </Modal.Actions>
       </Modal>
     </div>
   );

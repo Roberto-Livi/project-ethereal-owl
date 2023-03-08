@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, Modal, Segment, Button } from "semantic-ui-react";
+import { Card, Modal, Segment, Message } from "semantic-ui-react";
 import CreateStory from "./CreateStory";
 import StoryForm from "./StoryForm";
 import { updateScrumStory } from "../../helpers/mongodb/ScrumCallCenter";
@@ -24,7 +24,6 @@ const Backlog = ({ projectId, codenames }) => {
 
   const handleCloseModal = () => {
     setSelectedStory(null);
-    setOpenModal(false);
     setSuccessMessage("");
     setErrorMessage("");
   };
@@ -39,7 +38,7 @@ const Backlog = ({ projectId, codenames }) => {
     setIsLoading(false);
     if (response) {
       dispatch(updateBacklog(updatedStory));
-      setSuccessMessage("Created Story Successfully");
+      setSuccessMessage("Updated Story Successfully");
     } else {
       setErrorMessage("Failed to Update Story");
     }
@@ -68,11 +67,6 @@ const Backlog = ({ projectId, codenames }) => {
       </Card.Group>
 
       <Modal open={selectedStory !== null} onClose={handleCloseModal}>
-        <Modal.Actions>
-          <Button onClick={handleCloseModal}>
-            X
-          </Button>
-        </Modal.Actions>
         <Modal.Header>{selectedStory?.title}</Modal.Header>
         {successMessage && <Message positive>{successMessage}</Message>}
         {errorMessage && <Message negative>{errorMessage}</Message>}
