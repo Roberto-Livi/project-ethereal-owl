@@ -2,5 +2,8 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+  "/api/scrum/[id]": "pages/api/scrum/[id].js",
+  "/api/users/scrum-users": "pages/api/users/scrum-users.js",
+  "/api/scrum/update-story": "pages/api/scrum/update-story.js",
   "/projects/scrum-board": "pages/projects/scrum-board.js"
 }

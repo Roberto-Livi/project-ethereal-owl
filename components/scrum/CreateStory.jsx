@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Modal, Message } from "semantic-ui-react";
 import StoryForm from "./StoryForm";
-import { addToBacklog } from "../../helpers/mongodb/ScrumCallCenter";
+import { addToBacklog, getScrumboardByProjectId } from "../../helpers/mongodb/ScrumCallCenter";
 import { v4 as uuidv4 } from "uuid";
+import { setScrumData } from "../../store/actions";
 
 const CreateStory = ({ projectId, codenames }) => {
+
+  const dispatch = useDispatch();
+
   const [openModal, setOpenModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
@@ -23,6 +27,8 @@ const CreateStory = ({ projectId, codenames }) => {
     });
     setIsLoading(false);
     if (response) {
+      const scrumData = await getScrumboardByProjectId(projectId);
+      dispatch(setScrumData(scrumData.data));
       setSuccessMessage("Created Story Successfully");
     } else {
       setErrorMessage("Failed to Create Story");

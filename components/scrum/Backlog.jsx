@@ -1,22 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, Modal, Segment, Message } from "semantic-ui-react";
+import {
+  Card,
+  Modal,
+  Segment,
+  Message,
+  Dimmer,
+  Loader,
+} from "semantic-ui-react";
 import CreateStory from "./CreateStory";
 import StoryForm from "./StoryForm";
 import { updateScrumStory } from "../../helpers/mongodb/ScrumCallCenter";
 import { updateBacklog } from "../../store/actions";
 
-
 const Backlog = ({ projectId, codenames }) => {
-
   const dispatch = useDispatch();
 
   const scrumData = useSelector((state) => state.manageData.scrumData);
   const [selectedStory, setSelectedStory] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [isRendered, setIsRendered] = useState(false);
 
   const handleStoryClick = (story) => {
     setSelectedStory(story);
@@ -28,7 +33,7 @@ const Backlog = ({ projectId, codenames }) => {
     setErrorMessage("");
   };
 
-  const handleUpdateStory = async(updatedStory) => {
+  const handleUpdateStory = async (updatedStory) => {
     setIsLoading(true);
     const response = await updateScrumStory(
       projectId,
@@ -44,9 +49,20 @@ const Backlog = ({ projectId, codenames }) => {
     }
   };
 
+  useEffect(() => {
+    if (!isRendered) {
+      setTimeout(() => {
+        setIsRendered(true);
+        setIsLoading(false);
+      }, 400);
+    }
+  }, [isRendered]);
 
   return (
-    <div>
+    <>
+      <Dimmer active={isLoading} inverted>
+        <Loader content="Loading" size="massive" />
+      </Dimmer>
       <Segment>
         <CreateStory projectId={projectId} codenames={codenames} />
       </Segment>
@@ -67,7 +83,7 @@ const Backlog = ({ projectId, codenames }) => {
       </Card.Group>
 
       <Modal open={selectedStory !== null} onClose={handleCloseModal}>
-        <Modal.Header>{selectedStory?.title}</Modal.Header>
+        <Modal.Header>Update Story</Modal.Header>
         {successMessage && <Message positive>{successMessage}</Message>}
         {errorMessage && <Message negative>{errorMessage}</Message>}
         <Modal.Content>
@@ -79,7 +95,7 @@ const Backlog = ({ projectId, codenames }) => {
           />
         </Modal.Content>
       </Modal>
-    </div>
+    </>
   );
 };
 

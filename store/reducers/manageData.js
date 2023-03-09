@@ -48,7 +48,14 @@ const initialState = {
   notificationsUnread: 0,
   approvedToken: false,
   chatRooms: [],
-  scrumData: null
+  scrumData: {
+    _id: "r",
+    projectId: "",
+    users: [],
+    backlog: [],
+    projectName: "",
+    completedSprints: []
+  }
 };
 
 const manageData = (state = initialState, action) => {

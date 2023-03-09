@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Tab } from "semantic-ui-react";
 import Scrumboard from "./Scrumboard";
 import Backlog from "./Backlog";
@@ -14,17 +14,21 @@ const SubTabs = ({ projectId }) => {
   const [codenames, setCodenames] = useState([]);
   const [storyCards, setStoryCards] = useState([]);
 
-  const getData = async() => {
+  const data = useSelector((state) => state.manageData.scrumData);
+
+  const getData = async () => {
     const scrumData = await getScrumboardByProjectId(projectId);
-    dispatch(setScrumData(scrumData.data));
-    const users = await getScrumUsers(scrumData.data.users);
-    setCodenames(users.map((user) => user.codename));
-    setStoryCards(
-      scrumData.data.backlog.filter(
-        (story) => story.sprintStatus === "Current Sprint"
-      )
-    );
-  }
+    if (scrumData) {
+      dispatch(setScrumData(scrumData.data));
+      const users = await getScrumUsers(scrumData.data.users);
+      setCodenames(users.map((user) => user.codename));
+      setStoryCards(
+        scrumData.data.backlog.filter(
+          (story) => story.sprintStatus === "Current Sprint"
+        )
+      );
+    }
+  };
 
   const panes = [
     {
@@ -32,6 +36,7 @@ const SubTabs = ({ projectId }) => {
       render: () => (
         <Tab.Pane>
           <Scrumboard
+            projectId={projectId}
             initialCards={storyCards}
           />
         </Tab.Pane>
@@ -53,7 +58,7 @@ const SubTabs = ({ projectId }) => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [data]);
 
   return (
     <div>
