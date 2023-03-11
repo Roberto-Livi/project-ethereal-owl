@@ -35,12 +35,9 @@ const SubTabs = ({ projectId }) => {
       menuItem: "Scrum Board",
       render: () => (
         <Tab.Pane>
-          <Scrumboard
-            projectId={projectId}
-            initialCards={storyCards}
-          />
+          <Scrumboard projectId={projectId} initialCards={storyCards} codenames={codenames} />
         </Tab.Pane>
-      ),
+      )
     },
     {
       menuItem: "Backlog",
@@ -48,8 +45,8 @@ const SubTabs = ({ projectId }) => {
         <Tab.Pane>
           <Backlog projectId={projectId} codenames={codenames} />
         </Tab.Pane>
-      ),
-    },
+      )
+    }
   ];
 
   const [activeIndex, setActiveIndex] = useState(0);

@@ -167,3 +167,55 @@ body {
 .filter.active {
   background-color: #f0f0f0;
 }
+
+.backlog-filter {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.backlog-filter-select {
+  width: 240px;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #333;
+  margin: 0;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  outline: none;
+  background-color: #fff;
+}
+
+.backlog-filter-select:focus {
+  border: 1px solid #40BFFF;
+  box-shadow: 0 0 0 1px #40BFFF;
+}
+
+.backlog-filter-select .css-1hwfws3 {
+  color: #333;
+}
+
+.backlog-filter-select .css-yk16xz-control {
+  height: 40px;
+  border: none;
+  box-shadow: none;
+  background-color: #fff;
+  border-radius: 2px;
+}
+
+.backlog-filter-select .css-1okebmr-indicatorSeparator {
+  display: none;
+}
+
+.backlog-filter-select .css-tlfecz-indicatorContainer {
+  width: 32px;
+  padding: 6px;
+  background-color: #40BFFF;
+  border-radius: 0 2px 2px 0;
+  cursor: pointer;
+}
+
+.backlog-filter-select .css-tlfecz-indicatorContainer svg {
+  fill: #fff;
+}

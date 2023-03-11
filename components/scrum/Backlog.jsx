@@ -12,6 +12,7 @@ import CreateStory from "./CreateStory";
 import StoryForm from "./StoryForm";
 import { updateScrumStory } from "../../helpers/mongodb/ScrumCallCenter";
 import { updateBacklog } from "../../store/actions";
+import BacklogFilter from "./BacklogFilter";
 
 const Backlog = ({ projectId, codenames }) => {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ const Backlog = ({ projectId, codenames }) => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isRendered, setIsRendered] = useState(false);
+  const [filteredStories, setFilteredStories] = useState(scrumData.backlog);
 
   const handleStoryClick = (story) => {
     setSelectedStory(story);
@@ -49,6 +51,17 @@ const Backlog = ({ projectId, codenames }) => {
     }
   };
 
+  const handleFilterChange = (selectedOption) => {
+    if (selectedOption.value === "All") {
+      setFilteredStories(scrumData.backlog);
+    } else {
+      const filtered = scrumData.backlog.filter(
+        (story) => story.taskedTo === selectedOption.value
+      );
+      setFilteredStories(filtered);
+    }
+  };
+
   useEffect(() => {
     if (!isRendered) {
       setTimeout(() => {
@@ -65,10 +78,11 @@ const Backlog = ({ projectId, codenames }) => {
       </Dimmer>
       <Segment>
         <CreateStory projectId={projectId} codenames={codenames} />
+        <BacklogFilter codenames={codenames} handleFilterChange={handleFilterChange} />
       </Segment>
 
       <Card.Group itemsPerRow={3}>
-        {scrumData.backlog.map((story) => (
+        {filteredStories.map((story) => (
           <Card fluid key={story.id} onClick={() => handleStoryClick(story)}>
             <Card.Content>
               <div className="story-card-header">

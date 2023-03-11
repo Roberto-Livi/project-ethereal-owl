@@ -66,3 +66,29 @@ export const updateScrumStory = async (projectId, id, updatedFields) => {
 
   return successfulResponse;
 };
+
+export const addUserToScrumRecord = async (projectId, userAddress) => {
+  try {
+    const response = await axios.put(`${localUrl}/api/scrum/add-user`, {
+      projectId,
+      userAddress
+    });
+    return response.data.success;
+  } catch (err) {
+    console.error("Error adding user to project:", err);
+    return false;
+  }
+};
+
+export const closeSprint = async (projectId, storyIds) => {
+  try {
+    const response = await axios.put(`${localUrl}/api/scrum/close-sprint`, {
+      projectId,
+      storyIds
+    });
+    return response.data.success;
+  } catch (err) {
+    console.error("Error removing stories from backlog:", err);
+    return false;
+  }
+};

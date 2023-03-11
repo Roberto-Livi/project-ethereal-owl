@@ -10,7 +10,7 @@ export default async (req, res) => {
     const result = await collection.updateOne(
       {
         projectId,
-        "backlog.id": id,
+        "backlog.id": id
       },
       {
         $set: {

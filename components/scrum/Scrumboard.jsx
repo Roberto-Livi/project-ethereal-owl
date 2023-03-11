@@ -1,23 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { Button, Dimmer, Loader, Modal } from "semantic-ui-react";
 import Column from "./Column";
 import FilterBar from "./FilterBar";
-import { Button, Dimmer, Loader } from "semantic-ui-react";
-import { updateScrumStory } from "../../helpers/mongodb/ScrumCallCenter";
-import { updateBacklog } from "../../store/actions";
+import { updateScrumStory, closeSprint, getScrumboardByProjectId } from "../../helpers/mongodb/ScrumCallCenter";
+import { updateBacklog, setScrumData } from "../../store/actions";
 
-
-const ScrumBoard = ({ projectId, initialCards }) => {
+const ScrumBoard = ({ projectId, initialCards, codenames }) => {
 
   const dispatch = useDispatch();
 
   const [storyCards, setStoryCards] = useState(initialCards);
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
-  const filters = Array.from(
-    new Set(initialCards.map((story) => story.taskedTo))
-  );
+  const [showModal, setShowModal] = useState(false);
 
   const populateStoryCards = () => {
     setStoryCards(initialCards);
@@ -52,46 +48,49 @@ const ScrumBoard = ({ projectId, initialCards }) => {
     setStoryCards(updatedStoryCards);
   };
 
-  const updateStoryInMongo = async(story, status) => {
-    const response = await updateScrumStory(projectId, story.id, { ...story, status });
-      if(response){
-        dispatch(updateBacklog({ ...story, status }));
-      }
+  const updateStoryInMongo = async (story, status) => {
+    const response = await updateScrumStory(projectId, story.id, {
+      ...story,
+      status,
+    });
+    if (response) {
+      dispatch(updateBacklog({ ...story, status }));
+    }
   };
 
   const columns = [
     { title: "Ready", status: "Ready" },
     { title: "In Progress", status: "In Progress" },
     { title: "Review", status: "Review" },
-    { title: "Done", status: "Done" }
+    { title: "Done", status: "Done" },
   ];
 
-  const handleReset = () => {
-    setStoryCards(initialCards);
-    setSelectedFilter(null);
-    console.log("Sprint Summary:");
-    console.log("Total stories:", storyCards.length);
-    console.log(
-      "Stories completed:",
-      storyCards.filter((story) => story.status === "Done").length
-    );
-    console.log(
-      "Stories in progress:",
-      storyCards.filter((story) => story.status === "In Progress")
-        .length
-    );
-    console.log(
-      "Stories in review:",
-      storyCards.filter((story) => story.status === "Review").length
-    );
-    console.log(
-      "Stories not started:",
-      storyCards.filter((story) => story.status === "Ready").length
-    );
+  const handleReset = async () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = async () => {
+    setShowModal(false);
+  };
+
+  const handleConfirmCloseModal = async () => {
+    const storyIds = storyCards.map((card) => card.id);
+    const success = await closeSprint(projectId, storyIds);
+    if (success) {
+      setStoryCards([]);
+      setSelectedFilter(null);
+      setShowModal(false);
+      const updatedData = await getScrumboardByProjectId(projectId);
+      dispatch(setScrumData(updatedData.data));
+      // Show success message
+    } else {
+      // Show error message
+      console.log("error");
+    }
   };
 
   useEffect(() => {
-    if(initialCards.length) {
+    if (initialCards.length) {
       populateStoryCards();
     }
   }, [initialCards]);
@@ -109,7 +108,7 @@ const ScrumBoard = ({ projectId, initialCards }) => {
       </Dimmer>
       <div className="scrum-board-container">
         <FilterBar
-          filters={[...filters, "All"]}
+          filters={[...codenames, "All"]}
           selectedFilter={selectedFilter}
           handleFilterClick={handleFilterClick}
         />
@@ -135,6 +134,25 @@ const ScrumBoard = ({ projectId, initialCards }) => {
         >
           Close Sprint
         </Button>
+        <Modal
+          open={showModal}
+          onClose={handleCloseModal}
+          size="small"
+          closeIcon
+        >
+          <Modal.Header>Are you sure you want to close sprint?</Modal.Header>
+          <Modal.Content>
+            <p>All stories in the sprint will be removed from the backlog.</p>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button color="red" onClick={handleCloseModal}>
+              No, keep sprint open
+            </Button>
+            <Button color="green" onClick={handleConfirmCloseModal}>
+              Yes, close the sprint
+            </Button>
+          </Modal.Actions>
+        </Modal>
       </div>
     </>
   );

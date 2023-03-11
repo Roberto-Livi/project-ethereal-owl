@@ -6,6 +6,7 @@ import { updateNotification, getUsersNotifications } from "../../helpers/mongodb
 import ModalMessage from "../utilities/ModalMessage";
 import _ from "lodash";
 import { updateCurrentProject } from "../../store/actions";
+import { addUserToScrumRecord } from "../../helpers/mongodb/ScrumCallCenter";
 
 
 const PendingRequests = ({ projectId }) => {
@@ -30,6 +31,7 @@ const PendingRequests = ({ projectId }) => {
         const data = await getProject(walletAddress, projectId);
         dispatch(updateCurrentProject(data));
       }
+      addUserToScrumRecord(projectId, user.userAddress);
     }
     setTransactionPending(false);
   }
