@@ -8,6 +8,7 @@ import { retrieveProjects, updateUserInfo } from "../../store/actions";
 import _ from "lodash";
 import { createMongoProject } from "../../helpers/mongodb/ProjectsCallCenter";
 import { createScrumboard } from "../../helpers/mongodb/ScrumCallCenter";
+import { createVoteSystem } from "../../helpers/mongodb/VoteCallCenter";
 
 
 const CreateProject = () => {
@@ -34,14 +35,15 @@ const CreateProject = () => {
       dispatch(retrieveProjects(projs));
       const proj = await retrieveProjectByName(event.target[0].value);
       scrumBoardCreation(proj);
+      await createVoteSystem(proj);
       Router.pushRoute("/projects/users-projects");
     }
 
     setLoading(false);
   };
 
-  const scrumBoardCreation = (proj) => {
-    createScrumboard(proj, walletAddress)
+  const scrumBoardCreation = async(proj) => {
+    await createScrumboard(proj, walletAddress)
       .then((success) => {
         if (success) {
           console.log("Scrum board created successfully");

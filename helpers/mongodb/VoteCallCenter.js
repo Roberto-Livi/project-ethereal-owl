@@ -2,6 +2,23 @@ import axios from "axios";
 
 const localUrl = "http://localhost:3000";
 
+export const createVoteSystem = async (project) => {
+  let successfulResponse = false;
+
+  try {
+    await axios.post(`${localUrl}/api/vote/new`, {
+      projectId: project.id,
+      data: []
+    });
+    successfulResponse = true;
+  } catch (err) {
+    console.log("Error: ", err.message);
+    transaction = false;
+  }
+
+  return successfulResponse;
+};
+
 export const getVoteDataByProjectId = async (projectId) => {
   try {
     const response = await axios.get(`${localUrl}/api/vote/${projectId}`, {
