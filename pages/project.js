@@ -67,9 +67,14 @@ const Project = ({ projectId }) => {
           )}
           {
             (projectData.loaded && projectData.isMember) &&
-            <Button primary onClick={() => Router.pushRoute(`/projects/${projectId}/scrum-board`)}>
-              Scrum Board
-            </Button>
+            <div>
+              <Button primary onClick={() => Router.pushRoute(`/projects/${projectId}/scrum-board`)}>
+                Scrum Board
+              </Button>
+              <Button primary onClick={() => Router.pushRoute(`/projects/${projectId}/vote`)}>
+                Vote Manager
+              </Button>
+            </div>
           }
         </>
       )}

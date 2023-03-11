@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Grid, Loader } from "semantic-ui-react";
+import { Loader } from "semantic-ui-react";
 import Layout from "../../components/utilities/Layout";
 import ScrumTabs from "../../components/scrum/ScrumTabs";
 import { Router } from "../../routes";

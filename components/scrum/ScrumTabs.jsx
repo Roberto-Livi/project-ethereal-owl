@@ -7,7 +7,7 @@ import { getScrumboardByProjectId } from "../../helpers/mongodb/ScrumCallCenter"
 import { getScrumUsers } from "../../helpers/mongodb/UsersCallCenter";
 import { setScrumData } from "../../store/actions";
 
-const SubTabs = ({ projectId }) => {
+const ScrumTabs = ({ projectId }) => {
 
   const dispatch = useDispatch();
 
@@ -68,4 +68,4 @@ const SubTabs = ({ projectId }) => {
   );
 };
 
-export default SubTabs;
+export default ScrumTabs;
