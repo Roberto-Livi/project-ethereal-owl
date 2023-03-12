@@ -17,7 +17,8 @@ import {
   UPDATE_PROJECT_SEARCH,
   SET_CHAT_ROOMS,
   SET_SCRUM_DATA,
-  UPDATE_BACKLOG
+  UPDATE_BACKLOG,
+  SET_VOTE_DATA
 } from "../actions/types";
 
 const initialState = {
@@ -49,12 +50,17 @@ const initialState = {
   approvedToken: false,
   chatRooms: [],
   scrumData: {
-    _id: "r",
+    _id: "",
     projectId: "",
     users: [],
     backlog: [],
     projectName: "",
     completedSprints: []
+  },
+  voteData: {
+    _id: "",
+    projectId: "",
+    data: []
   }
 };
 
@@ -103,6 +109,8 @@ const manageData = (state = initialState, action) => {
       return { ...state, scrumData: action.payload };
     case UPDATE_BACKLOG:
       return { ...state, scrumData: action.payload };
+    case SET_VOTE_DATA:
+      return { ...state, voteData: action.payload };
     default:
       return state;
   }

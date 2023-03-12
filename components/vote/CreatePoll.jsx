@@ -40,7 +40,7 @@ const CreatePoll = ({ projectId }) => {
 
   return (
     <>
-      <Button onClick={() => setIsModalOpen(true)}>Create a Poll</Button>
+      <Button positive onClick={() => setIsModalOpen(true)}>Create a Poll</Button>
       <Modal open={isModalOpen} onClose={handleCloseModal}>
         <Modal.Header>Create a Poll</Modal.Header>
         {successMessage && <Message positive>{successMessage}</Message>}

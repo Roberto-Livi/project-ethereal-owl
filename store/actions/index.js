@@ -17,7 +17,8 @@ import {
   UPDATE_PROJECT_SEARCH,
   SET_CHAT_ROOMS,
   SET_SCRUM_DATA,
-  UPDATE_BACKLOG
+  UPDATE_BACKLOG,
+  SET_VOTE_DATA
 } from "./types";
 import users from "../../ethereum/users";
 
@@ -115,4 +116,8 @@ export const updateBacklog =
     } catch (error) {
       console.error(error);
     }
-  };
+};
+
+export const setVoteData = (data) => (dispatch) => {
+  dispatch({ type: SET_VOTE_DATA, payload: data });
+};

@@ -2,10 +2,5 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/projects/users-projects": "pages/projects/users-projects.js",
-  "/projects/vote": "pages/projects/vote.js",
-  "/project": "pages/project.js",
-  "/api/users/scrum-users": "pages/api/users/scrum-users.js",
-  "/projects/scrum-board": "pages/projects/scrum-board.js",
-  "/api/scrum/[id]": "pages/api/scrum/[id].js"
+  "/projects/vote": "pages/projects/vote.js"
 }

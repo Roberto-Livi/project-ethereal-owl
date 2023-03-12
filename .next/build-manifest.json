@@ -25,21 +25,6 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/project": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/project.js"
-    ],
-    "/projects/scrum-board": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/projects/scrum-board.js"
-    ],
-    "/projects/users-projects": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/projects/users-projects.js"
-    ],
     "/projects/vote": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
