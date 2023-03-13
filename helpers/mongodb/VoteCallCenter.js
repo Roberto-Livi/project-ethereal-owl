@@ -35,7 +35,7 @@ export const addVoteData = async (projectId, voteData) => {
   let successfulResponse = false;
 
   try {
-    const response = await axios.post(`${localUrl}/api/vote/add-vote`, {
+    await axios.post(`${localUrl}/api/vote/add-vote`, {
       projectId,
       voteData
     });
@@ -43,6 +43,38 @@ export const addVoteData = async (projectId, voteData) => {
   } catch (err) {
     console.log("Error: ", err.message);
     successfulResponse = false;
+  }
+
+  return successfulResponse;
+};
+
+export const updateVoteData = async (projectId, voteData) => {
+  let successfulResponse = false;
+
+  try {
+    await axios.put(`${localUrl}/api/vote/update`, {
+      projectId,
+      voteData
+    });
+    successfulResponse = true;
+  } catch (err) {
+    console.log(err);
+  }
+
+  return successfulResponse;
+};
+
+export const deletePoll = async (projectId, pollId) => {
+  let successfulResponse = false;
+
+  try {
+    await axios.post(`${localUrl}/api/vote/delete`, {
+      projectId,
+      pollId
+    });
+    successfulResponse = true;
+  } catch (error) {
+    console.error(error);
   }
 
   return successfulResponse;

@@ -8,10 +8,9 @@ const PollList = () => {
   const voteData = useSelector((state) => state.manageData.voteData);
 
   return (
-    <Card.Group itemsPerRow={3}>
-      {voteData.data.map((poll) => (
-        <PollCard key={poll.id} poll={poll} />
-      ))}
+    <Card.Group itemsPerRow={2}>
+      {Array.isArray(voteData.data) &&
+        voteData.data.map((poll) => <PollCard key={poll.id} poll={poll} />)}
     </Card.Group>
   );
 };

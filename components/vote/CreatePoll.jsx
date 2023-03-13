@@ -1,9 +1,15 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Button, Modal, Form, Message, Dimmer, Loader } from "semantic-ui-react";
 import { addVoteData } from "../../helpers/mongodb/VoteCallCenter";
 import { v4 as uuidv4 } from "uuid";
+import { setVoteData } from "../../store/actions";
+import { getVoteDataByProjectId } from "../../helpers/mongodb/VoteCallCenter";
 
 const CreatePoll = ({ projectId }) => {
+
+  const dispatch = useDispatch();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -22,12 +28,15 @@ const CreatePoll = ({ projectId }) => {
     }
     setIsLoading(true);
     const response = await addVoteData(projectId, voteData);
-    setIsLoading(false);
     if (response) {
+      const updatedDaten = await getVoteDataByProjectId(projectId);
+      dispatch(setVoteData(updatedDaten.data));
       setPrompt("");
       setSuccessMessage("Created Successfully");
+      setIsLoading(false);
     } else {
       setErrorMessage("Failed to Create Poll");
+      setIsLoading(false);
     }
   };
 
