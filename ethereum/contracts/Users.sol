@@ -17,6 +17,7 @@ contract Users {
     struct Project {
         uint id;
         string name;
+        string field;
         string mission;
         uint membersCount;
         uint pendingRequests;
@@ -35,6 +36,7 @@ contract Users {
     mapping(address => Project[]) public recruitPendingRequests;
     mapping(string => User) public getUserByCodename;
     mapping(string => uint) public profCount;
+    mapping(string => uint) public fieldCount;
     mapping(address => bool) public walletRegistered;
     mapping(string => bool) public codenameTaken;
     mapping(string => bool) public projectNameTaken;
@@ -93,7 +95,7 @@ contract Users {
       allUsers[u.id] = u;
     }
 
-    function createProject(address userAddress, string memory projectName, string memory projectMission) public payable {
+    function createProject(address userAddress, string memory projectName, string memory projectMission, string memory field) public payable {
         require(!projectNameTaken[projectName]);
         User storage user = users[userAddress];
         user.projectsInvolved++;
@@ -103,6 +105,7 @@ contract Users {
         project.id = projectsCount;
         project.name = projectName;
         project.mission = projectMission;
+        project.field = field;
         project.membersCount++;
 
         projectNameTaken[projectName] = true;
@@ -114,6 +117,7 @@ contract Users {
         usersProjectsLength[userAddress]++;
         usersProjects[userAddress].push(project);
         projectMembers[projectsCount].push(user);
+        fieldCount[field] += 1;
         projectsCount++;
     }
 

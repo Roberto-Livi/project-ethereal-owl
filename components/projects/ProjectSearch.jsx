@@ -51,21 +51,9 @@ const ProjectSearch = () => {
     setSearchTerm(data.searchQuery);
   };
 
-  const getStartingData = async() => {
-    dispatch(updateProjectSearchRequest());
-    const projects = await getFiveProjects();
-    if(projects.length) {
-      dispatch(updateProjectSearch(projects));
-    }
-  }
-
   useEffect(() => {
     fetchOptions(searchTerm);
   }, [searchTerm]);
-
-  useEffect(() => {
-    getStartingData();
-  }, []);
 
   return (
     <div style={{ marginBottom: "20px" }}>

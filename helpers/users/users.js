@@ -111,6 +111,54 @@ export const getUsers = async (profession) => {
   return userCollection;
 }
 
+export const getProjectsByField = async (field) => {
+  const projectsCount = await users.methods.projectsCount().call();
+  const maxResultsCount = 5;
+  let projectCollection = [];
+  let userIds = [];
+
+  const fieldNumberCount = await users.methods.fieldCount(field).call();
+
+  let resultsReqCount;
+
+  if (fieldNumberCount) {
+    resultsReqCount =
+      fieldNumberCount <= maxResultsCount ? fieldNumberCount : maxResultsCount;
+  } else {
+    resultsReqCount = 0;
+  }
+
+  // Initialize a set to store unique user IDs
+  const uniqueUserIds = new Set();
+
+  // While the unique user IDs set is smaller than the results required, keep looking for projects
+  while (
+    uniqueUserIds.size < resultsReqCount &&
+    userIds.length < projectsCount
+  ) {
+    // Generate a random index within the range of projects
+    const randomIndex = Math.floor(Math.random() * projectsCount);
+
+    // If the random index is already in the uniqueUserIds set, skip this iteration
+    if (uniqueUserIds.has(randomIndex)) continue;
+
+    // Add the random index to the uniqueUserIds set
+    uniqueUserIds.add(randomIndex);
+
+    // Get the project by index
+    const project = await users.methods.allProjects(randomIndex).call();
+
+    // Check if the project field matches the requested field
+    if (project.field === field) {
+      // Add the project to the projectCollection array
+      projectCollection.push(project);
+    }
+  }
+
+  return projectCollection;
+};
+
+
 export const getFiveUsers = async () => {
   let userCollection = [];
 
@@ -204,13 +252,13 @@ export const getFeaturedUsers = async() => {
   return featuredCollection;
 }
 
-export const createProject = async(address, projectName, projectMission) => {
+export const createProject = async(address, projectName, projectMission, field) => {
   let successfulResponse = false;
 
   try {
     const accounts = await web3.eth.getAccounts();
     await users.methods
-      .createProject(address, projectName, projectMission)
+      .createProject(address, projectName, projectMission, field)
       .send({
         from: accounts[0],
       });

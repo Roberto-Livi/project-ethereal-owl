@@ -9,6 +9,7 @@ import _ from "lodash";
 import { createMongoProject } from "../../helpers/mongodb/ProjectsCallCenter";
 import { createScrumboard } from "../../helpers/mongodb/ScrumCallCenter";
 import { createVoteSystem } from "../../helpers/mongodb/VoteCallCenter";
+import { projectCategories } from "../../helpers/projects/projectCategories";
 
 
 const CreateProject = () => {
@@ -17,6 +18,7 @@ const CreateProject = () => {
 
   const [loading, setLoading] = useState(false);
   const [emptyInput, setEmptyInput] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const userInfo = useSelector((state) => state.manageData.userInfo);
   const walletAddress = useSelector((state) => state.manageData.walletAddress);
@@ -25,7 +27,12 @@ const CreateProject = () => {
     event.preventDefault();
     setLoading(true);
 
-    const response = await createProject(walletAddress, event.target[0].value, event.target[1].value);
+    const response = await createProject(
+      walletAddress,
+      event.target[0].value,
+      event.target[1].value,
+      selectedCategory
+    );
 
     if(response) {
       await createMongoProject(event.target[0].value);
@@ -56,6 +63,10 @@ const CreateProject = () => {
       });
   }
 
+  const handleCategoryChange = (event, { value }) => {
+    setSelectedCategory(value);
+  };
+
   return (
     <Layout>
       <Container
@@ -79,12 +90,15 @@ const CreateProject = () => {
                 <Segment stacked>
                   <Form.Input fluid placeholder="Name" />
                   <Form.Input fluid placeholder="Mission" />
+                  <Form.Select
+                    onChange={handleCategoryChange}
+                    fluid
+                    options={projectCategories}
+                    placeholder="Select Business Category"
+                  />
                   <Button color="violet" fluid size="large">
                     Submit
                   </Button>
-                  {/* <Message color="red" visible={false}>
-                    Input can't be empty
-                  </Message> */}
                 </Segment>
               </Form>
             ) : (

@@ -6,6 +6,7 @@ import LoadingOverlay from "../../components/utilities/LoadingOverlay";
 import ProjectSearch from "../../components/projects/ProjectSearch";
 import ProjectsHeader from "../../components/projects/ProjectsHeader";
 import ProjectCardGroup from "../../components/projects/ProjectCardGroup";
+import ProjectInputOption from "../../components/projects/ProjectInputOption";
 
 const Projects = () => {
 
@@ -19,7 +20,7 @@ const Projects = () => {
   return (
     <Layout>
       <ProjectsHeader title={"Projects"} />
-      <ProjectSearch />
+      <ProjectInputOption />
       <LoadingOverlay active={projects.loading}>
         <Grid>
           <Grid.Column
