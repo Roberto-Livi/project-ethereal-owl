@@ -115,9 +115,10 @@ export const getProjectsByField = async (field) => {
   const projectsCount = await users.methods.projectsCount().call();
   const maxResultsCount = 5;
   let projectCollection = [];
-  let userIds = [];
+  let projectIds = [];
 
   const fieldNumberCount = await users.methods.fieldCount(field).call();
+  console.log("Field Count: ", fieldNumberCount);
 
   let resultsReqCount;
 
@@ -129,29 +130,25 @@ export const getProjectsByField = async (field) => {
   }
 
   // Initialize a set to store unique user IDs
-  const uniqueUserIds = new Set();
+  // const uniqueUserIds = new Set();
 
   // While the unique user IDs set is smaller than the results required, keep looking for projects
-  while (
-    uniqueUserIds.size < resultsReqCount &&
-    userIds.length < projectsCount
-  ) {
+  while (projectIds.length < resultsReqCount) {
     // Generate a random index within the range of projects
     const randomIndex = Math.floor(Math.random() * projectsCount);
 
     // If the random index is already in the uniqueUserIds set, skip this iteration
-    if (uniqueUserIds.has(randomIndex)) continue;
+    if (!projectIds.includes(randomIndex)) {
 
-    // Add the random index to the uniqueUserIds set
-    uniqueUserIds.add(randomIndex);
+      // Get the project by index
+      const project = await users.methods.allProjects(randomIndex).call();
 
-    // Get the project by index
-    const project = await users.methods.allProjects(randomIndex).call();
-
-    // Check if the project field matches the requested field
-    if (project.field === field) {
-      // Add the project to the projectCollection array
-      projectCollection.push(project);
+      // Check if the project field matches the requested field
+      if (project.field === field) {
+        // Add the project to the projectCollection array
+        projectCollection.push(project);
+        projectIds.push(randomIndex);
+      }
     }
   }
 
