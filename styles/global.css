@@ -1,7 +1,9 @@
 body {
-  background-image: url('/public/images/cyber-purple.jpeg') !important;
+  /* background-image: url('../public/images/BG_o6.png') !important; */
   background-size: cover !important;
-  background-position: center !important;
+  background-position: center top !important;
+  /* adjust the position of the background image */
+  background-repeat: no-repeat !important;
 }
 
 .dashboard-container {

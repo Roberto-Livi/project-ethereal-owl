@@ -63,8 +63,12 @@ export const createUser = async (userInfo) => {
   let message = "";
 
   try {
-    const usernameTaken = await users.methods.codenameTaken(userInfo.codename).call();
-    if(usernameTaken) {
+    // const gasPrice = await web3.eth.getGasPrice();
+    // const newGasPrice = web3.utils.toBN(gasPrice).muln(1.1);
+    const usernameTaken = await users.methods
+      .codenameTaken(userInfo.codename)
+      .call();
+    if (usernameTaken) {
       message = "Codename has been taken";
       return { successfulResponse, message };
     } else {
@@ -77,6 +81,8 @@ export const createUser = async (userInfo) => {
           userInfo.description
         )
         .send({
+          // gas: 500000,
+          // gasPrice: newGasPrice,
           from: accounts[0],
         });
       successfulResponse = true;
@@ -517,4 +523,38 @@ export const retrieveProjectByName = async (projectName) => {
   }
 
   return project;
+};
+
+export const upgradeContract = async (address) => {
+  let successfulResponse = false;
+
+  try {
+    const accounts = await web3.eth.getAccounts();
+    console.log("Using account:", accounts[0]);
+    await users.methods.upgradeImplementation(address).send({
+      from: accounts[0]
+    });
+    successfulResponse = true;
+  } catch(err) {
+    console.log("Error: ", err);
+  }
+
+  return successfulResponse;
+}
+
+export const transferTokenToContract = async () => {
+  let successfulResponse = false;
+
+  try {
+    const accounts = await web3.eth.getAccounts();
+    console.log("Using account:", accounts[0]);
+    await users.methods.transferEtherToImplementation().send({
+      from: accounts[0],
+    });
+    successfulResponse = true;
+  } catch (err) {
+    console.log("Error: ", err);
+  }
+
+  return successfulResponse;
 };

@@ -19,7 +19,9 @@ const Vote = ({ projectId }) => {
 
   const getData = async() => {
     const daten = await getVoteDataByProjectId(projectId);
-    dispatch(setVoteData(daten.data));
+    if(daten) {
+      dispatch(setVoteData(daten.data));
+    }
   }
 
   useEffect(() => {

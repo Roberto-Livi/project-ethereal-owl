@@ -18,7 +18,7 @@ const io = new Server(server, {
 });
 
 const uri =
-  "mongodb+srv://roblivi:sI2rEiJe3V1n0Jav@cluster0.zkpln8x.mongodb.net/test?retryWrites=true&w=majority";
+  "mongodb+srv://roblivi:aEPlSL33xSegW5Tc@cluster0.zkpln8x.mongodb.net/test?retryWrites=true&w=majority";
 let client, collection;
 mongodb.MongoClient.connect(
   uri,

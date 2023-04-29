@@ -1,35 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Button } from "semantic-ui-react";
 import { submitFeaturedUsers } from "../../helpers/users/users";
 
 const FeaturedProfilesForm = () => {
+  const [userCollection, setUserCollection] = useState(Array(5).fill(""));
 
-  const onSubmit = async(event) => {
-    const userCollection = [];
-    userCollection.push(event.target[0].value);
-    userCollection.push(event.target[1].value);
-    userCollection.push(event.target[2].value);
-    userCollection.push(event.target[3].value);
-    userCollection.push(event.target[4].value);
+  const handleChange = (index, value) => {
+    setUserCollection((prev) => {
+      const updated = [...prev];
+      updated[index] = value;
+      return updated;
+    });
+  };
 
+  const onSubmit = async (event) => {
+    event.preventDefault();
     await submitFeaturedUsers(userCollection);
-  }
+  };
 
   return (
-    <>
-      <Form onSubmit={onSubmit}>
-        <Form.Group unstackable widths={2}>
-          <Form.Input label="Address 1" placeholder="Address 1" />
-          <Form.Input label="Address 2" placeholder="Address 2" />
-        </Form.Group>
-        <Form.Group widths={3}>
-          <Form.Input label="Address 3" placeholder="Address 3" />
-          <Form.Input label="Address 4" placeholder="Address 4" />
-          <Form.Input label="Address 5" placeholder="Address 5" />
-        </Form.Group>
-        <Button type="submit">Submit</Button>
-      </Form>
-    </>
+    <Form onSubmit={onSubmit}>
+      <Form.Group unstackable widths={2}>
+        {userCollection.slice(0, 2).map((address, index) => (
+          <Form.Input
+            key={index}
+            label={`Address ${index + 1}`}
+            placeholder={`Address ${index + 1}`}
+            value={address}
+            onChange={(e) => handleChange(index, e.target.value)}
+          />
+        ))}
+      </Form.Group>
+      <Form.Group widths={3}>
+        {userCollection.slice(2).map((address, index) => (
+          <Form.Input
+            key={index + 2}
+            label={`Address ${index + 3}`}
+            placeholder={`Address ${index + 3}`}
+            value={address}
+            onChange={(e) => handleChange(index + 2, e.target.value)}
+          />
+        ))}
+      </Form.Group>
+      <Button type="submit">Submit</Button>
+    </Form>
   );
 };
 

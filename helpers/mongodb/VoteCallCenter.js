@@ -13,7 +13,6 @@ export const createVoteSystem = async (project) => {
     successfulResponse = true;
   } catch (err) {
     console.log("Error: ", err.message);
-    transaction = false;
   }
 
   return successfulResponse;
